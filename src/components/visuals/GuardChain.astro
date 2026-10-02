@@ -1,0 +1,35 @@
+---
+import BarChart from "./BarChart.astro";
+// 수집기가 돈이 나가기 전에 멈추는 순서. 실제 실행 순서라 번호를 붙인다.
+const steps = [
+  "이미 받아 둔 데이터는 건너뜀",
+  "테이블마다 최대 사용량을 넘으면 정지",
+  "기대치에서 25% 넘게 벗어나면 정지",
+  "한 번 실행한 합계가 예산을 넘으면 정지",
+  "실제 실행에도 BigQuery 상한",
+  "받은 행 수를 원본 테이블과 대조",
+];
+---
+
+<div class="flex flex-col gap-8">
+  <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+    {
+      steps.map((s, i) => (
+        <li class="flex items-start gap-3 rounded-xl bg-white border border-gray-200 px-4 py-3">
+          <span class="font-mono text-sm font-bold" style="color: var(--accent)">{i + 1}</span>
+          <span class="text-sm text-gray-800">{s}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <BarChart
+    caption="236번 실행 합계 · 미리 계산한 사용량과 실제 청구"
+    max={110}
+    unit="GiB"
+    bars={[
+      { label: "미리 계산(dry-run)", value: 104.41, display: "104.41 GiB", tone: "muted" },
+      { label: "실제 청구", value: 104.53, display: "104.53 GiB" },
+    ]}
+    note="차이 0.1%"
+  />
+</div>

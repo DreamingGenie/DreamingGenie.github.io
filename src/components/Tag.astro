@@ -1,0 +1,17 @@
+---
+// 실측(잰 숫자가 있음) · 판단(설계 선택과 이유) · 한계(검증 못 했거나 남은 것)
+interface Props {
+  type: "measured" | "judged" | "limit";
+  text: string;
+}
+const { type, text } = Astro.props;
+const styles = {
+  measured: "bg-blue-50 text-blue-800 ring-blue-200",
+  judged: "bg-gray-100 text-gray-700 ring-gray-200",
+  limit: "bg-rose-50 text-rose-700 ring-rose-200",
+}[type];
+---
+
+<span class={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset whitespace-nowrap ${styles}`}>
+  {text}
+</span>

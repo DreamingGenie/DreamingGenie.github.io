@@ -1,0 +1,36 @@
+---
+import { siteConfig } from "../config";
+---
+
+<footer id="contact" class="relative bg-gray-900 text-gray-300">
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-16 md:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+    <div class="lg:col-span-4">
+      <h2 class="text-3xl sm:text-4xl font-bold text-white">연락</h2>
+      <div class="w-[75px] h-[5px] mt-3 rounded-full" style="background-color: var(--accent)"></div>
+      <p class="mt-5 text-gray-400">{siteConfig.name} · {siteConfig.title}</p>
+    </div>
+    <dl class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {
+        siteConfig.contacts.map((c) => (
+          <div class="flex flex-col gap-1">
+            <dt class="font-mono text-xs text-gray-500">{c.label}</dt>
+            <dd class="text-lg text-white select-all">
+              {c.href ? (
+                <a href={c.href} target="_blank" rel="noopener noreferrer" class="hover:underline">
+                  {c.value}
+                </a>
+              ) : (
+                c.value
+              )}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+  <div class="border-t border-gray-800">
+    <p class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-6 text-sm text-gray-500">
+      © {new Date().getFullYear()} {siteConfig.name}. Design based on DevPortfolio by Ryan Fitzgerald (MIT).
+    </p>
+  </div>
+</footer>

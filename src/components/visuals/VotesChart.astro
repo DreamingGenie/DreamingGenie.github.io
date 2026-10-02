@@ -1,0 +1,14 @@
+---
+import BarChart from "./BarChart.astro";
+---
+
+<BarChart
+  caption="걸러 낸 쌍 중 정답 목록과 맞은 비율 · 조건 8개 중 2개"
+  max={100}
+  unit="%"
+  bars={[
+    { label: "관찰 횟수 ≥ 12만", value: 21.6, display: "21.6%", tone: "bad" },
+    { label: "횟수 ≥ 5 + 배포자·달 ≥ 3", value: 50.9, display: "50.9%" },
+  ]}
+  note="관찰 횟수만 거는 조건이 8개 중 가장 낮았습니다."
+/>

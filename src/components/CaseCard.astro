@@ -1,0 +1,75 @@
+---
+import Tag from "./Tag.astro";
+import LockDiagram from "./visuals/LockDiagram.astro";
+import Timeline0728 from "./visuals/Timeline0728.astro";
+import NotifyOrder from "./visuals/NotifyOrder.astro";
+import GuardChain from "./visuals/GuardChain.astro";
+import ExportChart from "./visuals/ExportChart.astro";
+import VotesChart from "./visuals/VotesChart.astro";
+
+const visuals: Record<string, any> = { LockDiagram, Timeline0728, NotifyOrder, GuardChain, ExportChart, VotesChart };
+
+interface Props {
+  item: {
+    id: string;
+    kind: string;
+    title: string;
+    tags: { type: "measured" | "judged" | "limit"; text: string }[];
+    visual?: string;
+    steps: { label: string; text: string; limit?: boolean }[];
+    more?: string;
+    evidence: string[];
+  };
+}
+const { item } = Astro.props;
+const Visual = item.visual ? visuals[item.visual] : null;
+---
+
+<article id={item.id} class="scroll-mt-24 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
+  <header class="p-5 sm:p-8 flex flex-col gap-3">
+    <span class="text-xs font-semibold tracking-wide" style="color: var(--accent)">{item.kind}</span>
+    <h3 class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">{item.title}</h3>
+    {item.tags.length > 0 && <div class="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
+  </header>
+
+  {
+    Visual && (
+      <div class="px-5 sm:px-8 py-6 bg-gray-50 border-y border-gray-200">
+        <Visual />
+      </div>
+    )
+  }
+
+  <dl class="divide-y divide-gray-100">
+    {
+      item.steps.map((s) => (
+        <div class={`grid grid-cols-1 sm:grid-cols-[8.5rem_1fr] gap-1 sm:gap-6 px-5 sm:px-8 py-4 ${s.limit ? "bg-rose-50/60" : ""}`}>
+          <dt class={`text-sm font-semibold ${s.limit ? "text-rose-700" : "text-gray-500"}`}>{s.label}</dt>
+          <dd class="text-[0.9375rem] sm:text-base text-gray-800 leading-relaxed">{s.text}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  {
+    item.more && (
+      <details class="group border-t border-gray-100">
+        <summary class="cursor-pointer list-none px-5 sm:px-8 py-4 text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-2">
+          <span class="font-mono transition-transform group-open:rotate-90">›</span> 더 보기
+        </summary>
+        <div class="px-5 sm:px-8 pb-6 flex flex-col gap-3">
+          {item.more.split("\n\n").map((p) => <p class="text-[0.9375rem] text-gray-600 leading-relaxed">{p}</p>)}
+        </div>
+      </details>
+    )
+  }
+
+  {
+    item.evidence.length > 0 && (
+      <footer class="px-5 sm:px-8 py-4 border-t border-gray-100 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+        <span class="font-semibold">근거</span>
+        {item.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
+      </footer>
+    )
+  }
+</article>

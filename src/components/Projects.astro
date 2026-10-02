@@ -1,0 +1,51 @@
+---
+import { getCollection } from "astro:content";
+import SectionTitle from "./SectionTitle.astro";
+import MaybeImage from "./MaybeImage.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="projects" class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-28">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <SectionTitle title="프로젝트" sub="팀 프로젝트는 제가 맡은 부분과 팀원이 맡은 부분을 나눠 적었습니다." />
+    <div class="lg:col-span-8 flex flex-col gap-8">
+      {
+        projects.map((p, i) => (
+          <a
+            href={`/projects/${p.id}`}
+            class="group relative block overflow-hidden bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1"
+          >
+            <MaybeImage src={p.data.cover} alt={`${p.data.title} 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] border-b border-gray-200" />
+            <div class="relative p-5 sm:p-8 flex flex-col gap-4">
+              <div class="absolute top-5 right-5 sm:top-8 sm:right-8 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-gray-900 rounded-full text-white transition-colors group-hover:bg-[var(--accent)]">
+                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17L17 7M17 7H7M17 7V17" />
+                </svg>
+              </div>
+              <div class="pr-14">
+                <span class="font-mono text-sm" style="color: var(--accent)">0{i + 1}</span>
+                <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mt-1">{p.data.title}</h3>
+                <p class="mt-2 text-base sm:text-lg text-gray-600 leading-relaxed">{p.data.summary}</p>
+              </div>
+              <dl class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                <div><dt class="text-xs text-gray-400">기간</dt><dd class="text-gray-700">{p.data.period}</dd></div>
+                <div><dt class="text-xs text-gray-400">팀</dt><dd class="text-gray-700">{p.data.team}</dd></div>
+                <div><dt class="text-xs text-gray-400">맡은 일</dt><dd class="text-gray-700">{p.data.role}</dd></div>
+              </dl>
+              <p class="flex items-start gap-2 text-base font-medium text-gray-900">
+                <span class="mt-2 w-2 h-2 rounded-full shrink-0" style="background-color: var(--accent)" />
+                {p.data.highlight}
+              </p>
+              <div class="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
+                {p.data.stack.map((s) => (
+                  <span class="px-2.5 py-1 bg-gray-900 text-white rounded-md text-xs sm:text-sm font-medium">{s}</span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

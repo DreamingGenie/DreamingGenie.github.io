@@ -1,0 +1,31 @@
+---
+const lanes = [
+  { label: "고치기 전", bad: true, steps: [{ t: "편집 요청" }, { t: "알림 전송", tone: "bad" }, { t: "저장 완료" }] },
+  { label: "고친 뒤", bad: false, steps: [{ t: "편집 요청" }, { t: "저장 완료" }, { t: "순번 부여", tone: "ok" }, { t: "알림 전송", tone: "ok" }] },
+];
+---
+
+<div class="flex flex-col gap-3">
+  {
+    lanes.map((l) => (
+      <div class="grid grid-cols-1 sm:grid-cols-[5.5rem_1fr] gap-2 sm:gap-4 items-center">
+        <span class={`text-sm font-semibold ${l.bad ? "text-rose-600" : "text-gray-500"}`}>{l.label}</span>
+        <ol class="flex flex-wrap items-center gap-2">
+          {l.steps.map((s, i) => (
+            <li class="flex items-center gap-2">
+              {i > 0 && <span class="text-gray-400" aria-hidden="true">→</span>}
+              <span
+                class={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
+                  s.tone === "bad" ? "bg-rose-50 border-rose-300 text-rose-700" : s.tone === "ok" ? "text-white border-transparent" : "bg-white border-gray-200 text-gray-700"
+                }`}
+                style={s.tone === "ok" ? "background-color: var(--accent)" : ""}
+              >
+                {s.t}
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    ))
+  }
+</div>

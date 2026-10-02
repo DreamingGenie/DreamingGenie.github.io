@@ -1,0 +1,171 @@
+---
+import { getCollection, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import SectionTitle from "../../components/SectionTitle.astro";
+import MaybeImage from "../../components/MaybeImage.astro";
+import OwnershipMap from "../../components/OwnershipMap.astro";
+import CaseCard from "../../components/CaseCard.astro";
+import Tag from "../../components/Tag.astro";
+
+export async function getStaticPaths() {
+  const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+  return all.map((p, i) => ({
+    params: { slug: p.id },
+    props: { project: p, prev: all[i - 1] ?? null, next: all[i + 1] ?? null, index: i },
+  }));
+}
+
+const { project, prev, next, index } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const facts = [
+  { k: "기간", v: d.period },
+  { k: "팀", v: d.team },
+  { k: "맡은 일", v: d.role },
+];
+---
+
+<Base title={d.title} description={d.summary}>
+  <!-- 머리 -->
+  <div class="relative isolate overflow-hidden bg-white pt-28 md:pt-36 pb-12">
+    <div
+      class="absolute inset-0 -z-10"
+      style="background: radial-gradient(ellipse 700px 700px at 0% 0%, color-mix(in srgb, var(--accent) 16%, white) 0%, white 70%)"
+    >
+    </div>
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 flex flex-col gap-6">
+      <a href="/#projects" class="self-start text-sm font-medium text-gray-500 hover:text-gray-900">← 프로젝트 목록</a>
+      <div>
+        <span class="font-mono text-sm" style="color: var(--accent)">0{index + 1}</span>
+        <h1 class="mt-1 text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900">{d.title}</h1>
+      </div>
+      <p class="max-w-3xl text-lg sm:text-xl text-gray-600 leading-relaxed">{d.oneLine}</p>
+      <dl class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-gray-200 rounded-2xl overflow-hidden border border-gray-200 max-w-4xl">
+        {
+          facts.map((f) => (
+            <div class="bg-white px-5 py-4">
+              <dt class="text-xs text-gray-400">{f.k}</dt>
+              <dd class="mt-1 text-gray-800 font-medium">{f.v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <div class="flex flex-wrap items-center gap-2">
+        {d.stack.map((s) => <span class="px-2.5 py-1 bg-gray-900 text-white rounded-md text-sm font-medium">{s}</span>)}
+        {
+          d.repo && (
+            <a href={d.repo} target="_blank" rel="noopener noreferrer" class="ml-1 text-sm font-semibold hover:underline" style="color: var(--accent)">
+              GitHub 저장소 ↗
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- 화면 -->
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 flex flex-col gap-4">
+    <MaybeImage src={d.cover} alt={`${d.title} 대표 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] rounded-2xl border border-gray-200 shadow-sm" />
+    {
+      d.gallery.length > 0 && (
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {d.gallery.map((g) => (
+            <figure class="flex flex-col gap-2">
+              <MaybeImage src={g.src} alt={g.caption} label={g.caption} class="w-full aspect-[16/10] rounded-xl border border-gray-200" />
+              <figcaption class="text-sm text-gray-500">{g.caption}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )
+    }
+  </div>
+
+  <!-- 담당 영역 -->
+  <section class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <SectionTitle title="담당 영역" sub="시스템에서 어느 칸이 제 것이었는지입니다." />
+      <div class="lg:col-span-8"><OwnershipMap areas={d.areas} /></div>
+    </div>
+  </section>
+
+  <!-- 한 일 -->
+  <section id="did" class="scroll-mt-24 bg-gray-50 border-y border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <SectionTitle title="한 일" />
+        <ul class="lg:col-span-8 flex flex-col gap-4">
+          {
+            d.did.map((x) => (
+              <li id={x.id} class="scroll-mt-24 bg-white rounded-2xl border border-gray-200 p-5 sm:p-7 flex flex-col gap-3">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                  <h3 class="text-lg font-bold text-gray-900 leading-snug">{x.title}</h3>
+                  {x.tags.length > 0 && <div class="flex flex-wrap gap-1.5 shrink-0">{x.tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
+                </div>
+                <p class="text-[0.9375rem] sm:text-base text-gray-600 leading-relaxed">{x.text}</p>
+                {x.evidence.length > 0 && (
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    {x.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
+                  </div>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 사례 -->
+  <section class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <SectionTitle title="사례" sub="문제를 어떻게 봤고 무엇을 골랐는지, 무엇이 남았는지까지 적었습니다." />
+      <div class="lg:col-span-8 flex flex-col gap-8">
+        {d.cases.map((c) => <CaseCard item={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 근거 모음 -->
+  <section class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 pb-20 md:pb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div class="lg:col-span-4"></div>
+      <details class="lg:col-span-8 group rounded-2xl border border-gray-200 bg-white">
+        <summary class="cursor-pointer list-none px-5 sm:px-8 py-5 flex items-center justify-between gap-4">
+          <span>
+            <span class="block font-bold text-gray-900">근거 모음</span>
+            <span class="block text-sm text-gray-500 mt-0.5">커밋 해시·파일 위치·정확한 수치. 저장소에서 git show로 열어 볼 수 있습니다.</span>
+          </span>
+          <span class="font-mono text-xl text-gray-400 transition-transform group-open:rotate-45">+</span>
+        </summary>
+        <div class="evidence-body px-5 sm:px-8 pb-8"><Content /></div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 이전·다음 -->
+  <nav class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 pb-24 grid grid-cols-2 gap-4">
+    {
+      prev ? (
+        <a href={`/projects/${prev.id}`} class="rounded-2xl border border-gray-200 bg-gray-50 p-5 hover:bg-white hover:shadow-md transition">
+          <span class="text-xs text-gray-400">← 이전</span>
+          <span class="block mt-1 font-bold text-gray-900">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span />
+      )
+    }
+    {
+      next ? (
+        <a href={`/projects/${next.id}`} class="rounded-2xl border border-gray-200 bg-gray-50 p-5 text-right hover:bg-white hover:shadow-md transition">
+          <span class="text-xs text-gray-400">다음 →</span>
+          <span class="block mt-1 font-bold text-gray-900">{next.data.title}</span>
+        </a>
+      ) : (
+        <a href="/#projects" class="rounded-2xl border border-gray-200 bg-gray-50 p-5 text-right hover:bg-white hover:shadow-md transition">
+          <span class="text-xs text-gray-400">목록 →</span>
+          <span class="block mt-1 font-bold text-gray-900">전체 프로젝트</span>
+        </a>
+      )
+    }
+  </nav>
+</Base>

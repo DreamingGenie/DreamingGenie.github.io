@@ -1,0 +1,20 @@
+---
+import SectionTitle from "./SectionTitle.astro";
+import LockDiagram from "./visuals/LockDiagram.astro";
+---
+
+<section id="highlight" class="bg-gray-50 border-y border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <SectionTitle title="한 장면" sub="TripCraft에서 일정 겹침을 막으려고 넣은 잠금입니다. 버튼을 눌러 두 경우를 비교해 보세요." />
+      <div class="lg:col-span-8 flex flex-col gap-5">
+        <div class="bg-white rounded-2xl border border-gray-200 p-5 sm:p-8 shadow-sm">
+          <LockDiagram />
+        </div>
+        <a href="/projects/tripcraft#lock" class="self-start text-sm font-semibold hover:underline" style="color: var(--accent)">
+          왜 이렇게 했는지, 무엇을 검증하지 못했는지 보기 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,14 @@
+---
+import BarChart from "./BarChart.astro";
+---
+
+<BarChart
+  caption="EXPORT DATA 시험 실행 · 같은 쿼리"
+  max={43}
+  unit="GiB"
+  bars={[
+    { label: "미리 계산한 값", value: 43, display: "43 GiB", tone: "bad" },
+    { label: "실제로 읽는 양", value: 0.4, display: "0.4 GiB" },
+  ]}
+  note="실행 상한은 위쪽 값으로 검사합니다."
+/>

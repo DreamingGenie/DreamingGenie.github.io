@@ -1,0 +1,14 @@
+---
+// 템플릿의 섹션 제목(큰 글자 + 강조색 막대)을 한곳으로 모았다.
+interface Props {
+  title: string;
+  sub?: string;
+}
+const { title, sub } = Astro.props;
+---
+
+<div class="lg:col-span-4 lg:sticky lg:top-24">
+  <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900">{title}</h2>
+  <div class="w-[75px] h-[5px] mt-3 rounded-full" style="background-color: var(--accent)"></div>
+  {sub && <p class="mt-5 text-base text-gray-500 leading-relaxed max-w-xs">{sub}</p>}
+</div>

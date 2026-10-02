@@ -1,0 +1,23 @@
+---
+const events = [
+  { t: "10:48", text: "그 MR의 검토자가 아닌 팀원이 제 브랜치를 머지", tone: "bad" },
+  { t: "10:49", text: "1분 뒤 되돌림 · 파일 21개, 약 1,100줄", tone: "" },
+  { t: "17:27", text: "제가 다시 통합", tone: "ok" },
+  { t: "이후", text: "develop 머지 권한을 통합 담당에게만 남김", tone: "ok" },
+];
+---
+
+<ol class="relative border-l-2 border-gray-200 ml-1.5 flex flex-col gap-4">
+  {
+    events.map((e) => (
+      <li class="relative pl-6 grid grid-cols-[4rem_1fr] gap-3 items-baseline">
+        <span
+          class={`absolute -left-[7px] top-1.5 w-3 h-3 rounded-full ring-4 ring-white ${e.tone === "bad" ? "bg-rose-500" : e.tone === "ok" ? "" : "bg-gray-400"}`}
+          style={e.tone === "ok" ? "background-color: var(--accent)" : ""}
+        />
+        <time class="font-mono text-sm text-gray-500">{e.t}</time>
+        <span class={`text-[0.9375rem] ${e.tone === "bad" ? "text-rose-700 font-medium" : "text-gray-800"}`}>{e.text}</span>
+      </li>
+    ))
+  }
+</ol>

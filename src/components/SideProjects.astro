@@ -1,0 +1,43 @@
+---
+import { siteConfig } from "../config";
+import SectionTitle from "./SectionTitle.astro";
+import MaybeImage from "./MaybeImage.astro";
+---
+
+<section id="side" class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-28">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+    <SectionTitle title="개인 작업" sub="혼자 만들어서, 규칙 해석부터 테스트 범위까지 모두 제가 정한 저장소입니다." />
+    <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        siteConfig.sideProjects.map((p) => (
+          <a
+            href={p.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group flex flex-col overflow-hidden bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:-translate-y-1"
+          >
+            <MaybeImage src={p.image} alt={`${p.name} 화면`} label="화면 자리" class="w-full aspect-[16/10] border-b border-gray-200" />
+            <div class="p-5 sm:p-6 flex flex-col gap-3 flex-1">
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="text-xl font-bold text-gray-900">{p.name}</h3>
+                <span class="font-mono text-xs text-gray-400 group-hover:text-[var(--accent)]">GitHub ↗</span>
+              </div>
+              <p class="text-sm text-gray-600 leading-relaxed">{p.description}</p>
+              <ul class="flex flex-col gap-2 pt-1">
+                {p.points.map((pt) => (
+                  <li class="flex items-start gap-2 text-sm text-gray-700">
+                    <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-auto pt-3 flex flex-wrap gap-1.5">
+                {p.skills.map((s) => <span class="px-2 py-0.5 bg-gray-900 text-white rounded-md text-xs font-medium">{s}</span>)}
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
