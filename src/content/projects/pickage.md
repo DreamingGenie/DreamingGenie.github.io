@@ -8,11 +8,11 @@ team: "6명 · 교육기관 GitLab(비공개)"
 role: "원본 데이터 수집 · 집계 파이프라인"
 stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Docker"]
 highlight: "BigQuery 236번 실행에서 예상 사용량과 청구 사용량 차이 0.1%"
-cover: "/images/projects/pickage/cover.jpeg"
+cover: "/images/projects/pickage/cover.jpg"
 gallery:
-  - { src: "/images/projects/pickage/01.jpeg", caption: "express와 비슷한 패키지 후보 고르기" }
-  - { src: "/images/projects/pickage/02.jpeg", caption: "비교 보고서 — 다운로드·이슈·추세" }
-  - { src: "/images/projects/pickage/03.jpeg", caption: "보고서의 이탈 사유와 교체 흐름" }
+  - { src: "/images/projects/pickage/01.jpg", caption: "express와 비슷한 패키지 후보 고르기" }
+  - { src: "/images/projects/pickage/02.jpg", caption: "비교 보고서 — 다운로드·이슈·추세" }
+  - { src: "/images/projects/pickage/03.jpg", caption: "보고서의 이탈 사유와 교체 흐름" }
 shotNote: "팀 운영 서버(j15a506.p.ssafy.io)에서 찍은 화면입니다(2026-10-02)."
 areas:
   - group: "데이터 흐름"

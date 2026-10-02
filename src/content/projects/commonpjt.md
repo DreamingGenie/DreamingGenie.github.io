@@ -8,9 +8,9 @@ team: "7명 · 교육기관 GitLab(비공개)"
 role: "PM · 코드 검토와 통합 · 팀 공간·일정 백엔드"
 stack: ["Java 21", "Spring Boot 4.1", "Spring Data JPA", "PostgreSQL", "Vue 3", "AWS ECS Fargate", "GitLab CI"]
 highlight: "공동 개발 브랜치 머지 95건 중 83건을 검토하고 합쳤습니다"
-cover: "/images/projects/commonpjt/cover.jpeg"
+cover: "/images/projects/commonpjt/cover.jpg"
 gallery:
-  - { src: "/images/projects/commonpjt/01.jpeg", caption: "홈 — 내 팀 스페이스 목록과 여러 스페이스의 일정을 모은 달력" }
+  - { src: "/images/projects/commonpjt/01.jpg", caption: "홈 — 내 팀 스페이스 목록과 여러 스페이스의 일정을 모은 달력" }
 shotNote: "로컬에서 백엔드를 띄워 찍은 화면입니다. 팀 스페이스와 일정은 시연용으로 넣은 데이터입니다(2026-10-02)."
 areas:
   - group: "기능"

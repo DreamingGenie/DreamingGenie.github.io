@@ -16,7 +16,7 @@ import MaybeImage from "./MaybeImage.astro";
             rel="noopener noreferrer"
             class="group flex flex-col overflow-hidden bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:-translate-y-1"
           >
-            <MaybeImage src={p.image} alt={`${p.name} 화면`} label="화면 자리" class="w-full aspect-[16/10] border-b border-gray-200" />
+            <MaybeImage natural src={p.image} alt={`${p.name} 화면`} label="화면 자리" class="w-full aspect-[16/10] border-b border-gray-200" />
             <div class="p-5 sm:p-6 flex flex-col gap-3 flex-1">
               <div class="flex items-center justify-between gap-3">
                 <h3 class="text-xl font-bold text-gray-900">{p.name}</h3>

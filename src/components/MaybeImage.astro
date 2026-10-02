@@ -1,6 +1,8 @@
 ---
 // public/ 아래에 파일이 있으면 그림을, 없으면 개발 서버에서만 자리 표시를 보여 준다.
 // 배포 빌드에서는 빈 자리를 아예 그리지 않는다.
+// natural: 화면 캡처처럼 비율이 정해진 그림은 틀(aspect-*)에 맞춰 자르지 않고 원래 비율로 보여 준다.
+//          aspect-* 클래스는 그림이 없을 때 자리 표시의 크기로만 쓴다.
 import fs from "node:fs";
 import path from "node:path";
 
@@ -9,13 +11,17 @@ interface Props {
   alt: string;
   class?: string;
   label?: string;
+  natural?: boolean;
 }
-const { src, alt, class: className = "", label } = Astro.props;
+const { src, alt, class: className = "", label, natural = false } = Astro.props;
 const exists = !!src && fs.existsSync(path.join(process.cwd(), "public", src));
 const showPlaceholder = !exists && import.meta.env.DEV && !!src;
+const imgClass = natural
+  ? `${className.replace(/\baspect-\[[^\]]+\]/g, "").trim()} h-auto`
+  : `object-cover ${className}`;
 ---
 
-{exists && <img src={src} alt={alt} loading="lazy" class={`object-cover ${className}`} />}
+{exists && <img src={src} alt={alt} loading="lazy" class={imgClass} />}
 {
   showPlaceholder && (
     <div

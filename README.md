@@ -28,9 +28,9 @@ npm run build    # dist/
 | 자리 | 경로 |
 |---|---|
 | 프로필 사진 | `public/images/profile.jpg` |
-| 프로젝트 대표 화면 (16:9) | `public/images/projects/<slug>/cover.png` |
-| 프로젝트 추가 화면 (16:10) | `public/images/projects/<slug>/01.png`, `02.png` |
-| 개인 작업 화면 | `public/images/projects/tichu-trainer/cover.png`, `servertimeclicker/cover.png` |
+| 프로젝트 대표 화면 (원래 비율 그대로) | `public/images/projects/<slug>/cover.jpg` |
+| 프로젝트 추가 화면 (원래 비율 그대로) | `public/images/projects/<slug>/01.jpg`, `02.jpg` |
+| 개인 작업 화면 | `public/images/projects/tichu-trainer/cover.jpg`, `servertimeclicker/cover.jpg` |
 
 경로와 설명 문구는 각 프로젝트 md의 `cover` · `gallery`, `src/config.ts`의 `profileImage` · `sideProjects[].image`에서 바꿉니다.
 

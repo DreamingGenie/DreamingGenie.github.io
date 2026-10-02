@@ -16,7 +16,7 @@ const projects = (await getCollection("projects")).sort((a, b) => a.data.order -
             href={`/projects/${p.id}`}
             class="group relative block overflow-hidden bg-gray-50 rounded-2xl border border-gray-200 transition-all duration-300 hover:bg-white hover:shadow-xl hover:border-gray-300 hover:-translate-y-1"
           >
-            <MaybeImage src={p.data.cover} alt={`${p.data.title} 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] border-b border-gray-200" />
+            <MaybeImage natural src={p.data.cover} alt={`${p.data.title} 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] border-b border-gray-200" />
             <div class="relative p-5 sm:p-8 flex flex-col gap-4">
               <div class="absolute top-5 right-5 sm:top-8 sm:right-8 w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-gray-900 rounded-full text-white transition-colors group-hover:bg-[var(--accent)]">
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

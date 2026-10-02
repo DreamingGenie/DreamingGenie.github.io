@@ -65,14 +65,14 @@ const facts = [
 
   <!-- 화면 -->
   <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 flex flex-col gap-4">
-    <MaybeImage src={d.cover} alt={`${d.title} 대표 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] rounded-2xl border border-gray-200 shadow-sm" />
+    <MaybeImage natural src={d.cover} alt={`${d.title} 대표 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] rounded-2xl border border-gray-200 shadow-sm" />
     {d.shotNote && <p class="text-sm text-gray-500">{d.shotNote}</p>}
     {
       d.gallery.length > 0 && (
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {d.gallery.map((g) => (
             <figure class="flex flex-col gap-2">
-              <MaybeImage src={g.src} alt={g.caption} label={g.caption} class="w-full aspect-[16/10] rounded-xl border border-gray-200" />
+              <MaybeImage natural src={g.src} alt={g.caption} label={g.caption} class="w-full aspect-[16/10] rounded-xl border border-gray-200" />
               <figcaption class="text-sm text-gray-500">{g.caption}</figcaption>
             </figure>
           ))}
