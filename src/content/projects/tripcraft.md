@@ -9,10 +9,10 @@ role: "동시 편집 충돌 방지 · 실시간 협업 · 커뮤니티 게시판
 stack: ["Java 21", "Spring Boot 3.5", "MyBatis", "MySQL 8", "Vue 3", "WebSocket(STOMP)"]
 repo: "https://github.com/DreamingGenie/TripCraft"
 highlight: "낙관적 락이 못 잡는 일정 겹침을 여행 단위 잠금으로 막았습니다"
-cover: "/images/projects/tripcraft/cover.png"
+cover: "/images/projects/tripcraft/cover.jpeg"
 gallery:
-  - { src: "/images/projects/tripcraft/01.png", caption: "일정 편집 화면" }
-  - { src: "/images/projects/tripcraft/02.png", caption: "함께 편집할 때 보이는 협업 커서" }
+  - { src: "/images/projects/tripcraft/01.jpeg", caption: "다른 계정으로 같은 여행을 열면, 그 사람의 커서와 접속 표시가 실시간으로 보입니다" }
+shotNote: "로컬 Docker로 띄워 두 계정으로 찍은 화면입니다. 일정은 시연용 데이터이고, 지도와 이동시간은 로컬에서 외부 키가 없어 비어 있습니다(2026-10-02)."
 areas:
   - group: "협업 편집"
     items:
