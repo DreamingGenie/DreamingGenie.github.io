@@ -26,9 +26,9 @@ export const siteConfig = {
   },
 
   aboutMe: [
-    "7명이 4주 동안 AI 회의 도우미를 만든 프로젝트에서 PM과 코드 통합을 맡았습니다. 팀원이 작업을 마치면 제가 코드를 읽고 공동 개발 브랜치에 합쳤고, 그렇게 합친 95건 중 83건을 제가 처리했습니다.",
-    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 그 여행을 잠가, 한 사람씩 차례로 저장하게 했습니다.",
-    "오픈소스 데이터 수집 프로젝트에서는 개인 결제 계정으로 80TB 가까운 BigQuery 데이터셋을 읽었습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 스스로 멈추는 수집기를 만들었습니다. 236번 실행해 보니 실제 요금이 예상과 0.1% 차이였습니다.",
+    "7명이 4주 동안 AI 회의 도우미를 만든 프로젝트에서 PM과 코드 통합을 맡았습니다. 팀원이 작업을 마치면 제가 코드를 읽고 공동 개발 브랜치에 합쳤고, 그렇게 합친 **95건 중 83건**을 제가 처리했습니다.",
+    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행을 잠가, 한 사람씩 차례로 저장**하게 했습니다.",
+    "오픈소스 데이터 수집 프로젝트에서는 개인 결제 계정으로 80TB 가까운 BigQuery 데이터셋을 읽었습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 스스로 멈추는 수집기를 만들었습니다. 236번 실행해 보니 실제 요금이 예상과 **0.1% 차이**였습니다.",
   ],
 
   // 일하는 방식. link 는 프로젝트 상세 페이지의 사례 앵커.
@@ -71,8 +71,6 @@ export const siteConfig = {
         { name: "Java 21 · Spring Boot", where: "CommonPJT 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
         { name: "Spring Data JPA", where: "CommonPJT 팀 공간 쓰기 3곳 비관적 잠금" },
         { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
-        { name: "PostgreSQL", where: "CommonPJT null 타입 추론 에러" },
-        { name: "MySQL", where: "TripCraft" },
         { name: "Python", where: "Pickage 수집기·집계·적재 도구, 테스트 287개" },
         { name: "Git 브랜치 운영", where: "CommonPJT 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
       ],
@@ -83,6 +81,8 @@ export const siteConfig = {
       items: [
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
         { name: "Spring Security", where: "CommonPJT 보안 설정과 로그인 토큰 검사 필터" },
+        { name: "PostgreSQL", where: "CommonPJT 팀 공간·일정, null 타입 추론 에러" },
+        { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
         { name: "BigQuery · GCS · DuckDB · MinIO", where: "Pickage" },
         { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CommonPJT 팀 구성 환경 사용" },
       ],

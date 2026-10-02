@@ -22,7 +22,7 @@ import MaybeImage from "./MaybeImage.astro";
     <rect fill="url(#hero-grid)" width="100%" height="100%" stroke-width={0}></rect>
   </svg>
 
-  <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
     <div class="lg:col-span-8">
       <p class="font-mono text-sm sm:text-base font-semibold tracking-wide animate-fade-in" style="color: var(--accent)">
         {siteConfig.hero.eyebrow}
@@ -59,14 +59,24 @@ import MaybeImage from "./MaybeImage.astro";
           >
           GitHub
         </a>
+        <a
+          href={`mailto:${siteConfig.social.email}`}
+          class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 bg-white text-gray-800 font-medium ring-1 ring-gray-300 hover:ring-gray-400 transition"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            ><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path><path d="M3 7l9 6l9 -6"></path></svg
+          >
+          {siteConfig.social.email}
+        </a>
       </div>
     </div>
-    <div class="lg:col-span-4 animate-fade-in animation-delay-400">
+    <!-- 휴대폰에서는 사진을 작게 줄여 글 위에 둔다(두 번째 화면을 통째로 차지하던 문제) -->
+    <div class="order-first lg:order-none lg:col-span-4 animate-fade-in animation-delay-400">
       <MaybeImage
         src={siteConfig.profileImage}
         alt={`${siteConfig.name} 프로필 사진`}
         label="프로필 사진 자리"
-        class="w-48 h-64 sm:w-60 sm:h-80 rounded-3xl shadow-xl ring-1 ring-gray-200 mx-auto lg:ml-auto"
+        class="w-24 h-32 sm:w-48 sm:h-64 lg:w-60 lg:h-80 rounded-2xl sm:rounded-3xl shadow-xl ring-1 ring-gray-200 lg:ml-auto"
       />
     </div>
   </div>

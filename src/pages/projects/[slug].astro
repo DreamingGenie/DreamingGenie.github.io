@@ -44,14 +44,14 @@ const facts = [
         {
           facts.map((f) => (
             <div class="bg-white px-5 py-4">
-              <dt class="text-xs text-gray-400">{f.k}</dt>
+              <dt class="text-[13px] text-gray-500">{f.k}</dt>
               <dd class="mt-1 text-gray-800 font-medium">{f.v}</dd>
             </div>
           ))
         }
       </dl>
       <div class="flex flex-wrap items-center gap-2">
-        {d.stack.map((s) => <span class="px-2.5 py-1 bg-gray-900 text-white rounded-md text-sm font-medium">{s}</span>)}
+        {d.stack.map((s) => <span class="px-2 py-0.5 bg-white text-gray-600 ring-1 ring-inset ring-gray-200 rounded-md text-[13px]">{s}</span>)}
         {
           d.repo && (
             <a href={d.repo} target="_blank" rel="noopener noreferrer" class="ml-1 text-sm font-semibold hover:underline" style="color: var(--accent)">
@@ -69,11 +69,13 @@ const facts = [
     {d.shotNote && <p class="text-sm text-gray-500">{d.shotNote}</p>}
     {
       d.gallery.length > 0 && (
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {d.gallery.map((g) => (
-            <figure class="flex flex-col gap-2">
-              <MaybeImage natural src={g.src} alt={g.caption} label={g.caption} class="w-full aspect-[16/10] rounded-xl border border-gray-200" />
-              <figcaption class="text-sm text-gray-500">{g.caption}</figcaption>
+            <figure class="flex flex-col gap-1.5">
+              <a href={g.src} target="_blank" rel="noopener noreferrer" class="block rounded-lg overflow-hidden border border-gray-200 hover:border-gray-400 transition-colors" title="원본 크기로 보기">
+                <MaybeImage natural src={g.src} alt={g.caption} label={g.caption} class="w-full aspect-[16/9]" />
+              </a>
+              <figcaption class="text-[13px] text-gray-500 leading-snug">{g.caption}</figcaption>
             </figure>
           ))}
         </div>
@@ -100,11 +102,11 @@ const facts = [
               <li id={x.id} class="scroll-mt-24 bg-white rounded-2xl border border-gray-200 p-5 sm:p-7 flex flex-col gap-3">
                 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                   <h3 class="text-lg font-bold text-gray-900 leading-snug">{x.title}</h3>
-                  {x.tags.length > 0 && <div class="flex flex-wrap gap-1.5 shrink-0">{x.tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
+                  {x.tags.some((t) => t.type !== "limit") && <div class="flex flex-wrap gap-1.5 shrink-0">{x.tags.filter((t) => t.type !== "limit").map((t) => <Tag type={t.type} text={t.text} />)}</div>}
                 </div>
                 <p class="text-[0.9375rem] sm:text-base text-gray-600 leading-relaxed">{x.text}</p>
                 {x.evidence.length > 0 && (
-                  <div class="flex flex-wrap gap-2 text-xs">
+                  <div class="flex flex-wrap gap-2 text-[13px]">
                     {x.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
                   </div>
                 )}
@@ -148,7 +150,7 @@ const facts = [
     {
       prev ? (
         <a href={`/projects/${prev.id}`} class="rounded-2xl border border-gray-200 bg-gray-50 p-5 hover:bg-white hover:shadow-md transition">
-          <span class="text-xs text-gray-400">← 이전</span>
+          <span class="text-[13px] text-gray-500">← 이전</span>
           <span class="block mt-1 font-bold text-gray-900">{prev.data.title}</span>
         </a>
       ) : (
@@ -158,12 +160,12 @@ const facts = [
     {
       next ? (
         <a href={`/projects/${next.id}`} class="rounded-2xl border border-gray-200 bg-gray-50 p-5 text-right hover:bg-white hover:shadow-md transition">
-          <span class="text-xs text-gray-400">다음 →</span>
+          <span class="text-[13px] text-gray-500">다음 →</span>
           <span class="block mt-1 font-bold text-gray-900">{next.data.title}</span>
         </a>
       ) : (
         <a href="/#projects" class="rounded-2xl border border-gray-200 bg-gray-50 p-5 text-right hover:bg-white hover:shadow-md transition">
-          <span class="text-xs text-gray-400">목록 →</span>
+          <span class="text-[13px] text-gray-500">목록 →</span>
           <span class="block mt-1 font-bold text-gray-900">전체 프로젝트</span>
         </a>
       )

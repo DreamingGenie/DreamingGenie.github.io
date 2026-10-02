@@ -8,10 +8,10 @@ const { type, text } = Astro.props;
 const styles = {
   measured: "bg-blue-50 text-blue-800 ring-blue-200",
   judged: "bg-gray-100 text-gray-700 ring-gray-200",
-  limit: "bg-rose-50 text-rose-700 ring-rose-200",
+  limit: "bg-white text-gray-600 ring-gray-300",
 }[type];
 ---
 
-<span class={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset whitespace-nowrap ${styles}`}>
+<span class={`inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[13px] font-semibold ring-1 ring-inset whitespace-nowrap ${styles}`}>
   {text}
 </span>

@@ -23,13 +23,15 @@ interface Props {
 }
 const { item } = Astro.props;
 const Visual = item.visual ? visuals[item.visual] : null;
+// 한계는 사례 안의 한계 줄에만 남기고, 머리 태그에서는 뺀다(빨간 표시가 첫인상을 실패 목록으로 만들던 문제).
+const shownTags = item.tags.filter((t) => t.type !== "limit");
 ---
 
 <article id={item.id} class="scroll-mt-24 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
   <header class="p-5 sm:p-8 flex flex-col gap-3">
-    <span class="text-xs font-semibold tracking-wide" style="color: var(--accent)">{item.kind}</span>
+    <span class="text-[13px] font-semibold tracking-wide" style="color: var(--accent)">{item.kind}</span>
     <h3 class="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">{item.title}</h3>
-    {item.tags.length > 0 && <div class="flex flex-wrap gap-1.5">{item.tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
+    {shownTags.length > 0 && <div class="flex flex-wrap gap-1.5">{shownTags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
   </header>
 
   {
@@ -43,8 +45,8 @@ const Visual = item.visual ? visuals[item.visual] : null;
   <dl class="divide-y divide-gray-100">
     {
       item.steps.map((s) => (
-        <div class={`grid grid-cols-1 sm:grid-cols-[8.5rem_1fr] gap-1 sm:gap-6 px-5 sm:px-8 py-4 ${s.limit ? "bg-rose-50/60" : ""}`}>
-          <dt class={`text-sm font-semibold ${s.limit ? "text-rose-700" : "text-gray-500"}`}>{s.label}</dt>
+        <div class={`grid grid-cols-1 sm:grid-cols-[8.5rem_1fr] gap-1 sm:gap-6 px-5 sm:px-8 py-4 ${s.limit ? "bg-gray-50" : ""}`}>
+          <dt class={`text-sm font-semibold ${s.limit ? "text-gray-700" : "text-gray-500"}`}>{s.label}</dt>
           <dd class="text-[0.9375rem] sm:text-base text-gray-800 leading-relaxed">{s.text}</dd>
         </div>
       ))
@@ -66,7 +68,7 @@ const Visual = item.visual ? visuals[item.visual] : null;
 
   {
     item.evidence.length > 0 && (
-      <footer class="px-5 sm:px-8 py-4 border-t border-gray-100 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+      <footer class="px-5 sm:px-8 py-4 border-t border-gray-100 flex flex-wrap items-center gap-2 text-[13px] text-gray-500">
         <span class="font-semibold">근거</span>
         {item.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
       </footer>
