@@ -23,6 +23,8 @@ export const siteConfig = {
   hero: {
     eyebrow: "Backend Developer",
     headline: "여러 사람이 동시에 고쳐도 데이터가 어긋나지 않게 만듭니다",
+    // 이름 다음에 이어지는 한 줄. 첫 화면에서 주력 스택과 해 온 일이 보이게 한다.
+    intro: "Java·Spring으로 여러 명이 동시에 편집하는 서버를, Python으로 대용량 데이터 수집 파이프라인을 만들어 왔습니다.",
   },
 
   aboutMe: [
@@ -39,7 +41,7 @@ export const siteConfig = {
       links: [
         { label: "TripCraft · 여행 단위 잠금", href: "/projects/tripcraft#lock" },
         { label: "TripCraft · 알림을 저장 순서대로", href: "/projects/tripcraft#order" },
-        { label: "CommonPJT · 팀 공간 쓰기 잠금", href: "/projects/commonpjt#did" },
+        { label: "CoMeetTool · 팀 공간 쓰기 잠금", href: "/projects/comeettool#did" },
       ],
     },
     {
@@ -55,9 +57,9 @@ export const siteConfig = {
       title: "여러 사람의 코드를 하나로",
       body: "팀이 정한 규칙을 문서와 저장소 설정으로 옮기고, 통합을 맡아 끝까지 합칩니다.",
       links: [
-        { label: "CommonPJT · 머지 95건 중 83건", href: "/projects/commonpjt#merge" },
-        { label: "CommonPJT · 검토 전 머지가 된 날", href: "/projects/commonpjt#0728" },
-        { label: "CommonPJT · 제가 고른 버전의 비용", href: "/projects/commonpjt#boot" },
+        { label: "CoMeetTool · 머지 95건 중 83건", href: "/projects/comeettool#merge" },
+        { label: "CoMeetTool · 검토 전 머지가 된 날", href: "/projects/comeettool#0728" },
+        { label: "CoMeetTool · 제가 고른 버전의 비용", href: "/projects/comeettool#boot" },
       ],
     },
   ],
@@ -68,11 +70,12 @@ export const siteConfig = {
       tier: "설계 이유까지",
       note: "왜 그렇게 했는지까지 설명할 수 있는 것",
       items: [
-        { name: "Java 21 · Spring Boot", where: "CommonPJT 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
-        { name: "Spring Data JPA", where: "CommonPJT 팀 공간 쓰기 3곳 비관적 잠금" },
+        { name: "Java 21 · Spring Boot", where: "CoMeetTool 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
+        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 잠금" },
         { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
         { name: "Python", where: "Pickage 수집기·집계·적재 도구, 테스트 287개" },
-        { name: "Git 브랜치 운영", where: "CommonPJT 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
+        { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
+        { name: "Git 브랜치 운영", where: "CoMeetTool 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
       ],
     },
     {
@@ -80,11 +83,11 @@ export const siteConfig = {
       note: "만들어 봤지만 설계 이유를 말하기엔 얕은 것",
       items: [
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
-        { name: "Spring Security", where: "CommonPJT 보안 설정과 로그인 토큰 검사 필터" },
-        { name: "PostgreSQL", where: "CommonPJT 팀 공간·일정, null 타입 추론 에러" },
+        { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
+        { name: "PostgreSQL", where: "CoMeetTool 팀 공간·일정, null 타입 추론 에러" },
         { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
-        { name: "BigQuery · GCS · DuckDB · MinIO", where: "Pickage" },
-        { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CommonPJT 팀 구성 환경 사용" },
+        { name: "GCS · DuckDB · MinIO", where: "Pickage 원본 보관과 집계" },
+        { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CoMeetTool 팀 구성 환경 사용" },
       ],
     },
     {
@@ -123,10 +126,10 @@ export const siteConfig = {
 
   experience: [
     {
-      company: "삼성청년SW아카데미(SSAFY)",
-      title: "Java 트랙 교육생",
-      dateRange: "2026.01 – 진행 중",
-      bullets: ["CommonPJT · TripCraft · Pickage를 이 과정에서 팀 프로젝트로 진행했습니다"],
+      company: "삼성청년SW아카데미(SSAFY) 15기",
+      title: "Java 전공 트랙 교육생",
+      dateRange: "2026.01 – 2026.12 (진행 중)",
+      bullets: ["CoMeetTool · TripCraft · Pickage를 이 과정에서 팀 프로젝트로 진행했습니다"],
     },
     {
       company: "파워오토로보틱스",
@@ -142,19 +145,34 @@ export const siteConfig = {
   education: [
     {
       school: "학사 졸업",
-      degree: "총평점 3.77 / 4.5",
+      degree: "공학사(컴퓨터공학심화) · 총평점 3.77 / 4.5",
       dateRange: "2019.03 – 2025.02",
       achievements: [
-        "졸업작품 ML 기반 균형 재활 보조 시스템 — 학내 경진대회 우수상. DB에서 꺼낸 훈련 기록을 모델 입력으로 다듬고 예측 결과를 다시 저장하는 부분을 맡았습니다",
-        "OTT 통합 콘텐츠 정보 웹 DB 설계(팀장) — 테이블 15개 ERD와 3NF 정규화, 포스터 이미지를 DB 밖 파일로 분리",
+        "공학교육인증(ABEEK) 심화 과정을 이수했습니다",
+        "졸업작품 ML 기반 균형 재활 보조 시스템(2023.09 – 2024.06) — DB에서 꺼낸 훈련 기록을 모델 입력으로 다듬고 예측 결과를 다시 저장하는 부분을 맡았습니다",
+        "OTT 통합 콘텐츠 정보 웹 DB 설계(팀장, 2023.03 – 06) — 테이블 15개 ERD와 3NF 정규화, 포스터 이미지를 DB 밖 파일로 분리",
         "병역 필 (육군 2020.02 – 2021.11)",
       ],
     },
     {
-      school: "자격 · 알고리즘",
-      degree: "정보처리기사 · SQLD · OPIc · 한국사 1급",
+      school: "수상",
+      degree: "공모전 은상 · 교내 경진대회 우수상",
       dateRange: "",
-      achievements: ["solved.ac rating 1,600 · 279문제 해결 · class 5 (Platinum V)"],
+      achievements: [
+        "2022.06 IPACT 창업 발명 공모전 은상(국제문화기술진흥원) — 이동식 간이 공기 청정 시스템을 제안한 팀에서, 특허 정보로 기존 기술과의 차이를 검토하고 아이디어를 요구사항 명세서로 정리하는 일을 맡았습니다",
+        "교내 졸업작품 아이디어 경진대회 우수상 — 위 졸업작품의 주제(ML 기반 균형 재활 보조 시스템)로 받았습니다",
+      ],
+    },
+    {
+      school: "자격 · 알고리즘",
+      degree: "정보처리기사 · SQLD · 한국사 1급",
+      dateRange: "",
+      achievements: [
+        "정보처리기사 — 2024.06 · 한국산업인력공단",
+        "SQLD(SQL 개발자) — 2026.03 · 한국데이터산업진흥원",
+        "한국사능력검정 1급 — 2019.11 · 국사편찬위원회",
+        "solved.ac rating 1,600 · 279문제 해결 · class 5 (Platinum V)",
+      ],
     },
   ],
 

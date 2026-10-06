@@ -1,5 +1,5 @@
 ---
-title: "CommonPJT · CoMeetTool"
+title: "CoMeetTool"
 order: 1
 summary: "음성 회의를 기록·요약하고 팀 공간과 일정을 함께 관리하는 협업 도구"
 oneLine: "음성 회의를 기록하고 요약해 주고, 팀별 공간(스페이스)과 일정을 함께 관리하는 협업 도구입니다. 7명 팀에서 팀 합의로 PM과 코드 통합을 맡았고, 팀 공간과 일정 기능의 백엔드를 만들었습니다."
@@ -8,9 +8,9 @@ team: "7명 · 교육기관 GitLab(비공개)"
 role: "PM · 코드 검토와 통합 · 팀 공간·일정 백엔드"
 stack: ["Java 21", "Spring Boot 4.1", "Spring Data JPA", "PostgreSQL", "Vue 3", "AWS ECS Fargate", "GitLab CI"]
 highlight: "공동 개발 브랜치 머지 95건 중 83건을 검토하고 합쳤습니다"
-cover: "/images/projects/commonpjt/cover.jpg"
+cover: "/images/projects/comeettool/cover.jpg"
 gallery:
-  - { src: "/images/projects/commonpjt/01.jpg", caption: "홈 — 내 팀 스페이스 목록과 여러 스페이스의 일정을 모은 달력" }
+  - { src: "/images/projects/comeettool/01.jpg", caption: "홈 — 내 팀 스페이스 목록과 여러 스페이스의 일정을 모은 달력" }
 shotNote: "로컬에서 백엔드를 띄워 찍은 화면입니다. 팀 스페이스와 일정은 시연용으로 넣은 데이터입니다(2026-10-02)."
 areas:
   - group: "기능"
@@ -37,18 +37,18 @@ did:
   - title: "모든 API가 같은 모양으로 응답하는 공통 틀"
     text: "성공·실패 응답 형식, 예외 클래스, 에러 코드 목록, 전체 예외 처리기를 한곳에 정했습니다. 팀원 4명이 각자 기능의 에러 코드를 이 목록에 더해 쓰면서 팀 공통 규칙이 됐습니다. 처음 만든 건 저지만, 그 뒤 목록을 가장 많이 고친 사람은 다른 팀원입니다."
     tags: [{ type: "measured", text: "실측" }]
-    evidence: ["ea65857"]
+    evidence: ["f66a04f"]
   - title: "팀 공간·일정 API 13개와 그 테스트"
     text: "두 기능의 API는 모두 14개이고, 대표 이미지 변경 1개는 팀원이 만들었습니다(저는 그 위에 검증과 테스트를 보완). 일정 코드는 전부, 팀 공간 코드는 약 90%가 제 줄입니다. 제가 쓴 테스트는 131개입니다."
     tags: [{ type: "measured", text: "실측" }]
   - title: "팀 공간을 바꾸는 요청은 한 번에 하나씩"
     text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 잠금을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 잠그지 않았습니다. 두 요청을 실제로 동시에 보내 보는 테스트는 만들지 못했습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트 없음" }]
-    evidence: ["890f1b6"]
+    evidence: ["3a07d56"]
   - title: "실수할 수 있는 경로를 설정으로 막음"
     text: "07-19에 기본 브랜치를 main에서 develop으로 바꿨습니다. GitLab은 기본 브랜치의 MR 양식만 읽고 새 MR의 대상도 기본 브랜치로 잡아서, main이 기본이면 양식이 안 뜨고 확인 안 한 MR이 배포 브랜치로 갈 수 있습니다. 팀이 합의한 규칙은 문서 5개로 정리했습니다."
     tags: [{ type: "judged", text: "판단" }]
-    evidence: ["2251227", "afa0800"]
+    evidence: ["ebf3bd2", "95e8b53"]
 cases:
   - id: "0728"
     kind: "운영 · 07-28"
@@ -60,7 +60,7 @@ cases:
       - { label: "바꾼 것", text: "보호 브랜치와 승인 규칙은 이전부터 있었습니다. 이날 뒤로 바꾼 것은 develop에 합칠 수 있는 사람이고, 통합 담당인 저에게만 남겼습니다." }
       - { label: "결과", text: "제가 하지 않은 develop 머지 12건 중 10건이 이날 전에 몰려 있습니다. 저장소에 남은 되돌리기는 이 1건뿐입니다." }
       - { label: "한계", text: "권한 변경은 GitLab 설정이라 저장소에 기록이 남지 않습니다.", limit: true }
-    evidence: ["9dfa322", "fd9f6ae", "30f5fb4"]
+    evidence: ["0c51812", "3f2b038", "2b08a24"]
   - id: "null"
     kind: "문제 해결"
     title: "검색어를 비우면 스페이스 목록이 항상 500 에러"
@@ -71,7 +71,7 @@ cases:
       - { label: "해결", text: "쿼리에서 검색어가 문자라고 직접 알려 주도록(cast(:search as string)) 고쳤고, 같은 커밋에 테스트를 넣었습니다." }
       - { label: "배운 것", text: "에러 위치가 제 코드를 가리켜도 실제로 실패한 단계는 더 앞일 수 있습니다. 값의 종류를 정하는 일은 조건 분기보다 먼저 끝납니다." }
       - { label: "한계", text: "이 테스트가 수정 전 코드에서 실패하는지는 확인하지 않았습니다.", limit: true }
-    evidence: ["6014a9d", "SQLSTATE 42883"]
+    evidence: ["edfb78c", "SQLSTATE 42883"]
   - id: "boot"
     kind: "문제 해결 · 제 선택"
     title: "제가 고른 Spring Boot 4.1의 비용을 제가 치렀습니다"
@@ -83,7 +83,7 @@ cases:
       - { label: "해결", text: "JSON 변환 설정을 직접 만들어 날짜를 문자 형식으로, 시간대를 UTC로 고정하고, 이 설정이 빠지면 깨지는 테스트를 붙였습니다. 필터 테스트는 자동 설정 없이 직접 구성했습니다." }
       - { label: "남기지 못한 것", text: "3.x와 4.x를 비교한 표나 새 버전의 위험을 미리 따진 기록은 없습니다.", limit: true }
     more: "팀도 같은 비용을 치렀습니다. 4.x는 Jackson 3를 쓰는데, 요청 데이터 클래스에 Jackson 2 기능을 쓰면 Spring이 알아보지 못해 500 에러가 납니다. 이 문제를 만나 원인을 주석으로 남긴 사람은 팀원이고, 저는 그 MR을 검토하고 합쳤습니다.\n\n다음에 최신 버전을 고를 때는 프로젝트를 만드는 단계에서 자동 설정 목록이 어떻게 달라졌는지부터 확인하려 합니다."
-    evidence: ["f8beb3b"]
+    evidence: ["b298885"]
   - id: "order"
     kind: "설계 판단"
     title: "순서 데이터가 깨져도 목록은 뜨게"
@@ -98,13 +98,13 @@ cases:
 
 - **머지 수를 세는 기준.** `origin/main`에 남은 `into 'develop'` 머지 95건 중 83건(87.4%). develop 브랜치까지 포함하면 115건 중 92건(80.0%)이고, 이 92건은 타인 브랜치 71건 + 제 브랜치 21건입니다. `into 'main'` 머지 16건은 전부 제 것이고, 그중 배포는 9건입니다.
 - **제 브랜치를 팀원이 머지한 10건**은 팀원 3명이 각각 5 · 3 · 2건입니다. 제가 머지한 제 브랜치 21건 = develop→main 배포 2 + 07-19 ~ 21 docs 5 + feature·fix 14(전부 07-28 이후). 이때도 검토는 팀원에게 받고 합치기 버튼만 제가 눌렀습니다.
-- **작업량**: 실작업 커밋 80건 + 머지 커밋 100건, 손댄 파일 126개, +10,877 / −890줄.
-- **공통 응답·예외 틀**: `ea65857`(19파일 587줄) — `ApiResponse` · `CustomException` · `ErrorCode` · `ErrorResponse` · `GlobalExceptionHandler`. blame 기준 `ApiResponse` 28/28줄, `GlobalExceptionHandler` 45/49줄, `JwtAuthenticationFilter` 62/68줄, `SecurityConfig` 74/92줄.
+- **작업량**: 실작업 커밋 78건 + 머지 커밋 94건, 손댄 파일 117개, +10,303 / −890줄.
+- **공통 응답·예외 틀**: `f66a04f`(19파일 587줄) — `ApiResponse` · `CustomException` · `ErrorCode` · `ErrorResponse` · `GlobalExceptionHandler`. blame 기준 `ApiResponse` 28/28줄, `GlobalExceptionHandler` 45/49줄, `JwtAuthenticationFilter` 62/68줄, `SecurityConfig` 74/92줄.
 - **SPACE·SCHEDULE**: blame `schedule/` 523/523줄, `space/` 873/965줄, 테스트 `space` 1,734/1,750줄, `schedule` 559/559줄.
-- **비관적 잠금**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`890f1b6`)이고, 읽기 경로는 무잠금입니다.
-- **기본 브랜치 변경**: `Main/Docs/02_Dailylog/2026-07-19.md` §3(`2251227`). 컨벤션 문서 5종: `afa0800`(304줄).
+- **비관적 잠금**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`3a07d56`)이고, 읽기 경로는 무잠금입니다.
+- **기본 브랜치 변경**: `Main/Docs/02_Dailylog/2026-07-19.md` §3(`ebf3bd2`). 컨벤션 문서 5종: `95e8b53`(304줄).
 - **테스트**: Java 116개 + pytest 15개.
-- **null 타입 추론 에러**: PostgreSQL SQLSTATE 42883(`lower(bytea)` 없음). 수정과 테스트 `6014a9d`.
-- **Spring Boot 4.1**: 스캐폴딩 `f8beb3b`(07-21). `JacksonConfig` 27줄(`WRITE_DATES_AS_TIMESTAMPS` 끔, UTC), `JacksonConfigTest`, 필터 테스트는 `MockMvcBuilders`로 구성. Jackson 3(`tools.jackson.*`) 주석은 팀원 커밋 `33474ba`.
-- **07-28 타임라인**: 10:48 팀원이 제 브랜치 머지 `9dfa322` → 10:49:57 되돌리기 `fd9f6ae`(21파일 −1,096줄) → 17:27 제가 재통합 `30f5fb4`.
+- **null 타입 추론 에러**: PostgreSQL SQLSTATE 42883(`lower(bytea)` 없음). 수정과 테스트 `edfb78c`.
+- **Spring Boot 4.1**: 스캐폴딩 `b298885`(07-21). `JacksonConfig` 27줄(`WRITE_DATES_AS_TIMESTAMPS` 끔, UTC), `JacksonConfigTest`, 필터 테스트는 `MockMvcBuilders`로 구성. Jackson 3(`tools.jackson.*`) 주석은 팀원 커밋 `168874c`(제 머지 `512571c`).
+- **07-28 타임라인**: 10:48 팀원이 제 브랜치 머지 `0c51812` → 10:49:57 되돌리기 `3f2b038`(21파일 −1,096줄) → 17:27 제가 재통합 `2b08a24`.
 - **스페이스 정렬**: `users.space_order`(CSV 문자열). 일정 참여자는 `schedules.user_id_arr` `BIGINT[]` + GIN 인덱스.

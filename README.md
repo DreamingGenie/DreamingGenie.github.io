@@ -3,7 +3,7 @@
 신입 백엔드 개발자 전진의 포트폴리오입니다.
 
 - 홈: 소개 · 대표 장면 · 프로젝트 · 기술 · 개인 작업 · 이력
-- 프로젝트 상세: `/projects/commonpjt` · `/projects/tripcraft` · `/projects/pickage`
+- 프로젝트 상세: `/projects/comeettool` · `/projects/tripcraft` · `/projects/pickage`
 
 ## 실행
 

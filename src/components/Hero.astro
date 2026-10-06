@@ -34,6 +34,7 @@ import MaybeImage from "./MaybeImage.astro";
       </h1>
       <p class="mt-6 text-lg sm:text-xl text-gray-600 animate-fade-in animation-delay-400">
         신입 백엔드 개발자 <span class="font-semibold" style="color: var(--accent)">{siteConfig.name}</span>입니다.
+        {siteConfig.hero.intro && <span class="block mt-2 text-base sm:text-lg">{siteConfig.hero.intro}</span>}
       </p>
       <div class="mt-10 flex flex-wrap gap-3 animate-fade-in animation-delay-600">
         <a
