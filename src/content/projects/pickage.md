@@ -1,32 +1,47 @@
 ---
 title: "Pickage"
 order: 3
-summary: "오픈소스 패키지가 무엇으로 갈아타졌는지 추적해 대체재를 찾아 주는 서비스"
-oneLine: "많은 프로젝트가 moment를 빼고 dayjs를 넣었다면, moment의 대체재로 dayjs를 보여 주는 서비스입니다. 6명 팀에서 원본 데이터를 모으고 집계해 이런 갈아탄 쌍을 뽑는 파이프라인을 맡았습니다."
+summary: "npm 패키지를 고를 때 후보 최대 3개를 생태계 변화·기능·커뮤니티 세 관점으로 나란히 비교해 주는 서비스"
+oneLine: "npm 패키지를 고르거나 바꿀 때 후보 최대 3개를 생태계 변화·기능·GitHub 커뮤니티 세 관점으로 나란히 보여 주는 서비스입니다. 어느 쪽이 낫다고 판정하지 않고 근거를 보여 주며, 결과는 PDF와 AI 에이전트용 Markdown으로 내보냅니다. 6명 팀에서 저는 원본 데이터 수집과 생태계 변화 탭의 지표 계산(유지·유입·이탈, 이탈 사유, 교체 흐름)을 맡았습니다."
 period: "2026.08 – 진행 중"
 team: "6명 · 교육기관 GitLab(비공개)"
-role: "원본 데이터 수집 · 집계 파이프라인"
-stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Docker"]
+role: "원본 데이터 수집 · 생태계 지표 계산"
+stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Spring Boot", "React", "Docker"]
 highlight: "BigQuery 236번 실행에서 예상 사용량과 청구 사용량 차이 0.1%"
 cover: "/images/projects/pickage/cover.jpg"
 gallery:
   - { src: "/images/projects/pickage/01.jpg", caption: "express와 비슷한 패키지 후보 고르기" }
   - { src: "/images/projects/pickage/02.jpg", caption: "비교 보고서 — 다운로드·이슈·추세" }
   - { src: "/images/projects/pickage/03.jpg", caption: "보고서의 이탈 사유와 교체 흐름" }
+  - { src: "/images/projects/pickage/04.jpg", caption: "유지·유입·이탈 — 계산과 적재는 제가, 화면은 팀원이 맡았습니다" }
+  - { src: "/images/projects/pickage/05.jpg", caption: "설치 전 확인 표 — 모듈 형식·타입 값은 제가 다시 모은 npm 정보에서 나옵니다" }
+  - { src: "/images/projects/pickage/06.jpg", caption: "README를 AI가 읽고 정리하는 기능 비교 (팀원 작업)" }
 shotNote: "팀 운영 서버(j15a506.p.ssafy.io)에서 찍은 화면입니다(2026-10-02)."
 areas:
-  - group: "데이터 흐름"
+  - group: "원본 수집"
     items:
       - { name: "BigQuery 수집기", owner: "me" }
       - { name: "GCS → MinIO 업로드 경로", owner: "me", note: "SSH 터널" }
+      - { name: "npm 다운로드 수 수집기", owner: "me", note: "46.9만 개로 넓혀 운영에 적재" }
+      - { name: "npm 패키지 형태 정보 재수집", owner: "me", note: "모듈 형식·타입 등 6개 항목" }
+  - group: "분석 지표"
+    items:
       - { name: "DuckDB 교체 쌍 집계", owner: "me" }
-      - { name: "npm 다운로드 수 수집기", owner: "me" }
+      - { name: "유지 · 유입 · 이탈 계산", owner: "me", note: "새로 생긴 패키지와 갈아탄 패키지를 가름" }
+      - { name: "이탈 사유 계산 · 패널", owner: "me" }
+      - { name: "교체 흐름 API · 패널", owner: "me", note: "어디로 옮겨 갔나 · 근거 등급" }
   - group: "그 뒤 단계"
     items:
       - { name: "데이터 정제", owner: "team" }
       - { name: "DB 설계와 적재", owner: "team" }
       - { name: "모델 학습 · 서비스 제공", owner: "team" }
       - { name: "개발 브랜치 통합", owner: "team" }
+  - group: "서비스 화면"
+    items:
+      - { name: "분석 · 보고서 화면 골격", owner: "team" }
+      - { name: "유지 · 유입 · 이탈 화면", owner: "team" }
+      - { name: "기능 비교 (README AI 요약)", owner: "team" }
+      - { name: "GitHub 커뮤니티 · PDF · HAND-OFF", owner: "team" }
 did:
   - title: "서버 없이 PC 한 대로 4,700만 건 집계"
     text: "분석용 DB인 DuckDB는 서버를 따로 띄우지 않고 PC에서 바로 돌릴 수 있습니다. npm 패키지 릴리스 약 4,700만 건을 버전 순서대로 늘어놓고 앞 버전과 비교해, 어떤 의존 패키지가 빠지고 무엇이 들어왔는지를 계산했습니다. 여기서 기준을 통과한 A를 빼고 B를 넣은 쌍 1,195개를 뽑았습니다."
@@ -90,3 +105,7 @@ cases:
 - **npm 호출 간격**: 고정 최소 간격(`wait = last_start + interval - now`), 429 시 ×1.15, 성공 시 ×0.998, 429 연속 5회면 300초 정지.
 - **재실행 차이**: 문서 숫자 정정 `9714d9c`(09-09), 동순위 정렬 보강 `eb79253`(09-18).
 - **테스트**: 제가 쓴 테스트 287개 / 팀 전체 1,783개(16.1%, 기준 `7e00dc7`).
+- **패키지 형태 정보 재수집**: `ccc45ad`. npm registry에 6개 항목(모듈 형식·타입 선언 등)을 더해 상위 10만 개를 4개 프로세스로 다시 받음 — 4시간 52분, 21,567,150행. 이 값을 표로 바꾸는 마이그레이션과 기능 비교 화면은 팀원 작업입니다.
+- **유지·유입·이탈**: 유입을 새로 생긴 패키지와 갈아탄 패키지로 가름(`f460b15`). 화면은 팀원 작업입니다.
+- **이탈 사유 패널**: `9e86442` 외. 패널 코드 162줄 중 147줄(기준 `378db11`).
+- **교체 흐름 패널**: `04a01ab`·`1465f55` 외. API·화면 코드 줄 단위 전부(기준 `378db11`). 근거 등급 '보통'의 문턱은 위 정밀도 표에서 낸 권고 하한(`aafd27b`)입니다.
