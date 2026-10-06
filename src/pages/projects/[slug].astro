@@ -6,6 +6,9 @@ import MaybeImage from "../../components/MaybeImage.astro";
 import OwnershipMap from "../../components/OwnershipMap.astro";
 import CaseCard from "../../components/CaseCard.astro";
 import Tag from "../../components/Tag.astro";
+import PickageFlow from "../../components/visuals/PickageFlow.astro";
+
+const flows: Record<string, any> = { PickageFlow };
 
 export async function getStaticPaths() {
   const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
@@ -18,6 +21,7 @@ export async function getStaticPaths() {
 const { project, prev, next, index } = Astro.props;
 const d = project.data;
 const { Content } = await render(project);
+const Flow = d.flow ? flows[d.flow] : null;
 const facts = [
   { k: "기간", v: d.period },
   { k: "팀", v: d.team },
@@ -89,6 +93,14 @@ const facts = [
       <SectionTitle title="담당 영역" sub="시스템에서 어느 칸이 제 것이었는지입니다." />
       <div class="lg:col-span-8"><OwnershipMap areas={d.areas} /></div>
     </div>
+    {
+      Flow && (
+        <div class="mt-14 flex flex-col gap-5">
+          <h3 class="text-xl font-bold text-gray-900">데이터가 지나는 길</h3>
+          <Flow />
+        </div>
+      )
+    }
   </section>
 
   <!-- 한 일 -->

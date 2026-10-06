@@ -35,6 +35,7 @@ const projects = defineCollection({
     cover: z.string().optional(), // public/ 기준 경로. 파일이 없으면 개발 서버에서만 자리를 보여 준다
     gallery: z.array(z.object({ src: z.string(), caption: z.string() })).default([]),
     shotNote: z.string().optional(), // 화면 출처(로컬 실행·운영 서버·시연 데이터 여부)
+    flow: z.string().optional(), // 담당 영역 아래에 붙는 데이터 흐름도 컴포넌트 이름
     areas: z.array(
       z.object({
         group: z.string(),

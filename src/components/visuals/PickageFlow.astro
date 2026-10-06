@@ -1,0 +1,113 @@
+---
+// Pickage 데이터가 지나는 길. 팀 시스템 아키텍처 문서(S15P21A506 docs/Pickage_시스템_아키텍처.pdf, 2026-09-24)를
+// 데이터 흐름만 남겨 줄이고, 칸마다 누가 맡았는지 담당 영역 지도와 같은 색으로 칠했다.
+// 담당 구분은 career-facts FACTS §3(F15 정제·적재·DB 설계는 팀원, P10 주간 회차 경계)과 맞춘다.
+type Owner = "me" | "team" | "ext";
+interface Node { name: string; owner: Owner; note?: string }
+interface Stage { label: string; nodes: Node[] }
+
+const stages: Stage[] = [
+  {
+    label: "원천",
+    nodes: [
+      { name: "deps.dev 의존 관계", owner: "ext", note: "BigQuery 공개 데이터셋" },
+      { name: "npm 다운로드 API", owner: "ext" },
+      { name: "npm registry", owner: "ext" },
+      { name: "GitHub · README", owner: "ext" },
+    ],
+  },
+  {
+    label: "수집",
+    nodes: [
+      { name: "BigQuery 수집기 → GCS", owner: "me", note: "사용량 상한 6단계" },
+      { name: "다운로드 수 수집기", owner: "me" },
+      { name: "패키지 형태 정보 재수집", owner: "me" },
+      { name: "주간 수집 회차", owner: "me", note: "원본 입고까지 · 그 뒤 연결은 팀원" },
+      { name: "GitHub · README 수집", owner: "team" },
+    ],
+  },
+  {
+    label: "보관 · 가공",
+    nodes: [
+      { name: "MinIO 원본 입고 경로", owner: "me", note: "SSH 터널" },
+      { name: "DuckDB 교체 쌍 · 전이 집계", owner: "me" },
+      { name: "유지 · 유입 · 이탈 · 이탈 사유 계산", owner: "me" },
+      { name: "데이터 정제(Curated)", owner: "team" },
+      { name: "유사 후보 임베딩", owner: "team" },
+    ],
+  },
+  {
+    label: "DB",
+    nodes: [{ name: "PostgreSQL 설계 · 적재", owner: "team" }],
+  },
+  {
+    label: "서비스",
+    nodes: [
+      { name: "교체 흐름 API · 패널", owner: "me" },
+      { name: "이탈 사유 패널", owner: "me" },
+      { name: "유지 · 유입 · 이탈 화면", owner: "team" },
+      { name: "검색 · 기능 비교 · 커뮤니티 · 보고서", owner: "team" },
+    ],
+  },
+];
+
+const box: Record<Owner, string> = {
+  me: "text-white border-transparent",
+  team: "bg-white border border-dashed border-gray-300 text-gray-500",
+  ext: "bg-gray-100 border border-gray-200 text-gray-700",
+};
+---
+
+<div class="flex flex-col gap-5">
+  <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded" style="background-color: var(--accent)"></span>제가 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>팀원이 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded bg-gray-100 border border-gray-200"></span>외부 서비스</span>
+  </div>
+
+  <ol class="flow grid grid-cols-1 gap-2">
+    {
+      stages.map((s, i) => (
+        <>
+          {i > 0 && (
+            <li aria-hidden="true" class="flex items-center justify-center text-gray-400 text-lg leading-none py-1 md:py-0">
+              <span class="md:hidden">↓</span>
+              <span class="hidden md:inline">→</span>
+            </li>
+          )}
+          <li class="flex flex-col gap-2 min-w-0">
+            <span class="text-[13px] font-semibold text-gray-500">
+              <span class="font-mono" style="color: var(--accent)">{i + 1}</span> {s.label}
+            </span>
+            <ul class="grid grid-cols-2 md:grid-cols-1 gap-2">
+              {s.nodes.map((n) => (
+                <li class={`rounded-lg px-3 py-2.5 ${box[n.owner]}`} style={n.owner === "me" ? "background-color: var(--accent)" : ""}>
+                  <span class="block font-semibold text-[13px] leading-snug">{n.name}</span>
+                  {n.note && <span class={`block text-xs mt-0.5 leading-snug ${n.owner === "me" ? "text-white/80" : "text-gray-500"}`}>{n.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </li>
+        </>
+      ))
+    }
+  </ol>
+
+  <p class="text-sm text-gray-500 leading-relaxed">
+    원본을 모아 지표로 만드는 앞쪽과, 그 지표를 보여 주는 패널 두 개가 제 몫입니다. 정제·DB 적재·나머지 화면은 팀원이 맡았습니다.
+    팀의 시스템 아키텍처 문서(2026-09-24)에서 데이터 흐름만 남겨 다시 그렸습니다.
+  </p>
+</div>
+
+<style>
+  @media (min-width: 768px) {
+    .flow {
+      grid-template-columns: 1fr auto 1.15fr auto 1.15fr auto 0.8fr auto 1.15fr;
+      align-items: start;
+      gap: 0.5rem;
+    }
+    .flow > li[aria-hidden] {
+      align-self: center;
+    }
+  }
+</style>

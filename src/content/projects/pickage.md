@@ -17,6 +17,7 @@ gallery:
   - { src: "/images/projects/pickage/05.jpg", caption: "설치 전 확인 표 — 모듈 형식·타입 값은 제가 다시 모은 npm 정보에서 나옵니다" }
   - { src: "/images/projects/pickage/06.jpg", caption: "README를 AI가 읽고 정리하는 기능 비교 (팀원 작업)" }
 shotNote: "팀 운영 서버(j15a506.p.ssafy.io)에서 찍은 화면입니다(2026-10-02)."
+flow: "PickageFlow"
 areas:
   - group: "원본 수집"
     items:
@@ -24,6 +25,7 @@ areas:
       - { name: "GCS → MinIO 업로드 경로", owner: "me", note: "SSH 터널" }
       - { name: "npm 다운로드 수 수집기", owner: "me", note: "46.9만 개로 넓혀 운영에 적재" }
       - { name: "npm 패키지 형태 정보 재수집", owner: "me", note: "모듈 형식·타입 등 6개 항목" }
+      - { name: "주간 수집 회차(수집 → 원본 입고)", owner: "me", note: "그 뒤 정제로 잇는 연결은 팀원" }
   - group: "분석 지표"
     items:
       - { name: "DuckDB 교체 쌍 집계", owner: "me" }
