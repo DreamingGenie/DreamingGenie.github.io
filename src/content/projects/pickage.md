@@ -55,7 +55,7 @@ did:
 cases:
   - id: "guard"
     kind: "설계 · 가드레일"
-    title: "개인 결제 계정으로 80TB 가까운 데이터셋을 읽는 수집기"
+    title: "개인 결제 계정으로 500TB가 넘는 데이터셋을 읽는 수집기"
     visual: "GuardChain"
     tags: [{ type: "measured", text: "실측" }]
     steps:
