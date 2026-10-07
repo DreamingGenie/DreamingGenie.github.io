@@ -34,14 +34,14 @@ did:
   - title: "같은 일정을 동시에 고치면 뒤에 저장한 쪽에 알림(낙관적 락)"
     text: "일정마다 버전 번호를 두고, 저장할 때 내가 읽었던 버전 그대로인지 확인합니다. 그사이 다른 사람이 먼저 고쳤다면 저장하지 않고 충돌(409)을 돌려줍니다. 흔한 방식이라, 아래 두 가지와 함께 봐야 의미가 있습니다."
     tags: [{ type: "judged", text: "판단" }]
-    evidence: ["9351269"]
+    evidence: ["9942b7f"]
   - title: "시스템이 값을 바꿨다고 사용자에게 충돌이 뜨지 않게"
     text: "일정을 옮기면 시스템이 이동시간을 다시 계산해 저장합니다. 이때 버전까지 올리면 사용자는 아무와도 부딪히지 않았는데 다음 저장에서 충돌을 받습니다. 그래서 이동시간을 고치는 쿼리와 사용자가 일정을 고치는 쿼리를 나누고, 이동시간 쿼리는 버전을 건드리지 않게 했습니다."
     tags: [{ type: "judged", text: "판단" }]
   - title: "저장이 끝난 뒤에 할 일을 세 곳에, 서로 다른 이유로"
     text: "변경 알림은 저장된 순서대로 알리려고, 외부 API를 부르는 이동시간 계산은 일정 잠금 구간에서 빼려고, 게시글 이미지 파일 삭제는 저장이 취소됐을 때 파일만 먼저 지워지지 않게 저장 뒤로 미뤘습니다. 다만 이동시간 계산은 같은 요청 스레드에서 돌아서, 응답은 계산을 기다리고 그동안 DB 연결도 씁니다. 비동기로 분리하지는 않았습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "비동기 아님" }]
-    evidence: ["f092a9d", "0598a91"]
+    evidence: ["fad7388", "6856a5b"]
   - title: "커서를 움직일 때마다 DB에 권한을 묻던 것을 없앰"
     text: "협업 커서 위치는 실시간 메시지로 계속 오가는데, 메시지마다 DB에서 편집 권한을 확인하고 있었습니다. 권한 확인 결과를 접속마다 기억하고, 협업자나 공유 설정이 바뀔 때만 여행별 번호를 올려 다음 메시지에서 다시 확인하게 했습니다. 이미 맺은 구독은 연결이 끊길 때까지 그대로 받습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "기존 구독은 안 끊음" }]
@@ -58,7 +58,7 @@ cases:
       - { label: "잠금이 짧은 이유", text: "느린 외부 API 호출을 이미 저장 뒤로 빼 두어서, 잠금은 DB에 쓰는 동안만 걸립니다. 순서가 반대였다면 API 응답을 기다리는 내내 여행 전체가 잠겨 있었을 겁니다." }
       - { label: "한계", text: "한 여행에 편집자가 몰리면 저장이 줄을 섭니다. 몇 명부터 느려지는지는 재 보지 않았습니다. 테스트 대부분이 DB를 흉내 낸 가짜 객체(Mockito)라 실제 잠금이 일어나지 않고, 실제 DB로 돌리는 테스트는 제 환경에서 실행되지 않았습니다.", limit: true }
     more: "처음 설계 문서에는 \"잠금까지 거는 건 과하다\"고 적었습니다. 겹침은 한 건씩 보는 방식으로 막을 수 없다는 걸 알고 코드에는 잠금을 넣었는데, 문서는 그대로였습니다. 09-10에 이 어긋남을 찾아 문서를 코드 기준으로 고쳤습니다."
-    evidence: ["704fb81", "a24a4b6", "TripMapper.xml:28"]
+    evidence: ["913a4c1", "d2035b0", "TripMapper.xml:28"]
   - id: "order"
     kind: "문제 해결"
     title: "변경 알림이 저장보다 먼저 나가고 있었습니다"
@@ -69,14 +69,14 @@ cases:
       - { label: "해결", text: "알림을 보내는 일과 알림에 순번을 매기는 일을 모두 저장이 끝난 뒤로 옮겼습니다. 순번 순서, 저장 순서, 보내는 순서가 모두 같아지고, 화면은 이미 받은 순번 이하의 알림을 버립니다." }
       - { label: "배운 것", text: "실시간 알림의 순서를 따로 관리하기보다, 저장 순서를 그대로 따르게 만드는 편이 훨씬 단순합니다." }
       - { label: "남은 것", text: "이 수정 뒤로 이동시간 재계산 완료 알림이 나가지 않습니다. 저장 뒤 작업 안에서 다시 등록한 저장 뒤 작업을 Spring이 부르지 않기 때문입니다. 단위 테스트는 트랜잭션 밖이라 잡지 못했고, 아직 고치지 않았습니다.", limit: true }
-    evidence: ["f092a9d"]
+    evidence: ["fad7388"]
 ---
 
 - **분담**: master 353커밋 중 161건. `git blame -w -M HEAD`(2026-09-10) 기준 백엔드 테스트 97.6%, 문서 70.1%, 백엔드 Java 28.1%. 화면(Vue·CSS)은 약 84%가 팀원 줄입니다. 테스트 비율은 누가 썼는지이지 충실한지가 아닙니다. 배포는 `DEPLOY-LOG.md` 0단계까지.
-- **낙관적 락**: `TripBlockMapper.xml:69` `UPDATE … version = version + 1 WHERE id = ? AND version = ?`가 0행이면 409(`9351269`).
+- **낙관적 락**: `TripBlockMapper.xml:69` `UPDATE … version = version + 1 WHERE id = ? AND version = ?`가 0행이면 409(`9942b7f`).
 - **쿼리 분리**: 이동시간 재계산 `updateTransitById`, 사용자 편집 `updateWithVersion`. 설계 문서 §4 · 코드 · `TripServiceImplTest:208`.
-- **저장 뒤 작업**: 편집 알림(`BLOCK_*`) `f092a9d`, 외부 API 재계산 `TripServiceImpl:451, 488, 490, 528`, 이미지 삭제 `0598a91`(`PostImageCleanupListener` 29줄 전부 본인).
+- **저장 뒤 작업**: 편집 알림(`BLOCK_*`) `fad7388`, 외부 API 재계산 `TripServiceImpl:451, 488, 490, 528`, 이미지 삭제 `6856a5b`(`PostImageCleanupListener` 29줄 전부 본인).
 - **STOMP 권한 캐시**: `TripAccessVersion`(30줄 전부 본인), 번호 올림 호출 163 · 232 · 240행.
 - **전부 제가 쓴 파일**: `WebSocketConfig` 40/40줄, `TripPresenceController` 205/206줄, `CommentServiceImpl` 117/117줄, `useCollabCursor.js` 197/197줄.
-- **알림 순서**: `broadcast()`와 이벤트 순번 부여를 `afterCommit`으로(`f092a9d`). 화면은 `event.seq <= lastEventSeq`면 버림. 재계산 완료 알림(`TRANSIT_RECALCULATED`)은 이 변경 뒤로 나가지 않습니다(다른 사람 화면은 이어지는 편집 알림의 재조회로 대부분 맞춰집니다).
-- **여행 단위 잠금**: `TripMapper.xml:28` `SELECT id FROM trip WHERE id = ? FOR UPDATE`, `TripServiceImpl.placeBlock` · `updateBlock`에서 잠근 뒤 `assertNoOverlap` 호출, 순서 번호는 `nextDisplayOrder`로 잠금 안에서 서버가 할당(`704fb81`). 테스트 14개 중 13개가 Mockito, Testcontainers는 `contextLoads` 1건이며 제 환경에서 Docker API 400으로 실행되지 않았습니다. 문서 정정 `a24a4b6`(2026-09-10).
+- **알림 순서**: `broadcast()`와 이벤트 순번 부여를 `afterCommit`으로(`fad7388`). 화면은 `event.seq <= lastEventSeq`면 버림. 재계산 완료 알림(`TRANSIT_RECALCULATED`)은 이 변경 뒤로 나가지 않습니다(다른 사람 화면은 이어지는 편집 알림의 재조회로 대부분 맞춰집니다).
+- **여행 단위 잠금**: `TripMapper.xml:28` `SELECT id FROM trip WHERE id = ? FOR UPDATE`, `TripServiceImpl.placeBlock` · `updateBlock`에서 잠근 뒤 `assertNoOverlap` 호출, 순서 번호는 `nextDisplayOrder`로 잠금 안에서 서버가 할당(`913a4c1`). 테스트 14개 중 13개가 Mockito, Testcontainers는 `contextLoads` 1건이며 제 환경에서 Docker API 400으로 실행되지 않았습니다. 문서 정정 `d2035b0`(2026-09-10).
