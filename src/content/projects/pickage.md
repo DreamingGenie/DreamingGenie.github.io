@@ -4,9 +4,10 @@ order: 3
 summary: "npm 패키지를 고를 때 후보 최대 3개를 생태계 변화·기능·커뮤니티 세 관점으로 나란히 비교해 주는 서비스"
 oneLine: "npm 패키지를 고르거나 바꿀 때 후보 최대 3개를 생태계 변화·기능·GitHub 커뮤니티 세 관점으로 나란히 보여 주는 서비스입니다. 어느 쪽이 낫다고 판정하지 않고 근거를 보여 주며, 결과는 PDF와 AI 에이전트용 Markdown으로 내보냅니다. 6명 팀에서 저는 원본 데이터 수집과 생태계 변화 탭의 지표 계산(유지·유입·이탈, 이탈 사유, 교체 흐름)을 맡았습니다."
 period: "2026.08 – 10"
-team: "6명 · 교육기관 GitLab(비공개)"
+team: "6명 · 교육기관 GitLab에서 개발 → GitHub 공개 저장소로 옮김"
 role: "원본 데이터 수집 · 생태계 지표 계산"
 stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Spring Boot", "React", "Docker"]
+repo: "https://github.com/DreamingGenie/Pickage"
 highlight: "BigQuery 236번 실행에서 예상 사용량과 청구 사용량 차이 0.1%"
 cover: "/images/projects/pickage/cover.jpg"
 gallery:

@@ -4,9 +4,10 @@ order: 1
 summary: "음성 회의를 기록·요약하고 팀 공간과 일정을 함께 관리하는 협업 도구"
 oneLine: "음성 회의를 기록하고 요약해 주고, 팀별 공간(스페이스)과 일정을 함께 관리하는 협업 도구입니다. 7명 팀에서 팀 합의로 PM과 코드 통합을 맡았고, 팀 공간과 일정 기능의 백엔드를 만들었습니다."
 period: "2026.07.14 – 08.10 (27일)"
-team: "7명 · 교육기관 GitLab(비공개)"
+team: "7명 · 교육기관 GitLab에서 개발 → GitHub 공개 저장소로 옮김"
 role: "PM · 코드 검토와 통합 · 팀 공간·일정 백엔드"
 stack: ["Java 21", "Spring Boot 4.1", "Spring Data JPA", "PostgreSQL", "Vue 3", "AWS ECS Fargate", "GitLab CI"]
+repo: "https://github.com/DreamingGenie/Comeettool"
 highlight: "공동 개발 브랜치 머지 95건 중 83건을 검토하고 합쳤습니다"
 cover: "/images/projects/comeettool/cover.jpg"
 gallery:
