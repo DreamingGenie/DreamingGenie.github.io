@@ -3,7 +3,7 @@ title: "Pickage"
 order: 3
 summary: "npm 패키지를 고를 때 후보 최대 3개를 생태계 변화·기능·커뮤니티 세 관점으로 나란히 비교해 주는 서비스"
 oneLine: "npm 패키지를 고르거나 바꿀 때 후보 최대 3개를 생태계 변화·기능·GitHub 커뮤니티 세 관점으로 나란히 보여 주는 서비스입니다. 어느 쪽이 낫다고 판정하지 않고 근거를 보여 주며, 결과는 PDF와 AI 에이전트용 Markdown으로 내보냅니다. 6명 팀에서 저는 원본 데이터 수집과 생태계 변화 탭의 지표 계산(유지·유입·이탈, 이탈 사유, 교체 흐름)을 맡았습니다."
-period: "2026.08 – 진행 중"
+period: "2026.08 – 10"
 team: "6명 · 교육기관 GitLab(비공개)"
 role: "원본 데이터 수집 · 생태계 지표 계산"
 stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Spring Boot", "React", "Docker"]
@@ -16,7 +16,7 @@ gallery:
   - { src: "/images/projects/pickage/04.jpg", caption: "유지·유입·이탈 — 계산과 적재는 제가, 화면은 팀원이 맡았습니다" }
   - { src: "/images/projects/pickage/05.jpg", caption: "설치 전 확인 표 — 모듈 형식·타입 값은 제가 다시 모은 npm 정보에서 나옵니다" }
   - { src: "/images/projects/pickage/06.jpg", caption: "README를 AI가 읽고 정리하는 기능 비교 (팀원 작업)" }
-shotNote: "팀 운영 서버(j15a506.p.ssafy.io)에서 찍은 화면입니다(2026-10-02)."
+shotNote: "팀 운영 서버에서 실제 데이터로 찍은 화면입니다(2026-10-02). 운영 서버는 그 뒤 정리해 지금은 열리지 않고, 로컬에서 다시 띄우면 화면은 같지만 데이터는 지어낸 목업 값입니다."
 flow: "PickageFlow"
 areas:
   - group: "원본 수집"
