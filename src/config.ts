@@ -75,7 +75,7 @@ export const siteConfig = {
         { name: "Java 21 · Spring Boot", where: "CoMeetTool 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
         { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 잠금" },
         { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
-        { name: "Python", where: "Pickage 수집기·집계·적재 도구, 테스트 287개" },
+        { name: "Python", where: "Pickage 수집기·집계·적재 도구" },
         { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
         { name: "Git 브랜치 운영", where: "CoMeetTool 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
       ],
