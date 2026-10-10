@@ -4,6 +4,8 @@
 export const siteConfig = {
   name: "전진",
   title: "백엔드 개발자",
+  // 첫 화면 "~입니다." 앞에 붙는 직무 이름
+  roleLabel: "신입 백엔드 개발자",
   description:
     "여러 사람이 동시에 고쳐도 데이터가 어긋나지 않게 만드는 신입 백엔드 개발자 전진의 포트폴리오",
   accentColor: "#1d4ed8",
@@ -169,4 +171,48 @@ export const siteConfig = {
   showAiNote: false,
   aiNote:
     "무엇을 만들지, 어떻게 설계할지 정하고 결과를 검증하는 일은 제가 했고, 구현은 AI(Claude)와 함께 했습니다. 공개 저장소의 Co-Authored-By 표시가 그 기록입니다.",
+};
+
+// 데이터 엔지니어 지원용 첫 화면(/data). 사실 문장은 위 siteConfig의 것을 순서만 바꿔 쓰고,
+// 새 문장은 FACTS에서 확인된 것만 넣는다(PostgreSQL = P22·P19). 프로젝트 상세 페이지는 두 첫 화면이 함께 쓴다.
+export const dataVariant = {
+  home: "/data",
+  title: "데이터 엔지니어",
+  description:
+    "수집한 데이터가 틀린 채로 다음 단계에 넘어가지 않게 만드는 신입 데이터 엔지니어 전진의 포트폴리오",
+  roleLabel: "신입 데이터 엔지니어",
+  hero: {
+    eyebrow: "Data Engineer",
+    headline: "데이터가 틀린 채로 다음 단계에 넘어가지 않게 만듭니다",
+    intro: "Python으로 대용량 데이터를 수집·적재하는 파이프라인을, Java·Spring으로 여러 명이 동시에 편집하는 서버를 만들어 왔습니다.",
+  },
+  aboutMe: [siteConfig.aboutMe[2], siteConfig.aboutMe[0], siteConfig.aboutMe[1]],
+  strengths: [siteConfig.strengths[1], siteConfig.strengths[0], siteConfig.strengths[2]],
+  projectOrder: ["pickage", "comeettool", "tripcraft", "tichu-trainer"],
+  skills: [
+    {
+      tier: "설계 이유까지",
+      note: "왜 그렇게 했는지까지 설명할 수 있는 것",
+      items: [
+        { name: "Python", where: "Pickage 수집기·집계·적재 도구" },
+        { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
+        { name: "PostgreSQL", where: "Pickage 운영 적재 — 날짜마다 느려지는 원인을 실행 계획에서 찾고, 날짜 파티션을 하루씩 교체" },
+        { name: "Java 21 · Spring Boot", where: "CoMeetTool 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
+        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 잠금" },
+        { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
+      ],
+    },
+    {
+      tier: "써 본 것",
+      note: "만들어 봤지만 설계 이유를 말하기엔 얕은 것",
+      items: [
+        { name: "GCS · DuckDB · MinIO", where: "Pickage 원본 보관과 집계" },
+        { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CoMeetTool 팀 구성 환경 사용" },
+        { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
+        { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
+        { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
+      ],
+    },
+    siteConfig.skills[2],
+  ],
 };

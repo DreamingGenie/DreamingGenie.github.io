@@ -1,18 +1,22 @@
 ---
-// 상세 페이지에서도 홈 섹션으로 돌아갈 수 있게 링크는 모두 "/#..." 로 둔다.
+// 상세 페이지에서도 홈 섹션으로 돌아갈 수 있게 링크는 모두 "<home>#..." 로 둔다. 직무별 첫 화면(/data)은 home을 넘긴다.
+interface Props {
+  home?: string;
+}
+const { home = "/" } = Astro.props;
 const links = [
-  { href: "/#about", label: "소개" },
-  { href: "/#projects", label: "프로젝트" },
-  { href: "/#skills", label: "기술" },
-  { href: "/#side", label: "개인 작업" },
-  { href: "/#experience", label: "이력" },
-  { href: "/#contact", label: "연락" },
+  { href: `${home}#about`, label: "소개" },
+  { href: `${home}#projects`, label: "프로젝트" },
+  { href: `${home}#skills`, label: "기술" },
+  { href: `${home}#side`, label: "개인 작업" },
+  { href: `${home}#experience`, label: "이력" },
+  { href: `${home}#contact`, label: "연락" },
 ];
 ---
 
 <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
   <nav class="max-w-7xl mx-auto px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between gap-6">
-    <a href="/" class="font-mono font-bold text-gray-900 shrink-0">전진</a>
+    <a href={home} class="font-mono font-bold text-gray-900 shrink-0">전진</a>
     <ul class="flex items-center gap-4 sm:gap-8 overflow-x-auto text-sm sm:text-base">
       {
         links.map((l) => (

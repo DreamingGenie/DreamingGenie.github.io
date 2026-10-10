@@ -1,5 +1,10 @@
 ---
 import { siteConfig } from "../config";
+
+interface Props {
+  title?: string;
+}
+const { title = siteConfig.title } = Astro.props;
 ---
 
 <footer id="contact" class="relative bg-gray-900 text-gray-300">
@@ -7,7 +12,7 @@ import { siteConfig } from "../config";
     <div class="lg:col-span-4">
       <h2 class="text-3xl sm:text-4xl font-bold text-white">연락</h2>
       <div class="w-[75px] h-[5px] mt-3 rounded-full" style="background-color: var(--accent)"></div>
-      <p class="mt-5 text-gray-400">{siteConfig.name} · {siteConfig.title}</p>
+      <p class="mt-5 text-gray-400">{siteConfig.name} · {title}</p>
     </div>
     <dl class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
       {

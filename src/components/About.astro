@@ -2,6 +2,12 @@
 import { siteConfig } from "../config";
 import SectionTitle from "./SectionTitle.astro";
 
+interface Props {
+  aboutMe?: string[];
+  strengths?: typeof siteConfig.strengths;
+}
+const { aboutMe = siteConfig.aboutMe, strengths = siteConfig.strengths } = Astro.props;
+
 // 소개 문단의 **…** 를 굵게 바꾼다. 원문은 config.ts 에서만 오지만, HTML 특수문자는 먼저 이스케이프한다.
 const emphasize = (t: string) =>
   t
@@ -16,7 +22,7 @@ const emphasize = (t: string) =>
     <SectionTitle title="소개" />
     <div class="lg:col-span-8 flex flex-col gap-12">
       <div class="flex flex-col gap-6">
-        {siteConfig.aboutMe.map((p) => <p class="text-lg sm:text-xl leading-relaxed text-gray-600" set:html={emphasize(p)} />)}
+        {aboutMe.map((p) => <p class="text-lg sm:text-xl leading-relaxed text-gray-600" set:html={emphasize(p)} />)}
         {siteConfig.showAiNote && <p class="text-base leading-relaxed text-gray-500">{siteConfig.aiNote}</p>}
       </div>
 
@@ -24,7 +30,7 @@ const emphasize = (t: string) =>
         <h3 class="text-base font-semibold text-gray-700">제가 일하는 방식</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           {
-            siteConfig.strengths.map((s, i) => (
+            strengths.map((s, i) => (
               <article class="flex flex-col gap-3 p-5 sm:p-6 bg-gray-50 rounded-2xl border border-gray-200">
                 <span class="font-mono text-sm" style="color: var(--accent)">0{i + 1}</span>
                 <h4 class="text-lg font-bold text-gray-900 leading-snug">{s.title}</h4>

@@ -1,0 +1,21 @@
+---
+// 데이터 엔지니어 지원용 첫 화면. 컴포넌트는 백엔드 첫 화면(/)과 같고 값만 dataVariant로 바꾼다.
+// "한 장면"(TripCraft 잠금 도식)은 백엔드 첫 화면 전용이라 여기서는 뺀다.
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import About from "../../components/About.astro";
+import Projects from "../../components/Projects.astro";
+import Skills from "../../components/Skills.astro";
+import SideProjects from "../../components/SideProjects.astro";
+import Experience from "../../components/Experience.astro";
+import { dataVariant as v } from "../../config";
+---
+
+<Base description={v.description} home={v.home} role={v.title}>
+  <Hero hero={v.hero} roleLabel={v.roleLabel} />
+  <About aboutMe={v.aboutMe} strengths={v.strengths} />
+  <Projects order={v.projectOrder} />
+  <Skills skills={v.skills} />
+  <SideProjects />
+  <Experience />
+</Base>

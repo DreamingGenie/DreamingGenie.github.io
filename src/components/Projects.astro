@@ -3,7 +3,15 @@ import { getCollection } from "astro:content";
 import SectionTitle from "./SectionTitle.astro";
 import MaybeImage from "./MaybeImage.astro";
 
-const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
+// order(슬러그 목록)를 넘기면 그 순서로, 아니면 각 md의 order 값으로 정렬한다(직무별 첫 화면용).
+interface Props {
+  order?: string[];
+}
+const { order } = Astro.props;
+const rank = (id: string, fallback: number) => (order ? order.indexOf(id) : fallback);
+const projects = (await getCollection("projects"))
+  .filter((p) => !order || order.includes(p.id))
+  .sort((a, b) => rank(a.id, a.data.order) - rank(b.id, b.data.order));
 ---
 
 <section id="projects" class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-28">

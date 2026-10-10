@@ -72,7 +72,7 @@ cases:
     evidence: ["fad7388"]
 ---
 
-- **분담**: master 353커밋 중 161건. `git blame -w -M HEAD`(2026-09-10) 기준 백엔드 테스트 97.6%, 문서 70.1%, 백엔드 Java 28.1%. 화면(Vue·CSS)은 약 84%가 팀원 줄입니다. 테스트 비율은 누가 썼는지이지 충실한지가 아닙니다. 배포는 `DEPLOY-LOG.md` 0단계까지.
+- **분담**: master 353커밋 중 161건. `git blame -w -M HEAD`(2026-09-10) 기준 문서 70.1%, 백엔드 Java 28.1%. 화면(Vue·CSS)은 약 84%가 팀원 줄입니다. 배포는 `DEPLOY-LOG.md` 0단계까지.
 - **낙관적 락**: `TripBlockMapper.xml:69` `UPDATE … version = version + 1 WHERE id = ? AND version = ?`가 0행이면 409(`9942b7f`).
 - **쿼리 분리**: 이동시간 재계산 `updateTransitById`, 사용자 편집 `updateWithVersion`. 설계 문서 §4 · 코드 · `TripServiceImplTest:208`.
 - **저장 뒤 작업**: 편집 알림(`BLOCK_*`) `fad7388`, 외부 API 재계산 `TripServiceImpl:451, 488, 490, 528`, 이미지 삭제 `6856a5b`(`PostImageCleanupListener` 29줄 전부 본인).

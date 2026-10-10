@@ -1,6 +1,13 @@
 ---
 import { siteConfig } from "../config";
 import MaybeImage from "./MaybeImage.astro";
+
+// 직무별 첫 화면(/data 등)은 hero·roleLabel만 바꿔 넘긴다. 넘기지 않으면 백엔드 기본값.
+interface Props {
+  hero?: typeof siteConfig.hero;
+  roleLabel?: string;
+}
+const { hero = siteConfig.hero, roleLabel = siteConfig.roleLabel } = Astro.props;
 ---
 
 <div id="hero" class="relative isolate overflow-hidden bg-white pt-32 pb-20 md:pt-40 md:pb-28">
@@ -25,16 +32,16 @@ import MaybeImage from "./MaybeImage.astro";
   <div class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
     <div class="lg:col-span-8">
       <p class="font-mono text-sm sm:text-base font-semibold tracking-wide animate-fade-in" style="color: var(--accent)">
-        {siteConfig.hero.eyebrow}
+        {hero.eyebrow}
       </p>
       <h1
         class="mt-5 text-3xl sm:text-5xl md:text-6xl font-bold leading-[1.2] text-gray-900 animate-fade-in animation-delay-200"
       >
-        {siteConfig.hero.headline}
+        {hero.headline}
       </h1>
       <p class="mt-6 text-lg sm:text-xl text-gray-600 animate-fade-in animation-delay-400">
-        신입 백엔드 개발자 <span class="font-semibold" style="color: var(--accent)">{siteConfig.name}</span>입니다.
-        {siteConfig.hero.intro && <span class="block mt-2 text-base sm:text-lg">{siteConfig.hero.intro}</span>}
+        {roleLabel} <span class="font-semibold" style="color: var(--accent)">{siteConfig.name}</span>입니다.
+        {hero.intro && <span class="block mt-2 text-base sm:text-lg">{hero.intro}</span>}
       </p>
       <div class="mt-10 flex flex-wrap gap-3 animate-fade-in animation-delay-600">
         <a

@@ -7,9 +7,12 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  // 직무별 첫 화면(/data)용: 상단 메뉴가 돌아갈 홈 경로와 직무 이름
+  home?: string;
+  role?: string;
 }
-const { title, description = siteConfig.description } = Astro.props;
-const pageTitle = title ? `${title} · ${siteConfig.name}` : `${siteConfig.name} · ${siteConfig.title}`;
+const { title, description = siteConfig.description, home = "/", role = siteConfig.title } = Astro.props;
+const pageTitle = title ? `${title} · ${siteConfig.name}` : `${siteConfig.name} · ${role}`;
 ---
 
 <html lang="ko">
@@ -34,10 +37,10 @@ const pageTitle = title ? `${title} · ${siteConfig.name}` : `${siteConfig.name}
     <title>{pageTitle}</title>
   </head>
   <body style={`--accent: ${siteConfig.accentColor}`}>
-    <Header />
+    <Header home={home} />
     <main>
       <slot />
     </main>
-    <Footer />
+    <Footer title={role} />
   </body>
 </html>
