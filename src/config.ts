@@ -97,19 +97,8 @@ export const siteConfig = {
     },
   ],
 
+  // tichu-trainer는 10-08 프로젝트 상세(src/content/projects/tichu-trainer.md)로 옮겼다.
   sideProjects: [
-    {
-      name: "tichu-trainer",
-      description: "보드게임 티츄의 규칙을 직접 카드를 내 보며 익히는 학습 웹입니다. 커밋 46건(머지 제외) 모두 제 것입니다.",
-      link: "https://github.com/DreamingGenie/tichu-trainer",
-      image: "/images/projects/tichu-trainer/sandbox.jpg",
-      points: [
-        "규칙 판정 코드 11개 파일에 화면·브라우저 코드가 한 번도 나오지 않아, 판정만 떼어 85개 테스트로 검사합니다",
-        "테스트 도구까지 직접 만들어 설치할 것이 없습니다. 내려받으면 node tests/run.js 한 줄로 돕니다",
-        "해석이 갈리는 규칙은 하나로 정해 근거와 함께 코드에 적었습니다",
-      ],
-      skills: ["JavaScript", "ES 모듈", "테스트 직접 구현"],
-    },
     {
       name: "ServerTimeClicker",
       description: "초 단위로만 알려 주는 서버 시간을 밀리초 단위로 알아내, 정해 둔 위치를 순서대로 클릭하는 데스크톱 앱입니다. 커밋 24건 모두 제 것입니다.",

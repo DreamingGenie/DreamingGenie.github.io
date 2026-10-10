@@ -3,7 +3,7 @@
 신입 백엔드 개발자 전진의 포트폴리오입니다.
 
 - 홈: 소개 · 대표 장면 · 프로젝트 · 기술 · 개인 작업 · 이력
-- 프로젝트 상세: `/projects/comeettool` · `/projects/tripcraft` · `/projects/pickage`
+- 프로젝트 상세: `/projects/comeettool` · `/projects/tripcraft` · `/projects/pickage` · `/projects/tichu-trainer`
 
 ## 실행
 
@@ -30,7 +30,7 @@ npm run build    # dist/
 | 프로필 사진 | `public/images/profile.jpg` |
 | 프로젝트 대표 화면 (원래 비율 그대로) | `public/images/projects/<slug>/cover.jpg` |
 | 프로젝트 추가 화면 (원래 비율 그대로) | `public/images/projects/<slug>/01.jpg`, `02.jpg` |
-| 개인 작업 화면 | `public/images/projects/tichu-trainer/cover.jpg`, `servertimeclicker/cover.jpg` |
+| 개인 작업 화면 | `public/images/projects/servertimeclicker/cover.jpg` |
 
 경로와 설명 문구는 각 프로젝트 md의 `cover` · `gallery`, `src/config.ts`의 `profileImage` · `sideProjects[].image`에서 바꿉니다.
 
