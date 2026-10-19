@@ -58,7 +58,11 @@ try {
     console.log(`${t.route} → ${out} (${(statSync(out).size / 1024 / 1024).toFixed(1)} MB)`);
   }
 } finally {
-  // shell:true 로 띄워서 자식(node astro)까지 함께 끝낸다
-  if (process.platform === "win32") execSync(`taskkill /PID ${preview.pid} /T /F`, { stdio: "ignore" });
-  else preview.kill();
+  if (process.platform === "win32") {
+    // npx → cmd → node 로 이어진 트리를 taskkill /T 가 다 못 잡아서, 포트를 쥔 프로세스를 따로 찾아 끝낸다
+    try { execSync(`taskkill /PID ${preview.pid} /T /F`, { stdio: "ignore" }); } catch {}
+    const rows = execSync("netstat -ano -p tcp", { encoding: "utf8" }).split("\n");
+    const pids = new Set(rows.filter((r) => r.includes(`:${port} `) && r.includes("LISTENING")).map((r) => r.trim().split(/\s+/).pop()));
+    for (const pid of pids) try { execSync(`taskkill /PID ${pid} /T /F`, { stdio: "ignore" }); } catch {}
+  } else preview.kill();
 }
