@@ -1,16 +1,27 @@
 ---
 // TripCraft 여행 단위 잠금. "잠금 없이 / 여행 단위 잠금" 두 상태를 버튼으로 바꿔 본다.
+// mode 를 넘기면 버튼 없이 그 상태만 고정해 그린다(PDF처럼 누를 수 없는 매체용).
+interface Props {
+  mode?: "lock" | "nolock";
+}
+const { mode } = Astro.props;
+const fixed = mode !== undefined;
+const current = mode ?? "lock";
 ---
 
-<figure class="lockfig-wrap flex flex-col gap-4" data-mode="lock">
+<figure class="lockfig-wrap flex flex-col gap-4" data-mode={current}>
   <div class="flex flex-wrap items-center justify-between gap-3">
     <p class="text-sm text-gray-600 max-w-md">
-      두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
+      {fixed && <span class="font-semibold text-gray-800">{current === "lock" ? "여행 단위 잠금 — " : "잠금 없이 — "}</span>}두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
     </p>
-    <div class="inline-flex rounded-full bg-gray-100 p-1 ring-1 ring-gray-200" role="group" aria-label="잠금 방식">
-      <button type="button" data-mode="nolock" aria-pressed="false" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">잠금 없이</button>
-      <button type="button" data-mode="lock" aria-pressed="true" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">여행 단위 잠금</button>
-    </div>
+    {
+      !fixed && (
+        <div class="inline-flex rounded-full bg-gray-100 p-1 ring-1 ring-gray-200" role="group" aria-label="잠금 방식">
+          <button type="button" data-mode="nolock" aria-pressed="false" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">잠금 없이</button>
+          <button type="button" data-mode="lock" aria-pressed="true" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">여행 단위 잠금</button>
+        </div>
+      )
+    }
   </div>
   <div class="overflow-x-auto">
     <svg class="lockfig" viewBox="0 0 660 214" role="img" aria-label="잠금이 없으면 겹치는 두 일정이 모두 저장되고, 여행 단위 잠금이 있으면 두 번째 요청이 방금 저장된 일정을 보고 거절되는 흐름">

@@ -1,0 +1,361 @@
+---
+// PDF 한 벌. 홈(config.ts)과 프로젝트 상세(src/content/projects/*.md)를 같은 원천에서 읽어 A4 한 흐름으로 펼친다.
+// 직무별 첫 화면(/, /data)처럼 소개·순서·기술만 variant 로 바꾸고, 프로젝트 본문은 공용이다.
+// 사이트와 다른 점: 근거 모음(본문 Markdown)은 싣지 않고, 사례 끝의 커밋 해시만 남긴다. 접힌 '더 보기'는 펼친다.
+import fs from "node:fs";
+import path from "node:path";
+import { getCollection } from "astro:content";
+import { siteConfig } from "../../config";
+import { emphasize } from "../../lib/emphasize";
+import MaybeImage from "../MaybeImage.astro";
+import OwnershipMap from "../OwnershipMap.astro";
+import CaseCard from "../CaseCard.astro";
+import Tag from "../Tag.astro";
+import PickageFlow from "../visuals/PickageFlow.astro";
+
+const flows: Record<string, any> = { PickageFlow };
+
+interface Props {
+  variant: {
+    title: string; // 직무 이름(백엔드 개발자 · 데이터 엔지니어)
+    roleLabel: string;
+    hero: typeof siteConfig.hero;
+    aboutMe: string[];
+    strengths: typeof siteConfig.strengths;
+    skills: typeof siteConfig.skills;
+    projectOrder?: string[];
+  };
+}
+const { variant: v } = Astro.props;
+
+const rank = (id: string, fallback: number) => (v.projectOrder ? v.projectOrder.indexOf(id) : fallback);
+const projects = (await getCollection("projects"))
+  .filter((p) => !v.projectOrder || v.projectOrder.includes(p.id))
+  .sort((a, b) => rank(a.id, a.data.order) - rank(b.id, b.data.order));
+
+// 사이트 안 링크(/projects/tripcraft#lock)를 이 문서 안 앵커(#tripcraft-lock)로 바꾼다. 사례 id가 프로젝트 사이에 겹칠 수 있어 slug 를 앞에 붙인다.
+const toAnchor = (href: string) => {
+  const m = href.match(/^\/projects\/([^#]+)#(.+)$/);
+  return m ? `#${m[1]}-${m[2]}` : href;
+};
+const prefixed = (slug: string, id?: string) => (id ? `${slug}-${id}` : undefined);
+
+// 그림이 없는 칸은 비워 두지 않고 글이 그 자리를 쓰게 한다(MaybeImage 는 없는 그림을 그리지 않을 뿐 자리는 모른다).
+const hasImage = (src?: string) => !!src && fs.existsSync(path.join(process.cwd(), "public", src));
+
+const siteUrl = "https://dreaminggenie.github.io";
+const today = new Date().toISOString().slice(0, 10);
+const timeline = [
+  ...siteConfig.experience.map((e) => ({ title: e.title, org: e.company, date: e.dateRange, bullets: e.bullets })),
+  ...siteConfig.education.map((e) => ({ title: e.degree, org: e.school, date: e.dateRange, bullets: e.achievements })),
+];
+---
+
+<article class="print-doc text-gray-800">
+  <!-- 머리 -->
+  <header class="flex items-start justify-between gap-8 pb-5 border-b-2" style="border-color: var(--accent)">
+    <div class="flex flex-col gap-3 min-w-0">
+      <p class="font-mono text-sm font-semibold tracking-wide" style="color: var(--accent)">{v.hero.eyebrow}</p>
+      <h1 class="text-4xl font-bold text-gray-900 leading-tight">{v.hero.headline}</h1>
+      <p class="text-lg text-gray-600 leading-relaxed">
+        {v.roleLabel} <span class="font-semibold" style="color: var(--accent)">{siteConfig.name}</span>입니다.
+        <span class="block mt-1 text-base">{v.hero.intro}</span>
+      </p>
+      <ul class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-gray-700">
+        {
+          siteConfig.contacts.map((c) => (
+            <li class="flex items-baseline gap-1.5">
+              <span class="font-mono text-xs text-gray-400">{c.label}</span>
+              {c.href ? <a href={c.href} class="font-medium">{c.value}</a> : <span class="font-medium">{c.value}</span>}
+            </li>
+          ))
+        }
+        <li class="flex items-baseline gap-1.5">
+          <span class="font-mono text-xs text-gray-400">Web</span>
+          <a href={siteUrl} class="font-medium">dreaminggenie.github.io</a>
+        </li>
+      </ul>
+    </div>
+    <MaybeImage src={siteConfig.profileImage} alt={`${siteConfig.name} 프로필 사진`} class="w-28 h-36 shrink-0 rounded-2xl object-cover ring-1 ring-gray-200" />
+  </header>
+
+  <!-- 소개 -->
+  <section class="pt-6 flex flex-col gap-4">
+    <h2 class="text-2xl font-bold text-gray-900">소개</h2>
+    <div class="flex flex-col gap-3">
+      {v.aboutMe.map((p) => <p class="text-base leading-relaxed text-gray-700" set:html={emphasize(p)} />)}
+      {siteConfig.showAiNote && <p class="text-sm leading-relaxed text-gray-500">{siteConfig.aiNote}</p>}
+    </div>
+    <div class="flex flex-col gap-3">
+      <h3 class="text-base font-semibold text-gray-700">제가 일하는 방식</h3>
+      <div class="grid grid-cols-3 gap-3">
+        {
+          v.strengths.map((s, i) => (
+            <div class="avoid flex flex-col gap-2 p-4 bg-gray-50 rounded-xl border border-gray-200">
+              <span class="font-mono text-xs" style="color: var(--accent)">0{i + 1}</span>
+              <h4 class="text-base font-bold text-gray-900 leading-snug">{s.title}</h4>
+              <p class="text-sm text-gray-600 leading-relaxed">{s.body}</p>
+              <ul class="pt-3 mt-auto border-t border-gray-200 flex flex-col gap-1">
+                {s.links.map((l) => (
+                  <li>
+                    <a href={toAnchor(l.href)} class="flex items-start gap-1.5 text-[13px] text-gray-700">
+                      <span aria-hidden="true" class="font-mono text-gray-400">→</span>
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 프로젝트 한눈에 -->
+  <section class="pt-8 flex flex-col gap-3">
+    <div class="avoid">
+      <h2 class="text-2xl font-bold text-gray-900">프로젝트</h2>
+      <p class="mt-1 text-sm text-gray-500">팀 프로젝트는 제가 맡은 부분과 팀원이 맡은 부분을 나눠 적었습니다. 상세는 뒤쪽 프로젝트별 쪽에 있습니다.</p>
+    </div>
+    <table class="avoid w-full border-collapse text-sm">
+      <thead>
+        <tr class="text-left text-xs text-gray-500 border-b border-gray-300">
+          <th class="py-2 pr-3 font-semibold w-8"></th>
+          <th class="py-2 pr-3 font-semibold">프로젝트</th>
+          <th class="py-2 pr-3 font-semibold">기간 · 팀</th>
+          <th class="py-2 pr-3 font-semibold">맡은 일</th>
+          <th class="py-2 font-semibold">대표 한 줄</th>
+        </tr>
+      </thead>
+      <tbody class="align-top">
+        {
+          projects.map((p, i) => (
+            <tr class="avoid border-b border-gray-200">
+              <td class="py-2.5 pr-3 font-mono text-xs" style="color: var(--accent)">0{i + 1}</td>
+              <td class="py-2.5 pr-3">
+                <a href={`#${p.id}`} class="font-bold text-gray-900">{p.data.title}</a>
+                <span class="block text-xs text-gray-500 mt-0.5 leading-snug">{p.data.summary}</span>
+              </td>
+              <td class="py-2.5 pr-3 text-gray-700 leading-snug">
+                {p.data.period}
+                <span class="block text-gray-500">{p.data.team}</span>
+              </td>
+              <td class="py-2.5 pr-3 text-gray-700 leading-snug">{p.data.role}</td>
+              <td class="py-2.5 text-gray-900 font-medium leading-snug">{p.data.highlight}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 기술 -->
+  <section class="pt-10 flex flex-col gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900">기술</h2>
+      <p class="mt-1 text-sm text-gray-500">설명할 수 있는 깊이로 나누고, 어디에 썼는지 함께 적었습니다.</p>
+    </div>
+    {
+      v.skills.map((t, i) => (
+        <div class="avoid rounded-xl border border-gray-200 p-4">
+          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
+            <h3 class="text-base font-bold text-gray-900">{t.tier}</h3>
+            <span class="text-xs text-gray-500">{t.note}</span>
+          </div>
+          <ul class={i === 0 ? "divide-y divide-gray-100" : "flex flex-wrap gap-1.5"}>
+            {t.items.map((s) =>
+              i === 0 ? (
+                <li class="grid grid-cols-[11rem_1fr] gap-4 py-1.5 first:pt-0 last:pb-0 text-sm">
+                  <span class="font-semibold text-gray-900">{s.name}</span>
+                  <span class="text-gray-600">{s.where}</span>
+                </li>
+              ) : (
+                <li class="px-2.5 py-1 bg-gray-100 rounded-md text-[13px] text-gray-800">
+                  <span class="font-medium">{s.name}</span>
+                  <span class="text-gray-500"> · {s.where}</span>
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+
+  <!-- 개인 작업 -->
+  <section class="pt-10 flex flex-col gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-gray-900">개인 작업</h2>
+      <p class="mt-1 text-sm text-gray-500">혼자 만들어서, 설계부터 테스트 범위까지 모두 제가 정한 저장소입니다.</p>
+    </div>
+    {
+      siteConfig.sideProjects.map((p) => (
+        <div class={`avoid grid ${hasImage(p.image) ? "grid-cols-[1fr_12rem]" : "grid-cols-1"} gap-5 p-4 bg-gray-50 rounded-xl border border-gray-200`}>
+          <div class="flex flex-col gap-2 min-w-0">
+            <div class="flex items-baseline justify-between gap-3">
+              <h3 class="text-base font-bold text-gray-900">{p.name}</h3>
+              <a href={p.link} class="font-mono text-xs text-gray-500">{p.link.replace("https://", "")}</a>
+            </div>
+            <p class="text-sm text-gray-600 leading-relaxed">{p.description}</p>
+            <ul class="flex flex-col gap-1">
+              {p.points.map((pt) => (
+                <li class="flex items-start gap-2 text-[13px] text-gray-700 leading-relaxed">
+                  <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              {p.skills.map((s) => <span class="px-2 py-0.5 bg-white text-gray-600 ring-1 ring-inset ring-gray-200 rounded-md text-xs">{s}</span>)}
+            </div>
+          </div>
+          <MaybeImage natural src={p.image} alt={`${p.name} 화면`} class="w-full rounded-lg border border-gray-200 self-start" />
+        </div>
+      ))
+    }
+  </section>
+
+  <!-- 이력 -->
+  <section class="pt-10 flex flex-col gap-4">
+    <h2 class="text-2xl font-bold text-gray-900">이력</h2>
+    <ol class="flex flex-col gap-3">
+      {
+        timeline.map((it) => (
+          <li class="avoid grid grid-cols-[9rem_1fr] gap-4 pb-3 border-b border-gray-100 last:border-0">
+            <div class="text-sm">
+              <span class="block font-semibold text-gray-900 leading-snug">{it.org}</span>
+              {it.date && <span class="block tabular-nums text-xs text-gray-500 mt-0.5">{it.date}</span>}
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <p class="text-sm font-medium leading-snug" style="color: var(--accent)">{it.title}</p>
+              <ul class="flex flex-col gap-1">
+                {it.bullets.map((b) => (
+                  <li class="flex items-start gap-2 text-[13px] text-gray-600 leading-relaxed">
+                    <span class="mt-2 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- 프로젝트 상세: 하나씩 새 쪽에서 시작 -->
+  {
+    projects.map((p, i) => {
+      const d = p.data;
+      const Flow = d.flow ? flows[d.flow] : null;
+      const facts = [
+        { k: "기간", v: d.period },
+        { k: "팀", v: d.team },
+        { k: "맡은 일", v: d.role },
+      ];
+      return (
+        <section id={p.id} class="pb flex flex-col gap-6">
+          <header class="flex flex-col gap-3 pb-5 border-b-2" style="border-color: var(--accent)">
+            <div>
+              <span class="font-mono text-sm" style="color: var(--accent)">0{i + 1}</span>
+              <h2 class="mt-0.5 text-3xl font-bold text-gray-900">{d.title}</h2>
+            </div>
+            <p class="text-base text-gray-600 leading-relaxed">{d.oneLine}</p>
+            <dl class="grid grid-cols-3 gap-px bg-gray-200 rounded-xl overflow-hidden border border-gray-200">
+              {facts.map((f) => (
+                <div class="bg-white px-3.5 py-2.5">
+                  <dt class="text-xs text-gray-500">{f.k}</dt>
+                  <dd class="mt-0.5 text-sm text-gray-800 font-medium leading-snug">{f.v}</dd>
+                </div>
+              ))}
+            </dl>
+            <div class="flex flex-wrap items-center gap-1.5">
+              {d.stack.map((s) => (
+                <span class="px-2 py-0.5 bg-white text-gray-600 ring-1 ring-inset ring-gray-200 rounded-md text-xs">{s}</span>
+              ))}
+              {d.repo && (
+                <a href={d.repo} class="ml-1 font-mono text-xs font-semibold" style="color: var(--accent)">
+                  {d.repo.replace("https://", "")}
+                </a>
+              )}
+            </div>
+          </header>
+
+          {/* 추가 화면이 하나면 대표 화면 옆에, 여럿이면 아래에 세 칸으로 */}
+          <div class={`avoid grid gap-3 ${d.gallery.length === 1 ? "grid-cols-[2fr_1fr]" : "grid-cols-1"}`}>
+            <figure class="flex flex-col gap-1.5 min-w-0">
+              <MaybeImage natural src={d.cover} alt={`${d.title} 대표 화면`} class="w-full max-h-[72mm] object-contain object-left rounded-xl border border-gray-200" />
+              {d.shotNote && <figcaption class="text-[11px] text-gray-500 leading-snug">{d.shotNote}</figcaption>}
+            </figure>
+            {d.gallery.length > 0 && (
+              <div class={`grid gap-3 ${d.gallery.length === 1 ? "grid-cols-1" : "grid-cols-3"}`}>
+                {d.gallery.map((g) => (
+                  <figure class="flex flex-col gap-1 min-w-0">
+                    <MaybeImage natural src={g.src} alt={g.caption} class="w-full rounded-lg border border-gray-200" />
+                    <figcaption class="text-[11px] text-gray-500 leading-snug">{g.caption}</figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div class="avoid flex flex-col gap-3">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900">담당 영역</h3>
+                <p class="mt-0.5 text-sm text-gray-500">시스템에서 어느 칸이 제 것이었는지입니다.</p>
+              </div>
+              <OwnershipMap areas={d.areas} />
+            </div>
+            {Flow && (
+              <div class="avoid mt-3 flex flex-col gap-3">
+                <h4 class="text-base font-bold text-gray-900">데이터가 지나는 길</h4>
+                <Flow />
+              </div>
+            )}
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <h3 class="avoid text-xl font-bold text-gray-900">한 일</h3>
+            <ul class="flex flex-col gap-2.5">
+              {d.did.map((x) => (
+                <li id={prefixed(p.id, x.id)} class="avoid rounded-xl border border-gray-200 p-4 flex flex-col gap-1.5">
+                  <div class="flex items-start justify-between gap-3">
+                    <h4 class="text-base font-bold text-gray-900 leading-snug">{x.title}</h4>
+                    {x.tags.some((t) => t.type !== "limit") && (
+                      <div class="flex flex-wrap gap-1 shrink-0">{x.tags.filter((t) => t.type !== "limit").map((t) => <Tag type={t.type} text={t.text} />)}</div>
+                    )}
+                  </div>
+                  <p class="text-sm text-gray-600 leading-relaxed">{x.text}</p>
+                  {x.evidence.length > 0 && (
+                    <div class="flex flex-wrap gap-1.5 text-xs">
+                      {x.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="flex flex-col gap-3">
+            <div class="avoid">
+              <h3 class="text-xl font-bold text-gray-900">사례</h3>
+              <p class="mt-0.5 text-sm text-gray-500">문제를 어떻게 봤고 무엇을 골랐는지, 무엇이 남았는지까지 적었습니다. 근거의 커밋 해시는 저장소에서 git show 로 열어 볼 수 있습니다.</p>
+            </div>
+            <div class="flex flex-col gap-4">
+              {d.cases.map((c) => (
+                <CaseCard item={{ ...c, id: prefixed(p.id, c.id)! }} expanded />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <footer class="mt-10 pt-4 border-t border-gray-200 text-xs text-gray-400 flex justify-between">
+    <span>이 문서는 {siteUrl} 의 내용을 {today} 기준으로 옮긴 것입니다. 최신 내용과 근거 모음은 사이트에 있습니다.</span>
+    <span class="font-mono">{siteConfig.social.email}</span>
+  </footer>
+</article>

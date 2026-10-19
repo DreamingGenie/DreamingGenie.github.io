@@ -1,0 +1,20 @@
+---
+// PDF용 한 쪽짜리 흐름(데이터 엔지니어). /data 첫 화면과 같은 값(dataVariant)을 쓴다.
+import Print from "../../layouts/Print.astro";
+import PrintDocument from "../../components/print/PrintDocument.astro";
+import { siteConfig, dataVariant as v } from "../../config";
+
+const variant = {
+  title: v.title,
+  roleLabel: v.roleLabel,
+  hero: v.hero,
+  aboutMe: v.aboutMe,
+  strengths: v.strengths,
+  skills: v.skills,
+  projectOrder: v.projectOrder,
+};
+---
+
+<Print title={`${siteConfig.name} · ${v.title} 포트폴리오`} description={v.description}>
+  <PrintDocument variant={variant} />
+</Print>

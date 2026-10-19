@@ -13,6 +13,16 @@ npm run dev      # http://localhost:4321
 npm run build    # dist/
 ```
 
+## PDF 만들기
+
+`/print/`(백엔드)·`/print/data`(데이터 엔지니어)는 같은 내용을 A4 한 흐름으로 편 인쇄용 페이지입니다(근거 모음은 뺍니다). Chrome이 깔려 있어야 하고, 글꼴을 CDN에서 받으므로 네트워크가 필요합니다.
+
+```bash
+node scripts/make-pdf.mjs            # ../pdf/ 에 PDF 2개 (빌드 → preview → Chrome 인쇄 → 종료)
+```
+
+인쇄 전용 꾸밈은 `src/styles/print.css`, 본문 배치는 `src/components/print/PrintDocument.astro`에 있습니다.
+
 ## 내용을 고치는 곳
 
 | 무엇 | 파일 |

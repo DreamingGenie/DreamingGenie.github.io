@@ -1,0 +1,32 @@
+---
+// PDF용 바탕. 상단 메뉴·푸터 없이 본문만 두고, A4 쪽 설정은 print.css 에 있다.
+import { siteConfig } from "../config";
+import "../styles/global.css";
+import "../styles/print.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = siteConfig.description } = Astro.props;
+---
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Pretendard 는 print.css 의 @font-face(정적 woff2)로 받는다 — 이유는 그 파일에 적어 두었다 -->
+    <title>{title}</title>
+  </head>
+  <body style={`--accent: ${siteConfig.accentColor}`}>
+    <slot />
+  </body>
+</html>

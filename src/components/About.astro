@@ -1,20 +1,13 @@
 ---
 import { siteConfig } from "../config";
 import SectionTitle from "./SectionTitle.astro";
+import { emphasize } from "../lib/emphasize";
 
 interface Props {
   aboutMe?: string[];
   strengths?: typeof siteConfig.strengths;
 }
 const { aboutMe = siteConfig.aboutMe, strengths = siteConfig.strengths } = Astro.props;
-
-// 소개 문단의 **…** 를 굵게 바꾼다. 원문은 config.ts 에서만 오지만, HTML 특수문자는 먼저 이스케이프한다.
-const emphasize = (t: string) =>
-  t
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>');
 ---
 
 <section id="about" class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-28">

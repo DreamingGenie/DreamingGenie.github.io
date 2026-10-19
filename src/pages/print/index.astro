@@ -1,0 +1,19 @@
+---
+// PDF용 한 쪽짜리 흐름(백엔드). 내용은 홈(/)과 프로젝트 상세를 그대로 읽는다. 생성 방법은 site/README.md.
+import Print from "../../layouts/Print.astro";
+import PrintDocument from "../../components/print/PrintDocument.astro";
+import { siteConfig } from "../../config";
+
+const variant = {
+  title: siteConfig.title,
+  roleLabel: siteConfig.roleLabel,
+  hero: siteConfig.hero,
+  aboutMe: siteConfig.aboutMe,
+  strengths: siteConfig.strengths,
+  skills: siteConfig.skills,
+};
+---
+
+<Print title={`${siteConfig.name} · ${siteConfig.title} 포트폴리오`}>
+  <PrintDocument variant={variant} />
+</Print>
