@@ -12,7 +12,7 @@ const style = {
 ---
 
 <div class="flex flex-col gap-6">
-  <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+  <div class="om-legend flex flex-wrap gap-4 text-sm text-gray-600">
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded" style="background-color: var(--accent)"></span>제가 맡은 것</span>
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border-2" style="border-color: var(--accent)"></span>함께 한 것</span>
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>팀원이 맡은 것</span>
@@ -20,7 +20,7 @@ const style = {
   <div class="flex flex-col gap-5">
     {
       areas.map((a) => (
-        <div class="grid grid-cols-1 sm:grid-cols-[8rem_1fr] gap-2 sm:gap-6 items-start">
+        <div class="om-row grid grid-cols-1 sm:grid-cols-[8rem_1fr] gap-2 sm:gap-6 items-start">
           <h4 class="text-sm font-semibold text-gray-500 sm:pt-3">{a.group}</h4>
           <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {a.items.map((it) => (

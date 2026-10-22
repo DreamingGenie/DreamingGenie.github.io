@@ -28,7 +28,7 @@
 
 /* :root — Tailwind @theme 가 :root 에 둔 글꼴 변수를 같은 특이성으로 뒤에서 덮는다(html 선택자는 진다) */
 :root {
-  font-size: 12px;
+  font-size: 13.5px; /* 2026-10-22 12px → 13.5px: 본문(text-sm)이 7.9pt라 작았다 → 약 8.9pt, 사례 본문 약 10pt */
   --font-sans: "Pretendard Print", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", "Pretendard Print", ui-monospace, Consolas, monospace;
 }
@@ -131,4 +131,147 @@ body {
 .print-doc * {
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
+}
+
+/* ── 2026-10-22 쪽 나눔·표 손질 ── 쪽 끝에 소제목만 남거나, 카드 꼬리(근거 줄)만 다음 쪽으로 넘어가거나,
+   큰 덩어리가 통째로 넘어가 반쪽이 비던 것을 고친다. 화면(사이트)에는 영향이 없다. */
+.print-doc {
+  word-break: keep-all; /* 한글을 낱말 중간에서 끊지 않는다 */
+  overflow-wrap: break-word;
+}
+.print-doc .keep-next {
+  break-inside: avoid;
+  break-after: avoid; /* 제목·설명 묶음은 다음 덩어리와 같은 쪽에 */
+}
+/* 담당 영역 지도: 통째로 묶지 않고 줄 단위로 넘긴다(범례는 첫 줄과 함께) */
+.print-doc .om-row {
+  break-inside: avoid;
+}
+/* 프로젝트 한눈에 표: 열 폭 고정 */
+.print-doc .proj-table {
+  table-layout: fixed;
+}
+.print-doc .proj-table tr {
+  break-inside: avoid;
+}
+/* 사례 카드: 여백을 줄여 한 쪽에 더 들어가게 하고, 머리·첫 행, 마지막 행·근거를 붙인다 */
+.print-doc article > header {
+  padding: 1rem 1.25rem 0.75rem;
+  gap: 0.5rem;
+}
+.print-doc article > header + div {
+  padding: 1rem 1.25rem;
+}
+.print-doc article dl > div {
+  padding: 0.55rem 1.25rem;
+  column-gap: 1rem;
+  grid-template-columns: 7rem 1fr;
+}
+.print-doc article > header + dl > div:first-child {
+  break-before: avoid;
+}
+.print-doc article details > div {
+  padding: 0.75rem 1.25rem 0.9rem; /* '더 보기' 제목은 숨겼으니 위 여백을 둔다 */
+}
+.print-doc article > details,
+.print-doc article > footer {
+  break-before: avoid;
+}
+.print-doc article > footer {
+  padding: 0.6rem 1.25rem;
+}
+.print-doc dd {
+  orphans: 3;
+  widows: 3;
+}
+/* 한 쪽에 들어가는 사례 카드는 통째로 넘긴다(쪽 아래에 머리+첫 행만 걸치던 것). 한 쪽보다 긴 카드는 브라우저가 알아서 나눈다 */
+.print-doc article {
+  break-inside: avoid;
+}
+/* 한 쪽보다 긴 카드(잠금 도식 두 장)는 통째로 넘기면 앞쪽이 반쯤 빈다 — 행 사이에서 나눈다 */
+.print-doc article:has(.lockfig) {
+  break-inside: auto;
+}
+/* 담당 영역: flex 묶음 안에서는 행 사이 쪽 나눔이 잘 안 돼 제목·범례만 쪽 끝에 남았다 — 인쇄에서는 블록으로 쌓는다 */
+.print-doc div:has(> .keep-next):has(.om-row),
+.print-doc div:has(> .om-legend),
+.print-doc div:has(> .om-row) {
+  display: block;
+}
+.print-doc div:has(> .keep-next):has(.om-row) > * + *,
+.print-doc div:has(> .om-legend) > * + * {
+  margin-top: 1rem;
+}
+.print-doc div:has(> .om-row) > .om-row + .om-row {
+  margin-top: 1rem;
+}
+.print-doc .om-legend {
+  break-after: avoid;
+}
+/* flex 세로 묶음은 쪽을 나눌 때 다음 쪽 머리에 빈자리를 남겼다(한 일 목록 등) — 인쇄에서는 블록으로 쌓고 간격은 여백으로 */
+.print-doc .stack,
+.print-doc .stack-lg {
+  display: block;
+}
+.print-doc .stack > * + * {
+  margin-top: 0.75rem;
+}
+.print-doc .stack-lg > * + * {
+  margin-top: 1.5rem;
+}
+/* 프로젝트 표: 통째로 넘기면 1쪽에 제목만 남는다 — 행 단위로 나누고 머리는 쪽마다 다시 */
+.print-doc .proj-table thead {
+  display: table-header-group;
+}
+/* 데이터 흐름도는 칸 사이에서 잘리지 않게 통째로 */
+.print-doc .flow-block {
+  display: block;
+  break-inside: avoid;
+}
+.print-doc .flow-block > * + * {
+  margin-top: 0.75rem;
+}
+.print-doc .flow {
+  break-inside: avoid;
+}
+.print-doc .flow-block > div:has(> .flow) {
+  display: block; /* 흐름도 바깥 flex 묶음도 블록으로 — 제목·범례와 도식이 갈라지던 것 */
+}
+.print-doc .flow-block > div:has(> .flow) > * + * {
+  margin-top: 1rem;
+}
+.print-doc .flow-block h4,
+.print-doc .flow-block > div:has(> .flow) > :first-child {
+  break-after: avoid;
+}
+/* 그래도 칸 단위 배치(grid)가 쪽 끝에서 마지막 칸 한 줄을 다음 쪽으로 보냈다 — 흐름도는 새 쪽에서 시작한다(Pickage 하나뿐) */
+.print-doc .flow-block {
+  break-before: page;
+}
+/* 2026-10-22 압축: 사례 하나가 한 쪽을 넘지 않게. '더 보기'는 사이트에서도 접혀 있는 보조 설명이라 PDF에서는 뺀다 */
+.print-doc article > details {
+  display: none;
+}
+/* 잠금 도식 두 장은 폭을 줄여 카드가 한 쪽 안에 들어가게 */
+.print-doc .lockfig-wrap {
+  max-width: 76%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* 프로젝트 표는 제목과 함께 통째로 — 1쪽 끝에 한 행만 걸치던 것 */
+.print-doc .proj-table {
+  break-inside: avoid;
+}
+
+/* 1~3쪽 머리 절 사이 여백을 줄여 이력 끝 블록이 홀로 다음 쪽으로 밀리지 않게 */
+.print-doc > section.pt-10 { padding-top: 1rem; }
+.print-doc > section > ol.stack > li { padding-bottom: 0.5rem; }
+.print-doc > section > ol.stack > * + * { margin-top: 0.5rem; }
+/* 담당 영역 줄 라벨(h4)의 break-after: avoid가 지도 전체를 다음 쪽으로 밀었다 — 프로젝트 화면 아래가 반쯤 비던 원인 */
+.print-doc .om-row h4 {
+  break-after: auto;
+}
+/* 위 원인을 없앤 뒤로는 지도가 한 쪽에 들어가므로 통째로 넘긴다(줄 사이에서 갈라지던 것) */
+.print-doc div:has(> .om-legend) {
+  break-inside: avoid;
 }

@@ -40,6 +40,9 @@ const toAnchor = (href: string) => {
 };
 const prefixed = (slug: string, id?: string) => (id ? `${slug}-${id}` : undefined);
 
+// 지원서에 붙는 PDF에서만 빼는 사례(사이트에는 남긴다): 정규화를 일부러 깬 저장 방식, 백엔드와 먼 CSS 측정
+const printSkip = new Set(["comeettool-order", "tichu-trainer-measure"]);
+
 // 그림이 없는 칸은 비워 두지 않고 글이 그 자리를 쓰게 한다(MaybeImage 는 없는 그림을 그리지 않을 뿐 자리는 모른다).
 const hasImage = (src?: string) => !!src && fs.existsSync(path.join(process.cwd(), "public", src));
 
@@ -80,7 +83,7 @@ const timeline = [
   </header>
 
   <!-- 소개 -->
-  <section class="pt-6 flex flex-col gap-4">
+  <section class="pt-6 stack-lg flex flex-col gap-4">
     <h2 class="text-2xl font-bold text-gray-900">소개</h2>
     <div class="flex flex-col gap-3">
       {v.aboutMe.map((p) => <p class="text-base leading-relaxed text-gray-700" set:html={emphasize(p)} />)}
@@ -113,12 +116,13 @@ const timeline = [
   </section>
 
   <!-- 프로젝트 한눈에 -->
-  <section class="pt-8 flex flex-col gap-3">
-    <div class="avoid">
+  <section class="pt-8 stack flex flex-col gap-3">
+    <div class="avoid keep-next">
       <h2 class="text-2xl font-bold text-gray-900">프로젝트</h2>
       <p class="mt-1 text-sm text-gray-500">팀 프로젝트는 제가 맡은 부분과 팀원이 맡은 부분을 나눠 적었습니다. 상세는 뒤쪽 프로젝트별 쪽에 있습니다.</p>
     </div>
-    <table class="avoid w-full border-collapse text-sm">
+    <table class="proj-table w-full border-collapse text-sm">
+      <colgroup><col style="width:2rem" /><col style="width:30%" /><col style="width:21%" /><col style="width:19%" /><col /></colgroup>
       <thead>
         <tr class="text-left text-xs text-gray-500 border-b border-gray-300">
           <th class="py-2 pr-3 font-semibold w-8"></th>
@@ -151,8 +155,8 @@ const timeline = [
   </section>
 
   <!-- 기술 -->
-  <section class="pt-10 flex flex-col gap-4">
-    <div>
+  <section class="pt-10 stack flex flex-col gap-4">
+    <div class="keep-next">
       <h2 class="text-2xl font-bold text-gray-900">기술</h2>
       <p class="mt-1 text-sm text-gray-500">설명할 수 있는 깊이로 나누고, 어디에 썼는지 함께 적었습니다.</p>
     </div>
@@ -184,8 +188,8 @@ const timeline = [
   </section>
 
   <!-- 개인 작업 -->
-  <section class="pt-10 flex flex-col gap-4">
-    <div>
+  <section class="pt-10 stack flex flex-col gap-4">
+    <div class="keep-next">
       <h2 class="text-2xl font-bold text-gray-900">개인 작업</h2>
       <p class="mt-1 text-sm text-gray-500">혼자 만들어서, 설계부터 테스트 범위까지 모두 제가 정한 저장소입니다.</p>
     </div>
@@ -217,9 +221,9 @@ const timeline = [
   </section>
 
   <!-- 이력 -->
-  <section class="pt-10 flex flex-col gap-4">
+  <section class="pt-10 stack flex flex-col gap-4">
     <h2 class="text-2xl font-bold text-gray-900">이력</h2>
-    <ol class="flex flex-col gap-3">
+    <ol class="stack flex flex-col gap-3">
       {
         timeline.map((it) => (
           <li class="avoid grid grid-cols-[9rem_1fr] gap-4 pb-3 border-b border-gray-100 last:border-0">
@@ -255,7 +259,7 @@ const timeline = [
         { k: "맡은 일", v: d.role },
       ];
       return (
-        <section id={p.id} class="pb flex flex-col gap-6">
+        <section id={p.id} class="pb stack-lg flex flex-col gap-6">
           <header class="flex flex-col gap-3 pb-5 border-b-2" style="border-color: var(--accent)">
             <div>
               <span class="font-mono text-sm" style="color: var(--accent)">0{i + 1}</span>
@@ -300,25 +304,25 @@ const timeline = [
             )}
           </div>
 
-          <div class="flex flex-col gap-3">
-            <div class="avoid flex flex-col gap-3">
-              <div>
+          <div class="stack flex flex-col gap-3">
+            <div class="flex flex-col gap-3">
+              <div class="keep-next">
                 <h3 class="text-xl font-bold text-gray-900">담당 영역</h3>
                 <p class="mt-0.5 text-sm text-gray-500">시스템에서 어느 칸이 제 것이었는지입니다.</p>
               </div>
               <OwnershipMap areas={d.areas} />
             </div>
             {Flow && (
-              <div class="avoid mt-3 flex flex-col gap-3">
+              <div class="avoid flow-block mt-3 flex flex-col gap-3">
                 <h4 class="text-base font-bold text-gray-900">데이터가 지나는 길</h4>
                 <Flow />
               </div>
             )}
           </div>
 
-          <div class="flex flex-col gap-3">
+          <div class="stack flex flex-col gap-3">
             <h3 class="avoid text-xl font-bold text-gray-900">한 일</h3>
-            <ul class="flex flex-col gap-2.5">
+            <ul class="stack flex flex-col gap-2.5">
               {d.did.map((x) => (
                 <li id={prefixed(p.id, x.id)} class="avoid rounded-xl border border-gray-200 p-4 flex flex-col gap-1.5">
                   <div class="flex items-start justify-between gap-3">
@@ -338,13 +342,13 @@ const timeline = [
             </ul>
           </div>
 
-          <div class="flex flex-col gap-3">
-            <div class="avoid">
+          <div class="stack flex flex-col gap-3">
+            <div class="avoid keep-next">
               <h3 class="text-xl font-bold text-gray-900">사례</h3>
               <p class="mt-0.5 text-sm text-gray-500">문제를 어떻게 봤고 무엇을 골랐는지, 무엇이 남았는지까지 적었습니다. 근거의 커밋 해시는 저장소에서 git show 로 열어 볼 수 있습니다.</p>
             </div>
-            <div class="flex flex-col gap-4">
-              {d.cases.map((c) => (
+            <div class="stack flex flex-col gap-4">
+              {d.cases.filter((c) => !printSkip.has(prefixed(p.id, c.id)!)).map((c) => (
                 <CaseCard item={{ ...c, id: prefixed(p.id, c.id)! }} expanded />
               ))}
             </div>
