@@ -17,9 +17,7 @@ export const siteConfig = {
   },
   contacts: [
     { label: "Email", value: "dreaminggenie@naver.com" },
-    { label: "Email", value: "dreaminggenie0704@gmail.com" },
     { label: "GitHub", value: "github.com/DreamingGenie", href: "https://github.com/DreamingGenie" },
-    { label: "Discord", value: "jini0704" },
   ],
 
   hero: {
@@ -77,6 +75,7 @@ export const siteConfig = {
         { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
         { name: "Python", where: "Pickage 수집기·집계·적재 도구" },
         { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
+        { name: "PostgreSQL", where: "Pickage 운영 적재 — 날짜마다 느려지는 원인을 실행 계획에서 찾고, 날짜 파티션을 하루씩 교체" },
         { name: "Git 브랜치 운영", where: "CoMeetTool 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
       ],
     },
@@ -86,16 +85,10 @@ export const siteConfig = {
       items: [
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
         { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
-        { name: "PostgreSQL", where: "CoMeetTool 팀 공간·일정, null 타입 추론 에러" },
         { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
         { name: "GCS · DuckDB · MinIO", where: "Pickage 원본 보관과 집계" },
         { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CoMeetTool 팀 구성 환경 사용" },
       ],
-    },
-    {
-      tier: "배우는 중",
-      note: "공개 근거가 없거나 실습 수준",
-      items: [{ name: "PyTorch · Scikit-learn", where: "졸업작품과 교육 과정 실습" }],
     },
   ],
 
@@ -213,6 +206,5 @@ export const dataVariant = {
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
       ],
     },
-    siteConfig.skills[2],
   ],
 };
