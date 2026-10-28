@@ -110,7 +110,7 @@ export const siteConfig = {
 
   experience: [
     {
-      company: "삼성청년SW아카데미(SSAFY) 15기",
+      company: "삼성청년SW·AI아카데미(SSAFY) 15기",
       title: "Java 전공 트랙 교육생",
       dateRange: "2026.01 – 2026.12 (진행 중)",
       bullets: ["CoMeetTool · TripCraft · Pickage를 이 과정에서 팀 프로젝트로 진행했습니다"],
