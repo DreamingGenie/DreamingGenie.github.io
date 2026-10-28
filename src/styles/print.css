@@ -188,7 +188,7 @@ body {
 .print-doc article {
   break-inside: avoid;
 }
-/* 한 쪽보다 긴 카드(잠금 도식 두 장)는 통째로 넘기면 앞쪽이 반쯤 빈다 — 행 사이에서 나눈다 */
+/* 한 쪽보다 긴 카드(락 도식 두 장)는 통째로 넘기면 앞쪽이 반쯤 빈다 — 행 사이에서 나눈다 */
 .print-doc article:has(.lockfig) {
   break-inside: auto;
 }
@@ -252,7 +252,7 @@ body {
 .print-doc article > details {
   display: none;
 }
-/* 잠금 도식 두 장은 폭을 줄여 카드가 한 쪽 안에 들어가게 */
+/* 락 도식 두 장은 폭을 줄여 카드가 한 쪽 안에 들어가게 */
 .print-doc .lockfig-wrap {
   max-width: 76%;
   margin-left: auto;

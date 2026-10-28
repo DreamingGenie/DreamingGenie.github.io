@@ -1,5 +1,5 @@
 ---
-// TripCraft 여행 단위 잠금. "잠금 없이 / 여행 단위 잠금" 두 상태를 버튼으로 바꿔 본다.
+// TripCraft 여행 단위 락. "락 없이 / 여행 단위 락" 두 상태를 버튼으로 바꿔 본다.
 // mode 를 넘기면 버튼 없이 그 상태만 고정해 그린다(PDF처럼 누를 수 없는 매체용).
 interface Props {
   mode?: "lock" | "nolock";
@@ -12,19 +12,19 @@ const current = mode ?? "lock";
 <figure class="lockfig-wrap flex flex-col gap-4" data-mode={current}>
   <div class="flex flex-wrap items-center justify-between gap-3">
     <p class="text-sm text-gray-600 max-w-md">
-      {fixed && <span class="font-semibold text-gray-800">{current === "lock" ? "여행 단위 잠금 — " : "잠금 없이 — "}</span>}두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
+      {fixed && <span class="font-semibold text-gray-800">{current === "lock" ? "여행 단위 락 — " : "락 없이 — "}</span>}두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
     </p>
     {
       !fixed && (
-        <div class="inline-flex rounded-full bg-gray-100 p-1 ring-1 ring-gray-200" role="group" aria-label="잠금 방식">
-          <button type="button" data-mode="nolock" aria-pressed="false" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">잠금 없이</button>
-          <button type="button" data-mode="lock" aria-pressed="true" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">여행 단위 잠금</button>
+        <div class="inline-flex rounded-full bg-gray-100 p-1 ring-1 ring-gray-200" role="group" aria-label="락 방식">
+          <button type="button" data-mode="nolock" aria-pressed="false" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">락 없이</button>
+          <button type="button" data-mode="lock" aria-pressed="true" class="lock-btn px-4 py-1.5 rounded-full text-sm font-semibold text-gray-600">여행 단위 락</button>
         </div>
       )
     }
   </div>
   <div class="overflow-x-auto">
-    <svg class="lockfig" viewBox="0 0 660 214" role="img" aria-label="잠금이 없으면 겹치는 두 일정이 모두 저장되고, 여행 단위 잠금이 있으면 두 번째 요청이 방금 저장된 일정을 보고 거절되는 흐름">
+    <svg class="lockfig" viewBox="0 0 660 214" role="img" aria-label="락이 없으면 겹치는 두 일정이 모두 저장되고, 여행 단위 락이 있으면 두 번째 요청이 방금 저장된 일정을 보고 거절되는 흐름">
       <text x="0" y="16" class="t-muted t-small">요청 처리 순서 →</text>
       <text x="0" y="44" class="t-strong">A · 10–12시 박물관 추가</text>
       <text x="0" y="122" class="t-strong">B · 11–13시 시장 추가</text>
@@ -50,12 +50,12 @@ const current = mode ?? "lock";
       </g>
 
       <g class="m-lock">
-        <rect x="0" y="54" width="46" height="26" rx="5" class="s-lock"></rect><text x="9" y="71">잠금</text>
+        <rect x="0" y="54" width="46" height="26" rx="5" class="s-lock"></rect><text x="9" y="71">락</text>
         <rect x="46" y="54" width="110" height="26" rx="5" class="s-check"></rect><text x="56" y="71">겹침 검사</text>
         <rect x="156" y="54" width="90" height="26" rx="5" class="s-save"></rect><text x="166" y="71" class="t-on">저장</text>
         <line x1="246" y1="48" x2="246" y2="168" class="s-tick"></line>
-        <text x="252" y="44" class="t-small t-muted">A 저장 끝 · 잠금 풀림</text>
-        <rect x="30" y="132" width="216" height="26" rx="5" class="s-wait"></rect><text x="40" y="149" class="t-muted">잠금 대기</text>
+        <text x="252" y="44" class="t-small t-muted">A 저장 끝 · 락 풀림</text>
+        <rect x="30" y="132" width="216" height="26" rx="5" class="s-wait"></rect><text x="40" y="149" class="t-muted">락 대기</text>
         <rect x="246" y="132" width="110" height="26" rx="5" class="s-check"></rect><text x="256" y="149">겹침 검사</text>
         <rect x="356" y="132" width="60" height="26" rx="5" class="s-rej"></rect><text x="368" y="149" class="t-bad">거절</text>
         <text x="246" y="176" class="t-small t-muted">방금 저장된 A 일정을 봅니다</text>

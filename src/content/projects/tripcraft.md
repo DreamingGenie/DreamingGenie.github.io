@@ -8,7 +8,7 @@ team: "2명 → 1명"
 role: "동시 편집 충돌 방지 · 실시간 협업 · 커뮤니티 게시판"
 stack: ["Java 21", "Spring Boot 3.5", "MyBatis", "MySQL 8", "Vue 3", "WebSocket(STOMP)"]
 repo: "https://github.com/DreamingGenie/TripCraft"
-highlight: "낙관적 락이 못 잡는 일정 겹침을 여행 단위 잠금으로 막았습니다"
+highlight: "낙관적 락이 못 잡는 일정 겹침을 여행 단위 락으로 막았습니다"
 cover: "/images/projects/tripcraft/cover.jpg"
 gallery:
   - { src: "/images/projects/tripcraft/01.jpg", caption: "다른 계정으로 같은 여행을 열면, 그 사람의 커서와 접속 표시가 실시간으로 보입니다" }
@@ -16,7 +16,7 @@ shotNote: "로컬 Docker로 띄워 두 계정으로 찍은 화면입니다. 일�
 areas:
   - group: "협업 편집"
     items:
-      - { name: "동시 편집 충돌 제어", owner: "me", note: "낙관적 락 · 여행 단위 잠금" }
+      - { name: "동시 편집 충돌 제어", owner: "me", note: "낙관적 락 · 여행 단위 락" }
       - { name: "실시간 연결(STOMP)", owner: "me" }
       - { name: "접속자 표시 · 협업 커서", owner: "me" }
       - { name: "편집 화면(Vue)", owner: "team" }
@@ -39,7 +39,7 @@ did:
     text: "일정을 옮기면 시스템이 이동시간을 다시 계산해 저장합니다. 이때 버전까지 올리면 사용자는 아무와도 부딪히지 않았는데 다음 저장에서 충돌을 받습니다. 그래서 이동시간을 고치는 쿼리와 사용자가 일정을 고치는 쿼리를 나누고, 이동시간 쿼리는 버전을 건드리지 않게 했습니다."
     tags: [{ type: "judged", text: "판단" }]
   - title: "저장이 끝난 뒤에 할 일을 세 곳에, 서로 다른 이유로"
-    text: "변경 알림은 저장된 순서대로 알리려고, 외부 API를 부르는 이동시간 계산은 일정 잠금 구간에서 빼려고, 게시글 이미지 파일 삭제는 저장이 취소됐을 때 파일만 먼저 지워지지 않게 저장 뒤로 미뤘습니다. 다만 이동시간 계산은 같은 요청 스레드에서 돌아서, 응답은 계산을 기다리고 그동안 DB 연결도 씁니다. 비동기로 분리하지는 않았습니다."
+    text: "변경 알림은 저장된 순서대로 알리려고, 외부 API를 부르는 이동시간 계산은 일정 락 구간에서 빼려고, 게시글 이미지 파일 삭제는 저장이 취소됐을 때 파일만 먼저 지워지지 않게 저장 뒤로 미뤘습니다. 다만 이동시간 계산은 같은 요청 스레드에서 돌아서, 응답은 계산을 기다리고 그동안 DB 연결도 씁니다. 비동기로 분리하지는 않았습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "비동기 아님" }]
     evidence: ["fad7388", "6856a5b"]
   - title: "커서를 움직일 때마다 DB에 권한을 묻던 것을 없앰"
@@ -54,10 +54,10 @@ cases:
     steps:
       - { label: "문제", text: "A가 10–12시 박물관을, B가 11–13시 시장을 동시에 넣으면 서로의 입력을 모른 채 둘 다 저장됩니다." }
       - { label: "안 되는 이유", text: "낙관적 락은 내가 읽은 뒤 누가 이 일정을 고쳤는지를 일정 한 건씩 확인합니다. 겹침은 서로 다른 두 일정 사이에서 생겨서, 한 건씩 보면 충돌이 없습니다. PostgreSQL에는 기간이 겹치는 값을 DB가 거부하는 기능이 있지만, 이 프로젝트는 MySQL을 썼습니다." }
-      - { label: "선택", text: "일정을 넣거나 옮기기 전에 그 여행 자체에 잠금을 겁니다(SELECT … FOR UPDATE). 두 번째 사람은 첫 저장이 끝날 때까지 기다렸다가 겹침 검사를 하므로, 방금 들어간 일정을 보고 거절됩니다. 순서 번호도 잠금 안에서 서버가 매겨, 같은 자리를 받는 문제도 함께 막힙니다." }
-      - { label: "잠금이 짧은 이유", text: "느린 외부 API 호출을 이미 저장 뒤로 빼 두어서, 잠금은 DB에 쓰는 동안만 걸립니다. 순서가 반대였다면 API 응답을 기다리는 내내 여행 전체가 잠겨 있었을 겁니다." }
-      - { label: "한계", text: "한 여행에 편집자가 몰리면 저장이 줄을 섭니다. 몇 명부터 느려지는지는 재 보지 않았습니다. 겹침이 실제로 생기는 것과 잠금 뒤 막히는 것은 서버를 띄워 직접 확인했지만, 다시 돌려 볼 자동화된 동시성 테스트는 없습니다.", limit: true }
-    more: "처음 설계 문서에는 \"잠금까지 거는 건 과하다\"고 적었습니다. 겹침은 한 건씩 보는 방식으로 막을 수 없다는 걸 알고 코드에는 잠금을 넣었는데, 문서는 그대로였습니다. 09-10에 이 어긋남을 찾아 문서를 코드 기준으로 고쳤습니다."
+      - { label: "선택", text: "일정을 넣거나 옮기기 전에 그 여행 자체에 락을 겁니다(SELECT … FOR UPDATE). 두 번째 사람은 첫 저장이 끝날 때까지 기다렸다가 겹침 검사를 하므로, 방금 들어간 일정을 보고 거절됩니다. 순서 번호도 락 안에서 서버가 매겨, 같은 자리를 받는 문제도 함께 막힙니다." }
+      - { label: "락 구간이 짧은 이유", text: "느린 외부 API 호출을 이미 저장 뒤로 빼 두어서, 락은 DB에 쓰는 동안만 걸립니다. 순서가 반대였다면 API 응답을 기다리는 내내 여행 전체에 락이 걸려 있었을 겁니다." }
+      - { label: "한계", text: "한 여행에 편집자가 몰리면 저장이 줄을 섭니다. 몇 명부터 느려지는지는 재 보지 않았습니다. 겹침이 실제로 생기는 것과 락 뒤 막히는 것은 서버를 띄워 직접 확인했지만, 다시 돌려 볼 자동화된 동시성 테스트는 없습니다.", limit: true }
+    more: "처음 설계 문서에는 \"락까지 거는 건 과하다\"고 적었습니다. 겹침은 한 건씩 보는 방식으로 막을 수 없다는 걸 알고 코드에는 락을 넣었는데, 문서는 그대로였습니다. 09-10에 이 어긋남을 찾아 문서를 코드 기준으로 고쳤습니다."
     evidence: ["913a4c1", "d2035b0", "TripMapper.xml:28"]
   - id: "order"
     kind: "문제 해결"
@@ -79,4 +79,4 @@ cases:
 - **STOMP 권한 캐시**: `TripAccessVersion`(30줄 전부 본인), 번호 올림 호출 163 · 232 · 240행.
 - **전부 제가 쓴 파일**: `WebSocketConfig` 40/40줄, `TripPresenceController` 205/206줄, `CommentServiceImpl` 117/117줄, `useCollabCursor.js` 197/197줄.
 - **알림 순서**: `broadcast()`와 이벤트 순번 부여를 `afterCommit`으로(`fad7388`). 화면은 `event.seq <= lastEventSeq`면 버림. 재계산 완료 알림(`TRANSIT_RECALCULATED`)은 이 변경 뒤로 나가지 않습니다(다른 사람 화면은 이어지는 편집 알림의 재조회로 대부분 맞춰집니다).
-- **여행 단위 잠금**: `TripMapper.xml:28` `SELECT id FROM trip WHERE id = ? FOR UPDATE`, `TripServiceImpl.placeBlock` · `updateBlock`에서 잠근 뒤 `assertNoOverlap` 호출, 순서 번호는 `nextDisplayOrder`로 잠금 안에서 서버가 할당(`913a4c1`). 테스트 14개 중 13개가 Mockito, Testcontainers는 `contextLoads` 1건이며 제 환경에서 Docker API 400으로 실행되지 않았습니다. 문서 정정 `d2035b0`(2026-09-10).
+- **여행 단위 락**: `TripMapper.xml:28` `SELECT id FROM trip WHERE id = ? FOR UPDATE`, `TripServiceImpl.placeBlock` · `updateBlock`에서 락을 건 뒤 `assertNoOverlap` 호출, 순서 번호는 `nextDisplayOrder`로 락 안에서 서버가 할당(`913a4c1`). 테스트 14개 중 13개가 Mockito, Testcontainers는 `contextLoads` 1건이며 제 환경에서 Docker API 400으로 실행되지 않았습니다. 문서 정정 `d2035b0`(2026-09-10).

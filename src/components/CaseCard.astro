@@ -40,7 +40,7 @@ const shownTags = item.tags.filter((t) => t.type !== "limit");
     Visual && (
       <div class="px-5 sm:px-8 py-6 bg-gray-50 border-y border-gray-200">
         {
-          // 버튼으로 바꿔 보는 잠금 도식은 펼침(PDF)에서 두 경우를 위아래로 고정해 그린다.
+          // 버튼으로 바꿔 보는 락 도식은 펼침(PDF)에서 두 경우를 위아래로 고정해 그린다.
           expanded && item.visual === "LockDiagram" ? (
             <div class="flex flex-col gap-6">
               <Visual mode="nolock" />

@@ -29,7 +29,7 @@ export const siteConfig = {
 
   aboutMe: [
     "7명이 4주 동안 AI 회의 도우미를 만든 프로젝트에서 PM과 코드 통합을 맡았습니다. 팀원이 작업을 마치면 제가 코드를 읽고 공동 개발 브랜치에 합쳤고, 그렇게 합친 **95건 중 83건**을 제가 처리했습니다.",
-    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행을 잠가, 한 사람씩 차례로 저장**하게 했습니다.",
+    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행에 락을 걸어, 한 사람씩 차례로 저장**하게 했습니다.",
     "오픈소스 데이터 수집 프로젝트에서는 개인 결제 계정으로 500TB가 넘는 BigQuery 데이터셋을 다뤘습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 스스로 멈추는 수집기를 만들었습니다. 236번 실행해 보니 실제 요금이 예상과 **0.1% 차이**였습니다.",
   ],
 
@@ -39,9 +39,9 @@ export const siteConfig = {
       title: "동시에 들어와도 어긋나지 않게",
       body: "여러 요청이 같은 데이터를 바꿀 때, 어느 단위로 줄을 세울지 먼저 정합니다.",
       links: [
-        { label: "TripCraft · 여행 단위 잠금", href: "/projects/tripcraft#lock" },
+        { label: "TripCraft · 여행 단위 락", href: "/projects/tripcraft#lock" },
         { label: "TripCraft · 알림을 저장 순서대로", href: "/projects/tripcraft#order" },
-        { label: "CoMeetTool · 팀 공간 쓰기 잠금", href: "/projects/comeettool#did" },
+        { label: "CoMeetTool · 팀 공간 쓰기 락", href: "/projects/comeettool#did" },
       ],
     },
     {
@@ -71,8 +71,8 @@ export const siteConfig = {
       note: "왜 그렇게 했는지까지 설명할 수 있는 것",
       items: [
         { name: "Java 21 · Spring Boot", where: "CoMeetTool 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
-        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 잠금" },
-        { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
+        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 락" },
+        { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 락" },
         { name: "Python", where: "Pickage 수집기·집계·적재 도구" },
         { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
         { name: "PostgreSQL", where: "Pickage 운영 적재 — 날짜마다 느려지는 원인을 실행 계획에서 찾고, 날짜 파티션을 하루씩 교체" },
@@ -85,7 +85,7 @@ export const siteConfig = {
       items: [
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
         { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
-        { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
+        { name: "MySQL", where: "TripCraft 여행 단위 락(SELECT … FOR UPDATE)" },
         { name: "GCS · DuckDB · MinIO", where: "Pickage 원본 보관과 집계" },
         { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CoMeetTool 팀 구성 환경 사용" },
       ],
@@ -192,8 +192,8 @@ export const dataVariant = {
         { name: "BigQuery", where: "Pickage 실행 전 사용량 계산과 6단계 상한, 정석 내보내기 대신 임시 테이블 경로" },
         { name: "PostgreSQL", where: "Pickage 운영 적재 — 날짜마다 느려지는 원인을 실행 계획에서 찾고, 날짜 파티션을 하루씩 교체" },
         { name: "Java 21 · Spring Boot", where: "CoMeetTool 뼈대·공통 응답 틀, TripCraft 실시간 협업, ServerTimeClicker" },
-        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 잠금" },
-        { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 잠금" },
+        { name: "Spring Data JPA", where: "CoMeetTool 팀 공간 쓰기 3곳 비관적 락" },
+        { name: "MyBatis", where: "TripCraft 버전 번호 충돌 SQL, 여행 단위 락" },
       ],
     },
     {
@@ -202,7 +202,7 @@ export const dataVariant = {
       items: [
         { name: "GCS · DuckDB · MinIO", where: "Pickage 원본 보관과 집계" },
         { name: "Docker · AWS ECS Fargate", where: "로컬 개발 환경, CoMeetTool 팀 구성 환경 사용" },
-        { name: "MySQL", where: "TripCraft 여행 단위 잠금(SELECT … FOR UPDATE)" },
+        { name: "MySQL", where: "TripCraft 여행 단위 락(SELECT … FOR UPDATE)" },
         { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
       ],

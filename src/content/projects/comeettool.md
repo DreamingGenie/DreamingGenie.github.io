@@ -43,7 +43,7 @@ did:
     text: "두 기능의 API는 모두 14개이고, 대표 이미지 변경 1개는 팀원이 만들었습니다(저는 그 위에 검증과 테스트를 보완). 일정 코드는 전부, 팀 공간 코드는 약 90%가 제 줄입니다. 제가 쓴 테스트는 131개입니다."
     tags: [{ type: "measured", text: "실측" }]
   - title: "팀 공간을 바꾸는 요청은 한 번에 하나씩"
-    text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 잠금을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 잠그지 않았습니다. 두 요청을 실제로 동시에 보내 보는 테스트는 만들지 못했습니다."
+    text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 락을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 락을 걸지 않았습니다. 두 요청을 실제로 동시에 보내 보는 테스트는 만들지 못했습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트 없음" }]
     evidence: ["3a07d56"]
   - title: "실수할 수 있는 경로를 설정으로 막음"
@@ -102,7 +102,7 @@ cases:
 - **작업량**: 실작업 커밋 78건 + 머지 커밋 94건, 손댄 파일 117개, +10,303 / −890줄.
 - **공통 응답·예외 틀**: `f66a04f`(19파일 587줄) — `ApiResponse` · `CustomException` · `ErrorCode` · `ErrorResponse` · `GlobalExceptionHandler`. blame 기준 `ApiResponse` 28/28줄, `GlobalExceptionHandler` 45/49줄, `JwtAuthenticationFilter` 62/68줄, `SecurityConfig` 74/92줄.
 - **SPACE·SCHEDULE**: blame `schedule/` 523/523줄, `space/` 873/965줄, 테스트 `space` 1,734/1,750줄, `schedule` 559/559줄.
-- **비관적 잠금**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`3a07d56`)이고, 읽기 경로는 무잠금입니다.
+- **비관적 락**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`3a07d56`)이고, 읽기 경로는 락 없음입니다.
 - **기본 브랜치 변경**: `Main/Docs/02_Dailylog/2026-07-19.md` §3(`ebf3bd2`). 컨벤션 문서 5종: `95e8b53`(304줄).
 - **테스트**: Java 116개 + pytest 15개.
 - **null 타입 추론 에러**: PostgreSQL SQLSTATE 42883(`lower(bytea)` 없음). 수정과 테스트 `edfb78c`.
