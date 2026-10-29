@@ -8,7 +8,7 @@ interface Stage { label: string; nodes: Node[] }
 
 const stages: Stage[] = [
   {
-    label: "원천",
+    label: "데이터 소스",
     nodes: [
       { name: "deps.dev 의존 관계", owner: "ext", note: "BigQuery 공개 데이터셋" },
       { name: "npm 다운로드 API", owner: "ext" },
@@ -22,14 +22,14 @@ const stages: Stage[] = [
       { name: "BigQuery 수집기 → GCS", owner: "me", note: "사용량 상한 6단계" },
       { name: "다운로드 수 수집기", owner: "me" },
       { name: "패키지 형태 정보 재수집", owner: "me" },
-      { name: "주간 수집 회차", owner: "me", note: "원본 입고까지 · 그 뒤 연결은 팀원" },
+      { name: "주간 수집 실행", owner: "me", note: "원본 저장까지 · 이후 연동은 팀원" },
       { name: "GitHub · README 수집", owner: "team" },
     ],
   },
   {
     label: "보관 · 가공",
     nodes: [
-      { name: "MinIO 원본 입고 경로", owner: "me", note: "SSH 터널" },
+      { name: "MinIO 원본 업로드", owner: "me", note: "SSH 터널" },
       { name: "DuckDB 교체 쌍 · 전이 집계", owner: "me" },
       { name: "유지 · 유입 · 이탈 · 이탈 사유 계산", owner: "me" },
       { name: "데이터 정제(Curated)", owner: "team" },
@@ -94,7 +94,7 @@ const box: Record<Owner, string> = {
   </ol>
 
   <p class="text-sm text-gray-500 leading-relaxed">
-    원본을 모아 지표로 만드는 앞쪽과, 그 지표를 보여 주는 패널 두 개가 제 몫입니다. 정제·DB 적재·나머지 화면은 팀원이 맡았습니다.
+    원본 수집부터 지표 계산까지와, 그 지표를 보여 주는 패널 두 개를 맡았습니다. 정제·DB 적재·나머지 화면은 팀원이 맡았습니다.
     팀의 시스템 아키텍처 문서(2026-09-24)에서 데이터 흐름만 남겨 다시 그렸습니다.
   </p>
 </div>

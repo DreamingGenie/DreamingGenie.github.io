@@ -191,7 +191,7 @@ const timeline = [
   <section class="pt-10 stack flex flex-col gap-4">
     <div class="keep-next">
       <h2 class="text-2xl font-bold text-gray-900">개인 작업</h2>
-      <p class="mt-1 text-sm text-gray-500">혼자 만들어서, 설계부터 테스트 범위까지 모두 제가 정한 저장소입니다.</p>
+      <p class="mt-1 text-sm text-gray-500">혼자 만든 개인 저장소입니다.</p>
     </div>
     {
       siteConfig.sideProjects.map((p) => (
@@ -308,13 +308,13 @@ const timeline = [
             <div class="flex flex-col gap-3">
               <div class="keep-next">
                 <h3 class="text-xl font-bold text-gray-900">담당 영역</h3>
-                <p class="mt-0.5 text-sm text-gray-500">시스템에서 어느 칸이 제 것이었는지입니다.</p>
+                <p class="mt-0.5 text-sm text-gray-500">시스템에서 제가 맡은 부분입니다.</p>
               </div>
               <OwnershipMap areas={d.areas} />
             </div>
             {Flow && (
               <div class="avoid flow-block mt-3 flex flex-col gap-3">
-                <h4 class="text-base font-bold text-gray-900">데이터가 지나는 길</h4>
+                <h4 class="text-base font-bold text-gray-900">데이터 흐름</h4>
                 <Flow />
               </div>
             )}
@@ -345,7 +345,7 @@ const timeline = [
           <div class="stack flex flex-col gap-3">
             <div class="avoid keep-next">
               <h3 class="text-xl font-bold text-gray-900">사례</h3>
-              <p class="mt-0.5 text-sm text-gray-500">문제를 어떻게 봤고 무엇을 골랐는지, 무엇이 남았는지까지 적었습니다. 근거의 커밋 해시는 저장소에서 git show 로 열어 볼 수 있습니다.</p>
+              <p class="mt-0.5 text-sm text-gray-500">문제와 선택한 방법, 남은 한계를 함께 적었습니다. 근거의 커밋 해시는 저장소에서 git show 로 열어 볼 수 있습니다.</p>
             </div>
             <div class="stack flex flex-col gap-4">
               {d.cases.filter((c) => !printSkip.has(prefixed(p.id, c.id)!)).map((c) => (

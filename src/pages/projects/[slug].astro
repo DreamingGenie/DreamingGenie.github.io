@@ -90,13 +90,13 @@ const facts = [
   <!-- 담당 영역 -->
   <section class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-24">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-      <SectionTitle title="담당 영역" sub="시스템에서 어느 칸이 제 것이었는지입니다." />
+      <SectionTitle title="담당 영역" sub="시스템에서 제가 맡은 부분입니다." />
       <div class="lg:col-span-8"><OwnershipMap areas={d.areas} /></div>
     </div>
     {
       Flow && (
         <div class="mt-14 flex flex-col gap-5">
-          <h3 class="text-xl font-bold text-gray-900">데이터가 지나는 길</h3>
+          <h3 class="text-xl font-bold text-gray-900">데이터 흐름</h3>
           <Flow />
         </div>
       )
@@ -133,7 +133,7 @@ const facts = [
   <!-- 사례 -->
   <section class="max-w-7xl mx-auto px-6 sm:px-12 md:px-16 lg:px-24 py-20 md:py-24">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-      <SectionTitle title="사례" sub="문제를 어떻게 봤고 무엇을 골랐는지, 무엇이 남았는지까지 적었습니다." />
+      <SectionTitle title="사례" sub="문제와 선택한 방법, 남은 한계를 함께 적었습니다." />
       <div class="lg:col-span-8 flex flex-col gap-8">
         {d.cases.map((c) => <CaseCard item={c} />)}
       </div>
