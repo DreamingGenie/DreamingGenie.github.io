@@ -8,10 +8,10 @@ team: "6명 · GitHub 팀 저장소(공개)"
 role: "팀원 · 인프라와 일부 백엔드(계정·팀·MCP 진입점)"
 stack: ["Java 21", "Spring Boot 4.1", "PostgreSQL + pgvector", "Flyway", "MCP Java SDK", "GitHub Actions", "Jenkins", "Prometheus", "Kafka · Debezium", "AWS EC2"]
 repo: "https://github.com/S15A108/BEEZ"
-highlight: "시간 제한에 끊기던 AI 문서 검토를 요청 밖 워커로 옮겼습니다(로컬 75초 지연 시험 통과)"
+highlight: "시간 제한에 끊기던 AI 문서 검토를 요청 밖 워커로 옮겼습니다"
 cover: "/images/projects/beez/cover.jpg"
 gallery:
-  - { src: "/images/projects/beez/01.jpg", caption: "설계 변경 제안 화면 — 가운데 '발행 후 분석 상태'가 CDC 경로로 처리됩니다. 팀원이 CDC 복구 검증 때 시험 데이터로 찍은 화면입니다(저장소 infra/cdc-poc)" }
+  - { src: "/images/projects/beez/01.jpg", caption: "설계 변경 제안 화면 — 가운데 '발행 후 분석 상태'가 CDC 경로로 처리됩니다. 팀원이 CDC 복구 검증 때 테스트 데이터로 찍은 화면입니다(저장소 infra/cdc-poc)" }
 shotNote: "첫 화면은 개발 서버의 로그인 화면입니다(2026-11-20, 로그인 전). 화면 디자인과 3D 도시는 팀원 작업입니다."
 flow: "BeezFlow"
 areas:
@@ -42,11 +42,11 @@ areas:
       - { name: "팀원 PR 리뷰(103개)", owner: "me" }
 did:
   - title: "승인 1개면 자동 병합되던 저장소에 PR 필수 검사"
-    text: "그 전 저장소에는 승인 1개면 자동으로 병합하는 설정만 있고, 빌드·테스트를 돌리는 CI가 없었습니다. 테스트를 빠른 층과 통합 층으로 나누고, 바뀐 영역의 잡만 돌린 뒤 항상 도는 검사(ci-gate) 하나만 필수로 걸었습니다. 영역 잡은 건너뛸 수 있어서, 그 잡을 직접 필수로 걸면 문서만 바꾼 PR이 끝없이 기다리기 때문입니다. 일부러 깨뜨린 PR을 올려 병합이 막히는 것을 확인하고 닫았습니다."
+    text: "그 전 저장소에는 승인 1개면 자동으로 병합하는 설정만 있고, 빌드·테스트를 돌리는 CI가 없었습니다. 테스트를 빨리 끝나는 것과 통합 테스트로 나누고, 바뀐 영역의 잡만 돌린 뒤 항상 도는 검사(ci-gate) 하나만 필수로 걸었습니다. 영역 잡은 건너뛸 수 있어서, 그 잡을 직접 필수로 걸면 문서만 바꾼 PR이 끝없이 기다리기 때문입니다. 일부러 깨뜨린 PR을 올려 병합이 막히는 것을 확인하고 닫았습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "measured", text: "막힘 확인" }]
     evidence: ["6b32016", "27ee8b5", "PR #8·#10"]
   - title: "dev 자동 배포와 배포 실패 알림"
-    text: "Actions가 이미지를 한 번 빌드해 올리면, 서버의 Jenkins가 그 커밋의 배포 스크립트로 교체합니다. 팀원 리뷰를 받아 배포 전 검사를 저장소 밖 고정 파이프라인으로 옮기고, dev 본줄기의 머지 커밋만 배포하게 했고, 저장소를 받는 단계까지 전체에 15분 상한을 걸었습니다. Actions의 초록불은 '배포 요청 접수'까지라 Jenkins 배포가 실패해도 팀이 몰랐기 때문에, 실패할 때만 팀 메신저(Mattermost)로 알리게 했습니다."
+    text: "Actions가 이미지를 한 번 빌드해 올리면, 서버의 Jenkins가 그 커밋의 배포 스크립트로 교체합니다. 팀원 리뷰를 받아 배포 전 검사를 저장소 밖 고정 파이프라인으로 옮기고, dev의 first-parent 커밋(머지 커밋)만 배포하게 했고, 저장소를 받는 단계까지 전체에 15분 상한을 걸었습니다. Actions의 초록불은 '배포 요청 접수'까지라 Jenkins 배포가 실패해도 팀이 몰랐기 때문에, 실패할 때만 팀 메신저(Mattermost)로 알리게 했습니다."
     tags: [{ type: "judged", text: "판단" }]
     evidence: ["PR #52", "PR #108"]
   - title: "실제 Claude Code 두 개로 '한 사람당 에이전트 하나' 규칙을 확인"
@@ -55,7 +55,7 @@ did:
     evidence: ["PR #205·#211·#214"]
   - id: "env"
     title: "필수 환경변수가 빠지면 기동 단계에서 멈추게 함"
-    text: "설정 클래스(@ConfigurationProperties)로 묶는 값은 ${X} 자리에 값이 없으면 오류 없이 '${X}'라는 글자가 그대로 들어가, 필수값 검사(@NotBlank)를 통과합니다. AI 서버 주소 등 4개가 없어도 prod로 기동하는 것을 배포 이미지로 확인한 뒤, 필수값 7개를 ${X:}로 바꿔 빠진 이름을 짚고 기동 단계에서 멈추게 했습니다. 기본값 없는 ${X}가 새로 생기면 실패하는 0.8초짜리 시험도 기본 실행에 넣었습니다. 서버는 compose가 7개를 늘 채워 실제 영향은 없었고, compose 밖에서 prod로 띄울 때의 안전장치입니다."
+    text: "설정 클래스(@ConfigurationProperties)로 묶는 값은 ${X} 자리에 값이 없으면 오류 없이 '${X}'라는 글자가 그대로 들어가, 필수값 검사(@NotBlank)를 통과합니다. AI 서버 주소 등 4개가 없어도 prod로 기동하는 것을 배포 이미지로 확인한 뒤, 필수값 7개를 ${X:}로 바꿔 빠진 이름을 짚고 기동 단계에서 멈추게 했습니다. 기본값 없는 ${X}가 새로 생기면 실패하는 0.8초짜리 테스트도 기본 실행에 넣었습니다. 서버는 compose가 7개를 늘 채워 실제 영향은 없었고, compose 밖에서 prod로 띄울 때의 안전장치입니다."
     tags: [{ type: "measured", text: "실측" }]
     evidence: ["607a1598", "13067dac", "PR #63"]
   - id: "backup"
@@ -90,14 +90,14 @@ cases:
   - id: "recheck"
     kind: "동시성"
     title: "팀장을 넘긴 직후의 요청이 옛 권한으로 통과하던 경로를 막았습니다"
-    tags: [{ type: "measured", text: "재현 시험" }, { type: "judged", text: "판단" }]
+    tags: [{ type: "measured", text: "재현 테스트" }, { type: "judged", text: "판단" }]
     steps:
       - { label: "문제", text: "팀장이 다른 팀원에게 팀장 권한을 넘기는 순간에 옛 팀장이 보낸 팀장 전용 요청(팀원 제외 등)이, 이미 팀장이 아닌데도 통과할 수 있었습니다." }
       - { label: "원인", text: "권한 검사가 트랜잭션 앞부분에서 엔티티를 먼저 읽어 둡니다. 그러면 뒤의 비관적 락 조회는 락을 잡고도 영속성 컨텍스트(JPA가 한 트랜잭션 안에서 읽은 엔티티를 담아 두는 1차 캐시)의 옛 값을 돌려줘, 락을 기다리는 사이 커밋된 권한 변경을 보지 못합니다." }
       - { label: "선택", text: "락을 잡은 뒤에는 쿼리나 refresh로 지금 값을 다시 읽고, 팀장 전용 요청은 프로젝트 행을 잠근 뒤 DB의 지금 역할을 확인하게 했습니다. 여러 행을 잠그는 요청끼리 교착하지 않도록 락 순서도 초대 행 → 프로젝트 행 → 멤버십 행 한 방향으로 고정했습니다." }
-      - { label: "결과", text: "별도 트랜잭션이 락을 쥔 채 위임을 커밋하게 해, 매번 같은 순서로 겹치는 경쟁 재현 시험을 만들었습니다. 다시 읽기를 빼면 팀장이 아니게 된 사람의 요청이 200·204로 통과해 시험이 실패하는 것을 확인했습니다." }
+      - { label: "결과", text: "별도 트랜잭션이 락을 쥔 채 위임을 커밋하게 해, 매번 같은 순서로 겹치는 경쟁 조건 재현 테스트를 만들었습니다. 다시 읽기를 빼면 팀장이 아니게 된 사람의 요청이 200·204로 통과해 테스트가 실패하는 것을 확인했습니다." }
       - { label: "약점", text: "비관적 락이라 같은 프로젝트의 팀원 관리 요청은 차례로 처리됩니다. 작업 취소 경로에도 같은 원인이 남아 있었는데, 팀원이 맡은 기능이라 고칠 자리만 PR에 적었습니다.", limit: true }
-      - { label: "제 몫", text: "락 순서 고정, 락 뒤 다시 읽기, 경쟁 재현 시험은 제 작업입니다. 이 함정은 코드 리뷰 도구가 먼저 짚었고, 재확인이 빠진 곳 하나는 팀원 리뷰가 지적했습니다." }
+      - { label: "제 몫", text: "락 순서 고정, 락 뒤 다시 읽기, 경쟁 조건 재현 테스트는 제 작업입니다. 이 함정은 코드 리뷰 도구가 먼저 짚었고, 재확인이 빠진 곳 하나는 팀원 리뷰가 지적했습니다." }
     evidence: ["962ad805", "PR #31·#38·#50"]
   - id: "kafka"
     kind: "회고"
@@ -121,8 +121,8 @@ cases:
 - **연결 판정**: PR #205(설계)·#211(최근 2시간 통신 공통 SQL)·#214(인계받은 에이전트가 락 버전을 읽는 `get_task` 도구).
 - **AI 호출 상한 리뷰**: 상한 제거 `4ca82fe1`(팀원, 11-11) → 기능 전용 50·55초 `b8b93863`(팀원, 공용 클라이언트 순변경 0) · 회의 정리 35·45초 `f98a4d10`(팀원, 11-12). 리뷰는 PR #273·#287.
 - **문서 검토 구조 변경**: 시간 사슬 PR #271(재검토 40.1초), 접수·워커 PR #274(마이그레이션 V46 — 새 테이블 없이 요청 테이블에 lease 컬럼 추가, 워커 4스레드, lease 1분). 로컬 전체 스택(compose + nginx 60초): 75초 지연 가짜 모델 202 0.6초 → 78.8초 뒤 완료 · 504 0건, 검토 중 backend 재시작 → lease 뒤 두 번째 시도. 팀원 작업과 겹친 코드는 `dd9d7427`에서 dev 판으로 되돌림.
-- **락 뒤 다시 읽기**: `requireLeaderAfterLock` 첫 등장 `962ad805`. PR #50 통합 시험 전체 326개 통과 · 새 통합 시험 8개 · 되돌려 실패 확인 5가지. PR #31은 동시 수락 시 한 명만 성공(락을 빼면 실패 확인).
-- **필수 환경변수**: `607a1598`·`13067dac`(10-30), 리뷰 반영 `771be86`(포트 기본값 제거). 7개 = `DB_URL`·`DB_PASSWORD`·`CORS_ALLOWED_ORIGINS`·`AI_BASE_URL`·`AI_INTERNAL_TOKEN`·`INVITE_BASE_URL`·`MCP_URL`. 회귀 시험 `ProdProfilePropertiesTest` 0.8초.
-- **SeaweedFS·백업**: PR #144·#160. `storage` 네트워크(`internal: true`)에 SeaweedFS와 backend만, S3 신원 3개(관리·backend·backup). 백업은 `pg_dump` 뒤 `rclone copy --immutable --checksum`. 서버 적용(11-05) 뒤 업로드 문서 4건 복원 해시 = DB `content_hash`. 백업·복원 스크립트 시험 15개(CI).
+- **락 뒤 다시 읽기**: `requireLeaderAfterLock` 첫 등장 `962ad805`. PR #50 통합 테스트 전체 326개 통과 · 새 통합 테스트 8개 · 되돌려 실패 확인 5가지. PR #31은 동시 수락 시 한 명만 성공(락을 빼면 실패 확인).
+- **필수 환경변수**: `607a1598`·`13067dac`(10-30), 리뷰 반영 `771be86`(포트 기본값 제거). 7개 = `DB_URL`·`DB_PASSWORD`·`CORS_ALLOWED_ORIGINS`·`AI_BASE_URL`·`AI_INTERNAL_TOKEN`·`INVITE_BASE_URL`·`MCP_URL`. 회귀 테스트 `ProdProfilePropertiesTest` 0.8초.
+- **SeaweedFS·백업**: PR #144·#160. `storage` 네트워크(`internal: true`)에 SeaweedFS와 backend만, S3 신원 3개(관리·backend·backup). 백업은 `pg_dump` 뒤 `rclone copy --immutable --checksum`. 서버 적용(11-05) 뒤 업로드 문서 4건 복원 해시 = DB `content_hash`. 백업·복원 스크립트 테스트 15개(CI).
 - **CDC**: 팀원 PoC `15140a03`·순서 규칙 `793f0217`. dev 적용은 PR #155·#156·#164·#166, `beez-cdc` 대시보드·알림 규칙 `99c5f6b1`(11-04). Kafka 없을 때 기동 실패(spring-kafka 기동 함정)는 #164, 발행 1건 `wake_seconds` 0.8초는 #166(표본 1건). 상시 메모리 Kafka 약 413MiB · Connect 약 564MiB(11-05 서버). 아키텍처 문서 `docs/design/01-system-architecture.md:85`의 "메시지 브로커 없음"은 기준 SHA까지 그대로입니다.
 - **배포 실패 알림**: PR #108.

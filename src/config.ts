@@ -28,7 +28,7 @@ export const siteConfig = {
   },
 
   aboutMe: [
-    "6명이 6주 동안 만든 AI 에이전트 협업 서비스 BEEZ에서 서버 운영과 일부 백엔드를 맡았습니다. 팀장이 권한을 넘기는 순간에 보낸 옛 팀장의 요청이 그대로 통과할 수 있었는데, 락을 잡고도 JPA가 먼저 읽어 둔 옛 권한을 돌려주는 것이 원인이었습니다. 락을 잡은 뒤 지금 값을 다시 읽게 했고, **다시 읽기를 빼면 실패하는 경쟁 재현 시험**으로 확인했습니다.",
+    "6명이 6주 동안 만든 AI 에이전트 협업 서비스 BEEZ에서 서버 운영과 일부 백엔드를 맡았습니다. 팀장이 권한을 넘기는 순간에 보낸 옛 팀장의 요청이 그대로 통과할 수 있었는데, 락을 잡고도 JPA가 먼저 읽어 둔 옛 권한을 돌려주는 것이 원인이었습니다. 락을 잡은 뒤 지금 값을 다시 읽게 했고, **다시 읽기를 빼면 실패하는 경쟁 조건 재현 테스트**으로 확인했습니다.",
     "여행 일정 앱 TripCraft에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행에 락을 걸어, 한 사람씩 차례로 저장**하게 했습니다. 두 번째 사람은 방금 들어간 일정을 보고 거절됩니다.",
     "오픈소스 패키지 비교 서비스 Pickage에서는 개인 결제 계정으로 500TB가 넘는 BigQuery 데이터셋을 다뤘습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 실행을 멈추는 수집기를 만들었습니다. 236번 실행해 보니 청구된 사용량이 예상과 **0.1% 차이**였습니다.",
   ],
@@ -95,7 +95,7 @@ export const siteConfig = {
         { name: "Prometheus · Alertmanager", where: "BEEZ dev 서버 알림 규칙(CDC·서버)과 팀 메신저 연동" },
         { name: "MCP(Java SDK)", where: "BEEZ 에이전트 연결 서버 — 토큰 인증·감사·연결 판정" },
         { name: "Kafka · Debezium", where: "BEEZ dev 서버에 팀원이 만든 CDC 경로 적용" },
-        { name: "Redis · k6", where: "블록 배틀 대전 방 상태 저장, 동시 100방 부하 시험(로컬 근사)" },
+        { name: "Redis · k6", where: "블록 배틀 대전 방 상태 저장, 동시 100방 부하 테스트(로컬 근사)" },
       ],
     },
   ],
@@ -214,7 +214,7 @@ export const dataVariant = {
         { name: "Prometheus · Alertmanager", where: "BEEZ dev 서버 알림 규칙(CDC·서버)과 팀 메신저 연동" },
         { name: "MCP(Java SDK)", where: "BEEZ 에이전트 연결 서버 — 토큰 인증·감사·연결 판정" },
         { name: "Kafka · Debezium", where: "BEEZ dev 서버에 팀원이 만든 CDC 경로 적용" },
-        { name: "Redis · k6", where: "블록 배틀 대전 방 상태 저장, 동시 100방 부하 시험(로컬 근사)" },
+        { name: "Redis · k6", where: "블록 배틀 대전 방 상태 저장, 동시 100방 부하 테스트(로컬 근사)" },
         { name: "MySQL", where: "TripCraft 여행 단위 락(SELECT … FOR UPDATE)" },
         { name: "Spring Security", where: "CoMeetTool 보안 설정과 로그인 토큰 검사 필터" },
         { name: "Vue 3 · JavaScript", where: "TripCraft 협업 화면, tichu-trainer" },
