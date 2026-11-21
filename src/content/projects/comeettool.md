@@ -44,9 +44,9 @@ did:
     tags: [{ type: "measured", text: "실측" }]
   - id: "lock"
     title: "팀 공간 변경 요청에 비관적 락"
-    text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 락을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 락을 걸지 않았습니다. 두 요청을 실제로 동시에 보내 보는 테스트는 만들지 못했습니다."
-    tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트 없음" }]
-    evidence: ["3a07d56"]
+    text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 락을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 락을 걸지 않았습니다. 프로젝트 기간에는 두 요청을 실제로 동시에 보내 보는 테스트를 만들지 못했고, 끝난 뒤(2026-11) 실제 DB에 붙는 테스트로 락이 풀릴 때까지 기다리는 것을 확인했습니다."
+    tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트는 종료 뒤 추가" }]
+    evidence: ["3a07d56", "4a84ed7"]
   - title: "기본 브랜치를 develop으로 바꾸고 팀 규칙을 문서로 정리"
     text: "2026-07-19에 기본 브랜치를 main에서 develop으로 바꿨습니다. GitLab은 기본 브랜치의 MR 양식만 읽고 새 MR의 대상도 기본 브랜치로 잡아서, main이 기본이면 양식이 안 뜨고 확인 안 한 MR이 배포 브랜치로 갈 수 있습니다. 팀이 합의한 규칙은 문서 5개로 정리했습니다."
     tags: [{ type: "judged", text: "판단" }]
@@ -66,24 +66,25 @@ cases:
   - id: "null"
     kind: "문제 해결"
     title: "검색어가 비면 나던 500 에러를 타입 추론에서 찾아 고쳤습니다"
-    tags: [{ type: "limit", text: "수정 전 실패 미확인" }]
+    tags: [{ type: "limit", text: "수정 전 실패는 종료 뒤 확인" }]
     steps:
       - { label: "증상", text: "검색어 없이 조회하면 항상 서버 에러(500)가 났고, 검색어를 넣으면 정상이었습니다." }
       - { label: "원인", text: "검색어 자리에 null이 들어가자 PostgreSQL이 파라미터 타입을 bytea로 추론했고, bytea에는 lower()가 없어 실패했습니다. 이 에러는 분기를 검사하기 전, 타입을 정하는 단계에서 나서 분기 조건을 고쳐도 그대로였습니다." }
       - { label: "해결", text: "쿼리에서 검색어를 문자열로 명시적으로 형변환하도록(cast(:search as string)) 고쳤고, 같은 커밋에 테스트를 넣었습니다." }
-      - { label: "한계", text: "이 테스트가 수정 전 코드에서 실패하는지는 확인하지 않았습니다.", limit: true }
+      - { label: "한계", text: "프로젝트 기간에는 이 테스트가 수정 전 코드에서 실패하는지 확인하지 않았습니다. 끝난 뒤(2026-11) 로컬 DB에서 형변환을 빼고 돌려 실패하는 것을 확인했습니다.", limit: true }
     evidence: ["edfb78c", "SQLSTATE 42883"]
   - id: "boot"
     kind: "문제 해결 · 제 선택"
-    title: "제가 고른 Spring Boot 4.1에서 빠진 JSON 자동 설정을 직접 채웠습니다"
-    tags: [{ type: "judged", text: "판단" }]
+    title: "제가 고른 Spring Boot 4.1에서 원인을 잘못 짚었던 JSON 설정을, 끝난 뒤 다시 확인해 바로잡았습니다"
+    tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "당시 진단은 틀림" }]
     steps:
       - { label: "배경", text: "프로젝트 초기 구성 커밋이 제 것이라, Spring Boot 4.1은 제가 골랐습니다. 음성·영상 서버의 라이브러리 지원 Java 버전이 정해질 때까지 버전을 고정하지 않았고, 프로젝트를 만들 때 생성 도구가 3.x를 더는 내주지 않아 4.x로 시작했습니다. 4.x가 더 낫다고 비교해서 고른 것은 아닙니다." }
-      - { label: "증상", text: "날짜가 의도한 형식이 아니라 숫자로 나갔고, 필터 테스트에서 자주 쓰는 설정(@AutoConfigureMockMvc)이 동작하지 않았습니다." }
-      - { label: "원인", text: "4.x 웹 스타터에서 JSON 변환 도구(Jackson) 자동 설정이 빠졌습니다. 프레임워크가 하던 설정이 빠진 것이라 서비스 코드에서는 원인을 찾을 수 없었습니다." }
-      - { label: "해결", text: "JSON 변환 설정을 직접 만들어 날짜를 문자 형식으로, 시간대를 UTC로 고정하고, 이 설정이 빠지면 깨지는 테스트를 붙였습니다. 필터 테스트는 자동 설정 없이 직접 구성했습니다." }
+      - { label: "당시", text: "인증 기능을 붙이자 서버가 뜨지 않았습니다. 인증 실패 응답을 만드는 제 코드가 JSON 변환 도구(Jackson)의 2 버전 객체를 넘겨받는데, 서버에 그 객체가 없었습니다. 4.x가 JSON 설정을 자동으로 해 주지 않는다고 보고 Jackson 2 설정을 직접 만들어 넣었고, 날짜 형식과 시간대(UTC)도 거기에 정했습니다." }
+      - { label: "끝난 뒤 확인", text: "그 진단은 틀렸습니다(2026-11). 4.x는 JSON 설정을 자동으로 해 주고, 다만 Jackson 3 객체로 줍니다. 실제 응답을 만드는 변환기를 찍어 보니 Jackson 3였고, 제가 만든 설정은 응답에 쓰이지 않았습니다. 날짜는 UTC로 맞춰지지 않고 서버 시간대 그대로 나가고 있었습니다." }
+      - { label: "바로잡음", text: "Jackson 2를 쓰던 코드 15개 파일을 Jackson 3로 옮겨 설정을 하나로 합치고 UTC를 지정했습니다. 바꾸기 전과 후에 실제 응답 변환기의 출력을 찍어, 날짜가 API 규약대로 UTC로 나가는 것을 확인했습니다." }
+      - { label: "한계", text: "프로젝트 기간에는 틀린 진단을 주석과 문서에 남긴 채였고, 바로잡은 것은 끝난 뒤입니다. 필터 테스트 설정(@AutoConfigureMockMvc)도 4.x에서 위치가 바뀐 것을 찾지 않고 직접 구성했습니다. 끝난 뒤 새 위치로 써 보니 그대로 동작했습니다.", limit: true }
     more: "팀원도 4.x 때문에 비슷한 문제를 겪었습니다. 4.x는 Jackson 3를 쓰는데, 요청 데이터 클래스에 Jackson 2 기능을 쓰면 Spring이 알아보지 못해 500 에러가 납니다. 이 문제를 만나 원인을 주석으로 남긴 사람은 팀원이고, 저는 그 MR을 검토하고 머지했습니다."
-    evidence: ["b298885"]
+    evidence: ["b298885", "949c3a2"]
   - id: "order"
     kind: "설계 판단"
     title: "순서 값이 깨져도 목록이 뜨도록 읽는 규칙을 먼저 정했습니다"
@@ -101,10 +102,11 @@ cases:
 - **작업량**: 실작업 커밋 78건 + 머지 커밋 94건, 손댄 파일 117개, +10,303 / −890줄.
 - **공통 응답·예외 틀**: `f66a04f`(19파일 587줄) — `ApiResponse` · `CustomException` · `ErrorCode` · `ErrorResponse` · `GlobalExceptionHandler`. blame 기준 `ApiResponse` 28/28줄, `GlobalExceptionHandler` 45/49줄, `JwtAuthenticationFilter` 62/68줄, `SecurityConfig` 74/92줄.
 - **SPACE·SCHEDULE**: blame `schedule/` 523/523줄, `space/` 873/965줄, 테스트 `space` 1,734/1,750줄, `schedule` 559/559줄.
-- **비관적 락**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`3a07d56`)이고, 읽기 경로는 락 없음입니다.
+- **비관적 락**: `TeamRepository.findActiveByIdForUpdate()`의 `@Lock(PESSIMISTIC_WRITE)`. 제가 건 곳은 나가기·삭제·위임 3곳(`3a07d56`)이고, 읽기 경로는 락 없음입니다. 락이 실제로 기다리게 하는지는 2026-11에 붙인 테스트로 확인했습니다(`4a84ed7`).
 - **기본 브랜치 변경**: `Main/Docs/02_Dailylog/2026-07-19.md` §3(`ebf3bd2`). 컨벤션 문서 5종: `95e8b53`(304줄).
 - **테스트**: Java 116개 + pytest 15개.
-- **null 타입 추론 에러**: PostgreSQL SQLSTATE 42883(`lower(bytea)` 없음). 수정과 테스트 `edfb78c`.
-- **Spring Boot 4.1**: 스캐폴딩 `b298885`(07-21). `JacksonConfig` 27줄(`WRITE_DATES_AS_TIMESTAMPS` 끔, UTC), `JacksonConfigTest`, 필터 테스트는 `MockMvcBuilders`로 구성. Jackson 3(`tools.jackson.*`) 주석은 팀원 커밋 `168874c`(제 머지 `512571c`).
+- **null 타입 추론 에러**: PostgreSQL SQLSTATE 42883(`lower(bytea)` 없음). 수정과 테스트 `edfb78c`. 수정 전 실패는 2026-11에 로컬 PostgreSQL 17에서 확인했습니다.
+- **Spring Boot 4.1**: 스캐폴딩 `b298885`(07-21). 당시 `JacksonConfig` 27줄은 Jackson 2 설정이었고 응답 변환에는 쓰이지 않았습니다. 2026-11에 Jackson 3 하나로 합쳤습니다(`949c3a2`). 필터 테스트는 `MockMvcBuilders`로 구성. Jackson 3(`tools.jackson.*`) 주석은 팀원 커밋 `168874c`(제 머지 `512571c`).
 - **07-28 타임라인**: 10:48 팀원이 제 브랜치 머지 `0c51812` → 10:49:57 되돌리기 `3f2b038`(21파일 −1,096줄) → 17:27 제가 재통합 `2b08a24`.
 - **스페이스 정렬**: `users.space_order`(CSV 문자열). 일정 참여자는 `schedules.user_id_arr` `BIGINT[]` + GIN 인덱스.
+- **프로젝트가 끝난 뒤 고친 것(2026-11)**: 테스트를 단위·실제 DB 두 층으로 분리, 팀 공간 락 테스트, 초대 동시 수락이 정원 10명을 넘기던 문제, 로컬 파일 저장, Jackson 3 통일, GitHub Actions 테스트 실행. 팀 프로젝트 기간의 작업과 구분해 저장소 README에 따로 적었습니다.
