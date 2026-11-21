@@ -43,7 +43,7 @@ const toAnchor = (href: string) => {
 const prefixed = (slug: string, id?: string) => (id ? `${slug}-${id}` : undefined);
 
 // 지원서에 붙는 PDF에서만 빼는 사례(사이트에는 남긴다): 정규화를 일부러 깬 저장 방식, 백엔드와 먼 CSS 측정
-const printSkip = new Set(["comeettool-order", "tichu-trainer-measure"]);
+const printSkip = new Set(["comeettool-order", "tichu-trainer-measure", "beez-env", "tichu-trainer-auto"]);
 
 // 그림이 없는 칸은 비워 두지 않고 글이 그 자리를 쓰게 한다(MaybeImage 는 없는 그림을 그리지 않을 뿐 자리는 모른다).
 const hasImage = (src?: string) => !!src && fs.existsSync(path.join(process.cwd(), "public", src));
@@ -101,7 +101,7 @@ const timeline = [
               <h4 class="text-base font-bold text-gray-900 leading-snug">{s.title}</h4>
               <p class="text-sm text-gray-600 leading-relaxed">{s.body}</p>
               <ul class="pt-3 mt-auto border-t border-gray-200 flex flex-col gap-1">
-                {s.links.map((l) => (
+                {s.links.filter((l) => !printSkip.has(toAnchor(l.href).slice(1))).map((l) => (
                   <li>
                     <a href={toAnchor(l.href)} class="flex items-start gap-1.5 text-[13px] text-gray-700">
                       <span aria-hidden="true" class="font-mono text-gray-400">→</span>
