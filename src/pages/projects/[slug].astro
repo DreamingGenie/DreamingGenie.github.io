@@ -7,8 +7,10 @@ import OwnershipMap from "../../components/OwnershipMap.astro";
 import CaseCard from "../../components/CaseCard.astro";
 import Tag from "../../components/Tag.astro";
 import PickageFlow from "../../components/visuals/PickageFlow.astro";
+import BeezFlow from "../../components/visuals/BeezFlow.astro";
+import BlockBattleFlow from "../../components/visuals/BlockBattleFlow.astro";
 
-const flows: Record<string, any> = { PickageFlow };
+const flows: Record<string, any> = { PickageFlow, BeezFlow, BlockBattleFlow };
 
 export async function getStaticPaths() {
   const all = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);

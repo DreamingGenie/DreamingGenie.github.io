@@ -1,0 +1,125 @@
+---
+// BEEZ 요청이 지나는 길. 저장소 README 「시스템 구성」과 CDC 배포 계획(docs/infra/cdc-deploy-plan-279.md)을
+// 요청 흐름만 남겨 줄이고, 칸마다 누가 맡았는지 담당 영역 지도와 같은 색으로 칠했다(PickageFlow와 같은 문법).
+// 담당 구분은 career-facts FACTS §3-1 확정 사실(책임표 + 인프라 전담)·F95(CDC 설계·PoC는 팀원)·F108(알림 테이블 원형은 팀원)과 맞춘다.
+type Owner = "me" | "team" | "ext";
+interface Node { name: string; owner: Owner; note?: string }
+interface Stage { label: string; nodes: Node[] }
+
+const stages: Stage[] = [
+  {
+    label: "팀원 PC",
+    nodes: [
+      { name: "AI 코딩 에이전트", owner: "ext", note: "Claude Code 등 · 프로젝트별 토큰" },
+      { name: "브라우저", owner: "ext" },
+    ],
+  },
+  {
+    label: "진입",
+    nodes: [
+      { name: "Nginx · HTTPS", owner: "me", note: "/api · /mcp만 백엔드로" },
+      { name: "MCP 진입점 · 토큰 인증 · 감사", owner: "me", note: "1인 1에이전트 연결 판정" },
+      { name: "웹 화면(React · 3D 도시)", owner: "team" },
+    ],
+  },
+  {
+    label: "백엔드 (Spring Boot)",
+    nodes: [
+      { name: "계정 · 프로젝트 · 팀 · 초대 API", owner: "me" },
+      { name: "알림 · 활동 계약과 저장 입구", owner: "me", note: "테이블 원형은 팀원" },
+      { name: "작업 · 검증 · 설계 변경", owner: "team" },
+      { name: "문서 · 기획 · 회의", owner: "team" },
+    ],
+  },
+  {
+    label: "저장 · AI",
+    nodes: [
+      { name: "PostgreSQL + pgvector", owner: "team", note: "매일 백업 · 복원 스크립트는 제가" },
+      { name: "SeaweedFS 문서 원본", owner: "me", note: "내부망 · 역할별 키 3개 · 도입은 팀원" },
+      { name: "AI 서버(FastAPI)", owner: "team", note: "문서 검토 · 계획 검증 · 영향 분석" },
+      { name: "CDC: DB 변경 → Debezium → Kafka → 백엔드", owner: "team", note: "설계 · PoC는 팀원, dev 적용 · 감시는 제가" },
+    ],
+  },
+];
+
+const ops: Node[] = [
+  { name: "PR 필수 검사(ci-gate)", owner: "me", note: "GitHub Actions" },
+  { name: "dev 자동 배포", owner: "me", note: "GHCR 이미지 → Jenkins" },
+  { name: "Prometheus · Alertmanager 알림", owner: "me", note: "알림은 팀 메신저로" },
+  { name: "GitLab 미러 · 자동 병합 · AI 리뷰", owner: "team" },
+];
+
+const box: Record<Owner, string> = {
+  me: "text-white border-transparent",
+  team: "bg-white border border-dashed border-gray-300 text-gray-500",
+  ext: "bg-gray-100 border border-gray-200 text-gray-700",
+};
+---
+
+<div class="flex flex-col gap-5">
+  <div class="flex flex-wrap gap-4 text-sm text-gray-600">
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded" style="background-color: var(--accent)"></span>제가 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>팀원이 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded bg-gray-100 border border-gray-200"></span>바깥(사용자 쪽)</span>
+  </div>
+
+  <ol class="flow grid grid-cols-1 gap-2">
+    {
+      stages.map((s, i) => (
+        <>
+          {i > 0 && (
+            <li aria-hidden="true" class="flex items-center justify-center text-gray-400 text-lg leading-none py-1 md:py-0">
+              <span class="md:hidden">↓</span>
+              <span class="hidden md:inline">→</span>
+            </li>
+          )}
+          <li class="flex flex-col gap-2 min-w-0">
+            <span class="text-[13px] font-semibold text-gray-500">
+              <span class="font-mono" style="color: var(--accent)">{i + 1}</span> {s.label}
+            </span>
+            <ul class="grid grid-cols-2 md:grid-cols-1 gap-2">
+              {s.nodes.map((n) => (
+                <li class={`rounded-lg px-3 py-2.5 ${box[n.owner]}`} style={n.owner === "me" ? "background-color: var(--accent)" : ""}>
+                  <span class="block font-semibold text-[13px] leading-snug">{n.name}</span>
+                  {n.note && <span class={`block text-xs mt-0.5 leading-snug ${n.owner === "me" ? "text-white/80" : "text-gray-500"}`}>{n.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </li>
+        </>
+      ))
+    }
+  </ol>
+
+  <div class="flex flex-col gap-2">
+    <span class="text-[13px] font-semibold text-gray-500">배포 · 관측 (전 구간)</span>
+    <ul class="grid grid-cols-2 md:grid-cols-4 gap-2">
+      {
+        ops.map((n) => (
+          <li class={`rounded-lg px-3 py-2.5 ${box[n.owner]}`} style={n.owner === "me" ? "background-color: var(--accent)" : ""}>
+            <span class="block font-semibold text-[13px] leading-snug">{n.name}</span>
+            {n.note && <span class={`block text-xs mt-0.5 leading-snug ${n.owner === "me" ? "text-white/80" : "text-gray-500"}`}>{n.note}</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <p class="text-sm text-gray-500 leading-relaxed">
+    에이전트와 브라우저가 들어오는 입구, 계정·프로젝트·팀 API, 서버 운영(배포·관측·백업)을 맡았습니다. 작업·검증·문서 기능과 AI 서버, 화면은 팀원이 맡았습니다.
+    저장소 README의 시스템 구성과 CDC 배포 계획 문서에서 요청 흐름만 남겨 다시 그렸습니다.
+  </p>
+</div>
+
+<style>
+  @media (min-width: 768px) {
+    .flow {
+      grid-template-columns: 0.85fr auto 1.1fr auto 1.15fr auto 1.25fr;
+      align-items: start;
+      gap: 0.5rem;
+    }
+    .flow > li[aria-hidden] {
+      align-self: center;
+    }
+  }
+</style>
