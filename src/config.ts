@@ -61,7 +61,7 @@ export const siteConfig = {
       links: [
         { label: "CoMeetTool · 머지 95건 중 83건", href: "/projects/comeettool#merge" },
         { label: "CoMeetTool · 검토 전 머지가 된 날", href: "/projects/comeettool#0728" },
-        { label: "CoMeetTool · Spring Boot 4.1 자동 설정 문제", href: "/projects/comeettool#boot" },
+        { label: "CoMeetTool · Spring Boot 4.1 설정 진단을 끝난 뒤 바로잡음", href: "/projects/comeettool#boot" },
         { label: "BEEZ · 공용 AI 클라이언트 상한 제거를 리뷰로 막음", href: "/projects/beez#timeout" },
       ],
     },
