@@ -42,7 +42,8 @@ did:
   - title: "팀 공간·일정 API 13개와 그 테스트"
     text: "두 기능의 API는 모두 14개이고, 대표 이미지 변경 1개는 팀원이 만들었습니다(저는 그 위에 검증과 테스트를 보완). git blame 기준으로 일정 코드는 전부, 팀 공간 코드는 약 90%를 제가 작성했습니다. 제가 쓴 테스트는 131개입니다."
     tags: [{ type: "measured", text: "실측" }]
-  - title: "팀 공간 변경 요청에 비관적 락"
+  - id: "lock"
+    title: "팀 공간 변경 요청에 비관적 락"
     text: "공간을 지우는 요청과 고치는 요청이 동시에 들어오면 서로 부딪힙니다. 나가기·삭제·소유권 위임 3곳에 비관적 락을 걸고 헬퍼로 묶었고, 팀원이 그 헬퍼를 다섯 곳에서 다시 썼습니다. 조회만 하는 요청은 일부러 락을 걸지 않았습니다. 두 요청을 실제로 동시에 보내 보는 테스트는 만들지 못했습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트 없음" }]
     evidence: ["3a07d56"]
@@ -53,7 +54,7 @@ did:
 cases:
   - id: "0728"
     kind: "운영 · 07-28"
-    title: "검토가 끝나지 않은 코드가 머지된 날"
+    title: "검토 전 머지 사고 뒤, develop 머지를 통합 담당으로 모았습니다"
     visual: "Timeline0728"
     tags: [{ type: "measured", text: "실측" }, { type: "limit", text: "권한 변경은 저장소 밖" }]
     steps:
@@ -64,7 +65,7 @@ cases:
     evidence: ["0c51812", "3f2b038", "2b08a24"]
   - id: "null"
     kind: "문제 해결"
-    title: "검색어를 비우면 스페이스 목록이 항상 500 에러"
+    title: "검색어가 비면 나던 500 에러를 타입 추론에서 찾아 고쳤습니다"
     tags: [{ type: "limit", text: "수정 전 실패 미확인" }]
     steps:
       - { label: "증상", text: "검색어 없이 조회하면 항상 서버 에러(500)가 났고, 검색어를 넣으면 정상이었습니다." }
@@ -74,7 +75,7 @@ cases:
     evidence: ["edfb78c", "SQLSTATE 42883"]
   - id: "boot"
     kind: "문제 해결 · 제 선택"
-    title: "제가 고른 Spring Boot 4.1에서 생긴 자동 설정 문제"
+    title: "제가 고른 Spring Boot 4.1에서 빠진 JSON 자동 설정을 직접 채웠습니다"
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "비교 기록 없음" }]
     steps:
       - { label: "배경", text: "프로젝트 초기 구성 커밋이 제 것이라, Spring Boot 4.1은 제가 골랐습니다. 음성·영상 서버의 라이브러리 지원 Java 버전이 정해질 때까지 버전을 고정하지 않았고, 프로젝트를 만들 때 생성 도구가 3.x를 더는 내주지 않아 4.x로 시작했습니다. 4.x가 더 낫다고 비교해서 고른 것은 아닙니다." }
@@ -86,7 +87,7 @@ cases:
     evidence: ["b298885"]
   - id: "order"
     kind: "설계 판단"
-    title: "순서 데이터가 깨져도 목록은 뜨게"
+    title: "순서 값이 깨져도 목록이 뜨도록 읽는 규칙을 먼저 정했습니다"
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "DB 제약 없음" }]
     steps:
       - { label: "문제", text: "사용자가 스페이스를 끌어서 바꾼 순서를 저장해야 합니다." }
@@ -96,7 +97,7 @@ cases:
       - { label: "약점", text: "DB 제약이 없어 값이 맞는지는 위 규칙에만 기댑니다. 쉼표로 이은 문자열이라 잘못된 값이 들어와도 DB가 막지 못합니다.", limit: true }
 ---
 
-- **머지 수를 세는 기준.** `origin/main`에 남은 `into 'develop'` 머지 95건 중 83건(87.4%). develop 브랜치까지 포함하면 109건 중 86건(78.9%)이고, 이 86건은 타인 브랜치 66건 + 제 브랜치 20건입니다. `into 'main'` 머지 10건은 전부 제 것이고, 그중 배포는 9건(develop→main 5 + hotfix 4), 나머지 1건은 07-19 오머지입니다.
+- **머지 수를 세는 기준.** `origin/main`에 남은 `into 'develop'` 머지 95건 중 83건(87.4%). `into 'main'` 머지 10건은 전부 제 것이고, 그중 배포는 9건(develop→main 5 + hotfix 4), 나머지 1건은 07-19 오머지입니다.
 - **제 브랜치를 팀원이 머지한 9건**은 팀원 3명이 각각 5 · 2 · 2건입니다. 제가 머지한 제 브랜치 20건 = main 머지 2(배포 1 · 07-19 오머지 1) + 07-19 ~ 21 docs 5 + feature·fix 13(전부 07-28 이후). 이때도 검토는 팀원에게 받고 합치기 버튼만 제가 눌렀습니다.
 - **작업량**: 실작업 커밋 78건 + 머지 커밋 94건, 손댄 파일 117개, +10,303 / −890줄.
 - **공통 응답·예외 틀**: `f66a04f`(19파일 587줄) — `ApiResponse` · `CustomException` · `ErrorCode` · `ErrorResponse` · `GlobalExceptionHandler`. blame 기준 `ApiResponse` 28/28줄, `GlobalExceptionHandler` 45/49줄, `JwtAuthenticationFilter` 62/68줄, `SecurityConfig` 74/92줄.

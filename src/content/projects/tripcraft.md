@@ -48,7 +48,7 @@ did:
 cases:
   - id: "lock"
     kind: "설계 판단"
-    title: "같은 시간에 일정 두 개가 들어가는 문제, 여행 단위로 한 명씩 저장하게 했습니다"
+    title: "겹치는 시간에 일정 두 개가 들어가던 것을 여행 단위 락으로 막았습니다"
     visual: "LockDiagram"
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "동시 요청 테스트 없음" }]
     steps:
@@ -61,7 +61,7 @@ cases:
     evidence: ["913a4c1", "d2035b0", "TripMapper.xml:28"]
   - id: "order"
     kind: "문제 해결"
-    title: "변경 알림이 저장보다 먼저 나가고 있었습니다"
+    title: "변경 알림을 저장이 끝난 뒤 순번대로 보내게 바꿨습니다"
     visual: "NotifyOrder"
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "남은 버그 1건" }]
     steps:

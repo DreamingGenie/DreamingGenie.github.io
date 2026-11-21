@@ -59,18 +59,18 @@ did:
 cases:
   - id: "guard"
     kind: "설계 · 가드레일"
-    title: "개인 결제 계정으로 500TB가 넘는 데이터셋을 읽는 수집기"
+    title: "BigQuery 사용량을 실행 전에 계산해 상한을 걸었습니다(236회, 오차 0.1%)"
     visual: "GuardChain"
     tags: [{ type: "measured", text: "실측" }]
     steps:
-      - { label: "위험", text: "BigQuery는 쿼리가 읽은 데이터 양만큼 요금을 받습니다. 결제는 제 개인 계정이었고, 쿼리 하나를 잘못 보내 넓게 읽으면 큰 요금이 그대로 청구될 수 있었습니다." }
+      - { label: "위험", text: "BigQuery는 쿼리가 읽은 데이터 양만큼 요금을 받습니다. 다룰 데이터셋은 500TB가 넘었고 결제는 제 개인 계정이었기에, 쿼리 하나를 잘못 보내 넓게 읽으면 큰 요금이 그대로 청구될 수 있었습니다." }
       - { label: "선택", text: "실제로 돌리지 않고 읽을 양만 미리 계산하는 기능(dry-run)을 바탕으로, 요금이 나가기 전에 여섯 단계의 검사를 두었습니다. 하나라도 걸리면 전체를 멈춥니다." }
       - { label: "결과", text: "236번 실행한 기록을 다시 모아 보니 미리 계산한 사용량은 104.41 GiB, 실제로 청구된 사용량은 104.53 GiB로 차이가 0.1%였습니다. 이 수집기로 약 11억 행, 31 GiB를 파일로 받았습니다." }
       - { label: "약점", text: "여섯 단계가 제대로 도는지는 실행 기록 236건으로 먼저 확인했고, 테스트는 그 뒤에 붙였습니다.", limit: true }
     evidence: ["collect.py 338줄", "실행 기록 236잡"]
   - id: "export"
     kind: "설계 판단"
-    title: "EXPORT DATA를 시험해 보고 쓰지 않은 이유"
+    title: "EXPORT DATA 대신 임시 테이블을 거쳐, 상한 검사가 실제 사용량대로 동작하게 했습니다"
     visual: "ExportChart"
     tags: [{ type: "measured", text: "실측" }, { type: "judged", text: "판단" }]
     steps:
@@ -103,7 +103,7 @@ cases:
     evidence: ["migration_pairs_260908/README.md §6"]
   - id: "tunnel"
     kind: "가드레일"
-    title: "SSH 터널 없이 실행하면 바로 실패하게 포트를 분리"
+    title: "SSH 터널 없이 실행하면 연결 에러로 바로 멈추게 했습니다"
     tags: [{ type: "judged", text: "판단" }, { type: "measured", text: "실패 확인" }]
     steps:
       - { label: "위험", text: "서버의 파일 저장소로 올릴 때 SSH 터널을 엽니다. 터널 포트가 내 PC 저장소 포트(9000)와 같으면, 터널을 깜빡하고 실행했을 때 서버로 가야 할 데이터가 아무 에러 없이 내 PC에 들어갑니다." }

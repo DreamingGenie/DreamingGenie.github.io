@@ -28,9 +28,9 @@ export const siteConfig = {
   },
 
   aboutMe: [
-    "7명이 4주 동안 AI 회의 도우미를 만든 프로젝트에서 PM과 코드 통합을 맡았습니다. 팀원이 작업을 마치면 제가 코드를 읽고 develop 브랜치에 머지했고, develop 머지 **95건 중 83건**을 이렇게 처리했습니다.",
-    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행에 락을 걸어, 한 사람씩 차례로 저장**하게 했습니다.",
-    "오픈소스 데이터 수집 프로젝트에서는 개인 결제 계정으로 500TB가 넘는 BigQuery 데이터셋을 다뤘습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 실행을 멈추는 수집기를 만들었습니다. 236번 실행해 보니 실제 요금이 예상과 **0.1% 차이**였습니다.",
+    "6명이 6주 동안 만든 AI 에이전트 협업 서비스 BEEZ에서 서버 운영과 일부 백엔드를 맡았습니다. 팀장이 권한을 넘기는 순간에 보낸 옛 팀장의 요청이 그대로 통과할 수 있었는데, 락을 잡고도 JPA가 먼저 읽어 둔 옛 권한을 돌려주는 것이 원인이었습니다. 락을 잡은 뒤 지금 값을 다시 읽게 했고, **다시 읽기를 빼면 실패하는 경쟁 재현 시험**으로 확인했습니다.",
+    "여행 일정 앱에서는 여러 명이 같은 일정표를 동시에 고칩니다. 두 사람이 겹치는 시간에 일정을 하나씩 넣으면 둘 다 저장될 수 있었는데, 원래 쓰던 충돌 검사는 일정을 한 건씩만 봐서 이 경우를 잡지 못했습니다. 그래서 저장하는 동안 **그 여행에 락을 걸어, 한 사람씩 차례로 저장**하게 했습니다. 두 번째 사람은 방금 들어간 일정을 보고 거절됩니다.",
+    "오픈소스 데이터 수집 프로젝트에서는 개인 결제 계정으로 500TB가 넘는 BigQuery 데이터셋을 다뤘습니다. 쿼리 하나만 잘못 보내도 큰 요금이 나올 수 있어서, 실행 전에 사용량을 미리 계산하고 상한을 넘으면 실행을 멈추는 수집기를 만들었습니다. 236번 실행해 보니 청구된 사용량이 예상과 **0.1% 차이**였습니다.",
   ],
 
   // 일하는 방식. link 는 프로젝트 상세 페이지의 사례 앵커.
@@ -41,7 +41,8 @@ export const siteConfig = {
       links: [
         { label: "TripCraft · 여행 단위 락", href: "/projects/tripcraft#lock" },
         { label: "TripCraft · 알림을 저장 순서대로", href: "/projects/tripcraft#order" },
-        { label: "CoMeetTool · 팀 공간 쓰기 락", href: "/projects/comeettool#did" },
+        { label: "CoMeetTool · 팀 공간 쓰기 락", href: "/projects/comeettool#lock" },
+        { label: "BEEZ · 락을 잡은 뒤 권한 다시 읽기", href: "/projects/beez#recheck" },
       ],
     },
     {
@@ -51,15 +52,17 @@ export const siteConfig = {
         { label: "Pickage · BigQuery 6단계 상한 검사", href: "/projects/pickage#guard" },
         { label: "Pickage · EXPORT DATA를 쓰지 않은 이유", href: "/projects/pickage#export" },
         { label: "Pickage · 터널 없이 실행하면 바로 실패", href: "/projects/pickage#tunnel" },
+        { label: "BEEZ · 필수 환경변수가 빠지면 기동 단계에서 멈춤", href: "/projects/beez#env" },
       ],
     },
     {
       title: "팀 코드 통합",
-      body: "팀이 정한 규칙을 문서와 저장소 설정에 반영했고, PM으로서 코드 통합을 맡았습니다.",
+      body: "팀이 정한 규칙을 문서와 저장소 설정에 반영했고, PM으로서 코드 통합을 맡았습니다. BEEZ에서는 팀원 PR 103개를 리뷰했습니다.",
       links: [
         { label: "CoMeetTool · 머지 95건 중 83건", href: "/projects/comeettool#merge" },
         { label: "CoMeetTool · 검토 전 머지가 된 날", href: "/projects/comeettool#0728" },
         { label: "CoMeetTool · Spring Boot 4.1 자동 설정 문제", href: "/projects/comeettool#boot" },
+        { label: "BEEZ · 공용 AI 클라이언트 상한 제거를 리뷰로 막음", href: "/projects/beez#timeout" },
       ],
     },
   ],
