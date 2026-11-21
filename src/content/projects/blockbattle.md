@@ -8,7 +8,13 @@ team: "1명 · 개인 작업"
 role: "실증 범위·지표 정의 · 개발 · 배포와 운영"
 stack: ["Java 21", "Spring Boot 3.5", "MySQL 8.4", "Redis 7.4", "STOMP(WebSocket)", "React 19 · Canvas", "FastAPI", "k6", "AWS EC2 · Docker Compose"]
 highlight: "빠른 정상 이용자를 잡지 않게 기준을 세워, 랭킹 1위를 차지한 콘솔 봇을 랭킹에서 뺐습니다"
-shotNote: "배포 주소는 2026-11-19 서버를 내려 지금은 열리지 않습니다. 저장소는 아직 비공개입니다."
+repo: "https://github.com/DreamingGenie/BlockBattle"
+cover: "/images/projects/blockbattle/cover.jpg"
+gallery:
+  - { src: "/images/projects/blockbattle/01.jpg", caption: "로비 — 싱글, AI 대전, 친구 대전을 고르고 내 전적과 지금 접속한 사람 수를 봅니다" }
+  - { src: "/images/projects/blockbattle/02.jpg", caption: "싱글 — 점수·줄·레벨과 다음 블록 다섯 개, 홀드 칸이 보입니다" }
+  - { src: "/images/projects/blockbattle/03.jpg", caption: "친구 대전 4명 — 내 보드 옆에 상대 세 명의 보드와 점수가 실시간으로 보입니다" }
+shotNote: "로컬에서 띄워 찍은 화면입니다(저장소 312bcc8, 2026-11-21). 배포 주소는 2026-11-19 서버를 내려 지금은 열리지 않습니다."
 flow: "BlockBattleFlow"
 areas:
   - group: "게임 서버"
