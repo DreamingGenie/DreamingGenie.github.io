@@ -6,6 +6,7 @@ import NotifyOrder from "./visuals/NotifyOrder.astro";
 import GuardChain from "./visuals/GuardChain.astro";
 import ExportChart from "./visuals/ExportChart.astro";
 import VotesChart from "./visuals/VotesChart.astro";
+import { emphasize } from "../lib/emphasize";
 
 const visuals: Record<string, any> = { LockDiagram, Timeline0728, NotifyOrder, GuardChain, ExportChart, VotesChart };
 
@@ -16,7 +17,7 @@ interface Props {
     title: string;
     tags: { type: "measured" | "judged" | "limit"; text: string }[];
     visual?: string;
-    steps: { label: string; text: string; limit?: boolean }[];
+    steps: { label: string; text: string; limit?: boolean; key?: boolean }[];
     more?: string;
     evidence: string[];
   };
@@ -27,6 +28,9 @@ const { item, expanded = false } = Astro.props;
 const Visual = item.visual ? visuals[item.visual] : null;
 // 한계는 사례 안의 한계 줄에만 남기고, 머리 태그에서는 뺀다(빨간 표시가 첫인상을 실패 목록으로 만들던 문제).
 const shownTags = item.tags.filter((t) => t.type !== "limit");
+// 상황·문제·선택이 모두 같은 회색이라 결과가 묻히던 문제 — 결과 줄만 진하게 그리고 강조색 띠를 붙인다.
+const KEY_LABELS = ["결과", "측정 결과", "해결"];
+const isKey = (s: { label: string; key?: boolean; limit?: boolean }) => !s.limit && (s.key ?? KEY_LABELS.includes(s.label));
 ---
 
 <article id={item.id} class="scroll-mt-24 bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm">
@@ -56,12 +60,22 @@ const shownTags = item.tags.filter((t) => t.type !== "limit");
 
   <dl class="divide-y divide-gray-100">
     {
-      item.steps.map((s) => (
-        <div class={`grid grid-cols-1 sm:grid-cols-[8.5rem_1fr] gap-1 sm:gap-6 px-5 sm:px-8 py-4 ${s.limit ? "bg-gray-50" : ""}`}>
-          <dt class={`text-sm font-semibold ${s.limit ? "text-gray-700" : "text-gray-500"}`}>{s.label}</dt>
-          <dd class="text-[0.9375rem] sm:text-base text-gray-800 leading-relaxed">{s.text}</dd>
-        </div>
-      ))
+      item.steps.map((s) => {
+        const key = isKey(s);
+        return (
+          <div
+            class={`case-step grid grid-cols-1 sm:grid-cols-[8.5rem_1fr] gap-1 sm:gap-6 px-5 sm:px-8 py-4 ${s.limit ? "bg-gray-50" : ""} ${key ? "case-key" : ""}`}
+          >
+            <dt class={`text-sm font-semibold ${key ? "" : s.limit ? "text-gray-700" : "text-gray-500"}`} style={key ? "color: var(--accent)" : undefined}>
+              {s.label}
+            </dt>
+            <dd
+              class={`text-[0.9375rem] sm:text-base leading-relaxed ${key ? "text-gray-900 font-medium" : "text-gray-700"}`}
+              set:html={emphasize(s.text)}
+            />
+          </div>
+        );
+      })
     }
   </dl>
 
@@ -87,3 +101,10 @@ const shownTags = item.tags.filter((t) => t.type !== "limit");
     )
   }
 </article>
+
+<style>
+  .case-key {
+    background: color-mix(in srgb, var(--accent) 5%, white);
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+</style>

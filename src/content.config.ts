@@ -6,6 +6,7 @@ const step = z.object({
   label: z.string(),
   text: z.string(),
   limit: z.boolean().optional(), // 한계·약점 줄은 따로 표시한다
+  key: z.boolean().optional(), // 결과 줄처럼 눈에 띄게 그린다. 없으면 라벨(결과·측정 결과·해결)로 정한다
 });
 
 const caseItem = z.object({
