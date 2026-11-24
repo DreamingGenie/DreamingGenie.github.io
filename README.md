@@ -23,6 +23,12 @@ node scripts/make-pdf.mjs            # ../pdf/ 에 PDF 2개 (빌드 → preview 
 
 인쇄 전용 꾸밈은 `src/styles/print.css`, 본문 배치는 `src/components/print/PrintDocument.astro`에 있습니다.
 
+`/deck/`는 같은 내용을 가로 16:9 장표로 편 페이지입니다. 전부 싣지 않고 대표 프로젝트 3개와 그 안의 사례 몇 건만 고릅니다(고르는 곳: `src/pages/deck/index.astro`의 `deck`). 꾸밈은 `src/styles/deck.css`, 배치는 `src/components/deck/DeckDocument.astro`입니다. 글이 많은 장은 넘치지 않게 본문 크기를 자동으로 줄입니다.
+
+```bash
+node scripts/make-pdf.mjs ../pdf deck   # 장표 PDF만
+```
+
 ## 내용을 고치는 곳
 
 | 무엇 | 파일 |

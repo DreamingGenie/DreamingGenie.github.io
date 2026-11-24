@@ -1,0 +1,50 @@
+---
+// 가로 장표(16:9) PDF용 바탕. 상단 메뉴·푸터 없이 장만 늘어놓고, 쪽 크기는 deck.css 에 있다.
+import { siteConfig } from "../config";
+import "../styles/global.css";
+import "../styles/deck.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = siteConfig.description } = Astro.props;
+---
+
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=1280" />
+    <meta name="robots" content="noindex" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Pretendard 는 deck.css 의 @font-face(정적 woff2)로 받는다 -->
+    <title>{title}</title>
+  </head>
+  <body style={`--accent: ${siteConfig.accentColor}`}>
+    <slot />
+    <!-- 글이 많은 장(사례·한 일)은 넘치지 않을 때까지 본문 크기를 0.5px씩 줄인다. 원고가 길어져도 장 밖으로 잘리지 않게 하려는 것이고,
+         13px까지 줄여도 넘치면 data-overflow 를 붙인다(make-pdf 전에 /deck 를 열어 확인). -->
+    <script is:inline>
+      const fit = () => {
+        document.querySelectorAll("[data-fit]").forEach((el) => {
+          let fs = parseFloat(el.dataset.fit);
+          const over = () => el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1;
+          el.style.setProperty("--fs", fs + "px");
+          while (over() && fs > 13) {
+            fs -= 0.5;
+            el.style.setProperty("--fs", fs + "px");
+          }
+          if (over()) el.closest(".slide").dataset.overflow = "1";
+        });
+        document.documentElement.dataset.fitted = "1";
+      };
+      document.fonts.ready.then(fit);
+    </script>
+  </body>
+</html>

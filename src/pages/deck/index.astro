@@ -1,0 +1,25 @@
+---
+// 가로 장표(백엔드). 내용은 홈(/)과 프로젝트 상세를 그대로 읽고, 싣는 프로젝트·사례만 여기서 고른다. 생성 방법은 site/README.md.
+import Deck from "../../layouts/Deck.astro";
+import DeckDocument from "../../components/deck/DeckDocument.astro";
+import { siteConfig } from "../../config";
+
+const variant = {
+  title: siteConfig.title,
+  roleLabel: siteConfig.roleLabel,
+  hero: siteConfig.hero,
+  aboutMe: siteConfig.aboutMe,
+  strengths: siteConfig.strengths,
+  skills: siteConfig.skills,
+};
+// 2026-11-24 전진님 결정: 백엔드판 대표 프로젝트는 BEEZ · TripCraft · Pickage. 사례는 첫 화면 '일하는 방식'이 가리키는 것 위주.
+const deck = [
+  { slug: "beez", cases: ["recheck", "worker", "kafka"] },
+  { slug: "tripcraft", cases: ["lock", "order"] },
+  { slug: "pickage", cases: ["guard", "export", "reload"] },
+];
+---
+
+<Deck title={`${siteConfig.name} · ${siteConfig.title} 포트폴리오`}>
+  <DeckDocument variant={variant} deck={deck} />
+</Deck>

@@ -1,5 +1,7 @@
-// /print/ 와 /print/data 를 Chrome headless 로 A4 PDF 로 만든다.
-//   node scripts/make-pdf.mjs [출력 폴더]      (기본: ../pdf  — site 밖, 저장소에 실리지 않는 곳)
+// /print/ · /print/data(세로 A4)와 /deck/(가로 16:9 장표)를 Chrome headless 로 PDF 로 만든다.
+//   node scripts/make-pdf.mjs [출력 폴더] [경로 일부]   (기본: ../pdf  — site 밖, 저장소에 실리지 않는 곳)
+//   경로 일부를 주면 그 글자가 든 대상만 만든다. 예: node scripts/make-pdf.mjs ../pdf deck
+// 쪽 크기는 각 페이지의 CSS(@page — print.css 는 A4, deck.css 는 1280×720px)가 정한다.
 // 순서: astro build → astro preview(4322) → Chrome --print-to-pdf → preview 종료.
 // 글꼴(Pretendard·IBM Plex Mono)은 CDN 에서 받으므로 네트워크가 필요하다.
 import { spawn, execSync } from "node:child_process";
@@ -21,7 +23,8 @@ if (!chrome) throw new Error("Chrome/Edge 를 찾지 못했습니다: " + chrome
 const targets = [
   { route: "/print/", file: "전진-포트폴리오-백엔드.pdf" },
   { route: "/print/data", file: "전진-포트폴리오-데이터엔지니어.pdf" },
-];
+  { route: "/deck/", file: "전진-포트폴리오-백엔드-장표.pdf" },
+].filter((t) => !process.argv[3] || t.route.includes(process.argv[3]));
 
 mkdirSync(outDir, { recursive: true });
 execSync("npx astro build", { cwd: site, stdio: "inherit" });
