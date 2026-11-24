@@ -42,6 +42,18 @@ const { title, description = siteConfig.description } = Astro.props;
           }
           if (over()) el.closest(".slide").dataset.overflow = "1";
         });
+        // 도식은 칸 높이를 넘지 않는 선에서 키운다(시작 배율은 data-zoom).
+        document.querySelectorAll("[data-zoom]").forEach((el) => {
+          let z = parseFloat(el.dataset.zoom);
+          // 키우면 칸이 좁아져 도식 안에서 줄이 넘어가기도 한다 — 원래 높이보다 커지면(줄 넘김) 그것도 넘침으로 본다.
+          const natural = el.offsetHeight;
+          const over = () => el.offsetHeight > natural + 2 || el.getBoundingClientRect().bottom > el.parentElement.getBoundingClientRect().bottom + 1;
+          el.style.zoom = z;
+          while (over() && z > 1) {
+            z = Math.round((z - 0.05) * 100) / 100;
+            el.style.zoom = z;
+          }
+        });
         document.documentElement.dataset.fitted = "1";
       };
       document.fonts.ready.then(fit);

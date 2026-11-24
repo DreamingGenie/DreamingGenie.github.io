@@ -38,6 +38,9 @@ interface Props {
 }
 const { variant: v, deck } = Astro.props;
 
+const KEY_LABELS = ["결과", "측정 결과", "해결"];
+const isKey = (s: { label: string; key?: boolean; limit?: boolean }) => !s.limit && (s.key ?? KEY_LABELS.includes(s.label));
+
 const all = await getCollection("projects");
 const rank = (id: string, fallback: number) => (v.projectOrder ? v.projectOrder.indexOf(id) : fallback);
 const listed = all.filter((p) => !v.projectOrder || v.projectOrder.includes(p.id)).sort((a, b) => rank(a.id, a.data.order) - rank(b.id, b.data.order));
@@ -48,11 +51,22 @@ const picked = deck.map((d) => {
     const c = p.data.cases.find((x) => x.id === id);
     if (!c) throw new Error(`장표에 적은 사례가 없습니다: ${d.slug}#${id}`);
     const n = c.steps.reduce((k, s) => k + s.text.length, 0);
-    // 짧은 사례는 도식과 글을 한 장에 나란히, 긴 사례는 도식을 앞 장으로 뺀다
-    return { ...c, n, side: !!c.visual && n <= 520, shownTags: c.tags.filter((t) => t.type !== "limit") };
+    // 결과 단은 제목 바로 아래 띠로 올린다(같은 문장을 옮기기만 한다) — 제목과 결과만 읽고 넘겨도 요점이 남게.
+    const lead = c.steps.find((s) => isKey(s));
+    const rest = c.steps.filter((s) => s !== lead);
+    // 도식이 없으면 글만 두 단(plain), 도식이 있고 짧으면 도식과 글을 한 장에 나란히(side),
+    // 도식이 있고 길면 두 장(two): 앞 장은 도식 옆에 앞쪽 절반, 뒤 장은 결과 띠와 나머지.
+    const layout = !c.visual ? "plain" : n <= 520 ? "side" : "two";
+    let acc = 0;
+    const cutAt = rest.findIndex((s) => (acc += s.text.length) > (n - (lead?.text.length ?? 0)) / 2);
+    const cut = cutAt < 0 ? rest.length : cutAt + 1; // 절반을 넘기는 단까지 앞 장에 둔다
+    return { ...c, n, lead, rest, layout, first: rest.slice(0, cut), second: rest.slice(cut), shownTags: c.tags.filter((t) => t.type !== "limit") };
   });
   return { p, cases };
 });
+
+// 줄 끝에서 날짜·범위가 갈리지 않게 묶는다(2026-11 → "2026-" / "11", 10–12시 → "10–" / "12시").
+const rich = (t: string) => emphasize(t).replace(/\d[\d.]*[-–]\d[\d.\-–]*/g, (m) => `<span class="nw">${m}</span>`);
 
 const siteUrl = "https://dreaminggenie.github.io";
 const owner = `${siteConfig.name} · ${v.title} 포트폴리오`;
@@ -73,14 +87,12 @@ const toHref = (href: string) => {
 // 한 장에 다 들어가게 글자 수로 본문 크기를 고른다(견본 실측: 694자는 20px, 1,149자는 16px까지 들어갔다).
 // 여기서 고른 값은 시작 크기이고, 실제로 넘치면 Deck.astro 의 스크립트가 더 줄인다.
 const stepFs = (n: number) => (n <= 560 ? 19 : n <= 760 ? 18 : 17);
-const KEY_LABELS = ["결과", "측정 결과", "해결"];
-const isKey = (s: { label: string; key?: boolean; limit?: boolean }) => !s.limit && (s.key ?? KEY_LABELS.includes(s.label));
 
 // '한 일' 카드는 두 단에 들어가는 만큼씩 장을 나눈다. 카드 높이는 글자 수로 어림한다.
 const cardH = (x: { text: string }) => 110 + x.text.length * 0.7;
 const didFs = (items: { text: string }[]) => {
   const h = items.reduce((n, x) => n + cardH(x), 0);
-  return h <= 620 ? 17 : 16;
+  return h <= 700 ? 19 : 17;
 };
 const chunkDid = <T extends { text: string }>(items: T[]) => {
   const out: T[][] = [];
@@ -304,7 +316,7 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
                     {chunk.map((x) => (
                       <div id={x.id ? `${p.id}-${x.id}` : undefined}>
                         <h2>{x.title}</h2>
-                        <p>{x.text}</p>
+                        <p set:html={rich(x.text)} />
                         {x.evidence.length > 0 && <div class="ev">{x.evidence.map((e) => <code>{e}</code>)}</div>}
                       </div>
                     ))}
@@ -317,49 +329,72 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
           {/* 사례 */}
           {cases.map((c) => {
             const Visual = c.visual ? visuals[c.visual] : null;
-            const side = c.side;
             const tags = c.shownTags;
-            const steps = (one: boolean, size: number) => (
-              <dl class={`steps ${one ? "one" : ""}`} data-fit={size} style="height: 100%">
-                {c.steps.map((s) => (
+            const stepList = (items: typeof c.rest, one: boolean, size: number) => (
+              <dl class={`steps ${one ? "one" : ""}`} data-fit={size}>
+                {items.map((s) => (
                   <div class={`${isKey(s) ? "is-key" : ""} ${s.limit ? "is-limit" : ""}`}>
                     <dt>{s.label}</dt>
-                    <dd set:html={emphasize(s.text)} />
+                    <dd set:html={rich(s.text)} />
                   </div>
                 ))}
               </dl>
             );
+            const leadBand = c.lead && (
+              <div class="lead">
+                <span>{c.lead.label}</span>
+                <p set:html={rich(c.lead.text)} />
+              </div>
+            );
+            const tagRow = tags.length > 0 && <div class="tags">{tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>;
             const ev = c.evidence.map((e) => <code>{e}</code>);
-            return (
+            return c.layout === "two" ? (
               <>
-                {Visual && !side && (
-                  <Slide label={d.title} sub={`${c.kind} · 도식`} owner={owner}>
-                    <h1>{c.title}</h1>
-                    <div class="rule">
-                      {c.visual === "LockDiagram" ? (
-                        <div class="solo-visual two"><Visual mode="nolock" /><Visual mode="lock" /></div>
-                      ) : (
-                        <div class="solo-visual"><Visual /></div>
-                      )}
-                    </div>
-                  </Slide>
-                )}
-                <Slide id={`${p.id}-${c.id}`} label={d.title} sub={c.kind} owner={owner}>
+                {/* 긴 사례 + 도식: 앞 장은 도식 옆에 앞쪽 단(무슨 문제였고 무엇을 골랐나), 뒤 장은 결과 띠와 나머지 단 */}
+                <Slide id={`${p.id}-${c.id}`} label={d.title} sub={`${c.kind} · 1/2`} owner={owner}>
                   <h1>{c.title}</h1>
-                  {tags.length > 0 && <div class="tags">{tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>}
+                  {tagRow}
                   <div class="rule">
-                    {side ? (
-                      <div class="split">
-                        <div class="visual"><Visual /></div>
-                        {steps(true, 17)}
+                    <div class="split wide">
+                      <div class="visual stacked">
+                        {c.visual === "LockDiagram" ? (
+                          <>
+                            <Visual mode="nolock" />
+                            <Visual mode="lock" />
+                          </>
+                        ) : (
+                          <Visual />
+                        )}
                       </div>
-                    ) : (
-                      steps(false, stepFs(c.n))
-                    )}
+                      {stepList(c.first, true, 18)}
+                    </div>
                   </div>
                   <Fragment slot="foot">{ev}</Fragment>
                 </Slide>
+                <Slide label={d.title} sub={`${c.kind} · 2/2`} owner={owner}>
+                  <h1>{c.title}</h1>
+                  {leadBand}
+                  <div class="rule">{stepList(c.second, false, 19)}</div>
+                  <Fragment slot="foot">{ev}</Fragment>
+                </Slide>
               </>
+            ) : (
+              <Slide id={`${p.id}-${c.id}`} label={d.title} sub={c.kind} owner={owner}>
+                <h1>{c.title}</h1>
+                {tagRow}
+                {leadBand}
+                <div class="rule">
+                  {c.layout === "side" ? (
+                    <div class="split">
+                      <div class="visual" data-zoom="1.15"><Visual /></div>
+                      {stepList(c.rest, true, 18)}
+                    </div>
+                  ) : (
+                    stepList(c.rest, false, stepFs(c.n))
+                  )}
+                </div>
+                <Fragment slot="foot">{ev}</Fragment>
+              </Slide>
             );
           })}
         </>
