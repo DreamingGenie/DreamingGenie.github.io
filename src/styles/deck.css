@@ -34,13 +34,8 @@ body {
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
-.deck p,
-.deck dd,
-.deck li,
-.deck td,
-.deck figcaption {
-  text-wrap: pretty; /* 마지막 줄에 낱말 하나만 떨어지지 않게 */
-}
+/* 문단에는 text-wrap: pretty 를 쓰지 않는다 — 한글은 어절째 옮겨져 줄이 일찍 끊기고 오른쪽이 크게 남는다(tichu-trainer 에서 측정해 뺀 것과 같은 이유).
+   두 줄 안팎인 제목·결과 띠에만 balance 를 쓴다. */
 .deck .nw {
   white-space: nowrap;
 }
@@ -659,7 +654,7 @@ body {
   height: 100%;
   columns: 2;
   column-gap: 48px;
-  column-fill: auto;
+  column-fill: balance; /* 두 단 높이를 비슷하게 — 왼쪽만 길고 오른쪽이 비는 것을 막는다 */
   font-size: var(--fs, 16px);
 }
 .steps.one {

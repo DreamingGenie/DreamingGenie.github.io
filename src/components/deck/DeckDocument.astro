@@ -57,9 +57,19 @@ const picked = deck.map((d) => {
     // 도식이 없으면 글만 두 단(plain), 도식이 있고 짧으면 도식과 글을 한 장에 나란히(side),
     // 도식이 있고 길면 두 장(two): 앞 장은 도식 옆에 앞쪽 절반, 뒤 장은 결과 띠와 나머지.
     const layout = !c.visual ? "plain" : n <= 520 ? "side" : "two";
+    // 두 장으로 나눌 때는 글자 수가 절반에 가장 가까워지는 자리에서 자른다.
+    const half = rest.reduce((k, s) => k + s.text.length, 0) / 2;
     let acc = 0;
-    const cutAt = rest.findIndex((s) => (acc += s.text.length) > (n - (lead?.text.length ?? 0)) / 2);
-    const cut = cutAt < 0 ? rest.length : cutAt + 1; // 절반을 넘기는 단까지 앞 장에 둔다
+    let cut = 1;
+    let best = Infinity;
+    rest.forEach((s, i) => {
+      acc += s.text.length;
+      const gap = Math.abs(acc - half);
+      if (i + 1 !== rest.length && gap + 0.5 <= best) {
+        best = gap;
+        cut = i + 1;
+      }
+    });
     return { ...c, n, lead, rest, layout, first: rest.slice(0, cut), second: rest.slice(cut), shownTags: c.tags.filter((t) => t.type !== "limit") };
   });
   return { p, cases };
