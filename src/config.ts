@@ -222,3 +222,77 @@ export const dataVariant = {
     },
   ],
 };
+
+// DevOps 엔지니어 지원용 첫 화면(/devops — 2026-11-24 카카오뱅크 DevOps 인턴 지원 때 만듦).
+// 프로젝트는 본인이 인프라·배포를 맡은 것만 싣는다(블록 배틀 · BEEZ · Pickage 운영 적재). 사실 문장은 프로젝트 상세의 한 일·사례에서 옮겼고,
+// 기술 단계(설계 이유까지/써 본 것)는 백엔드 첫 화면과 같게 둔다 — DevOps 도구를 한 단계 올리지 않는다.
+export const devopsVariant = {
+  home: "/devops",
+  title: "DevOps 엔지니어",
+  description:
+    "배포가 끝났다는 표시가 실제 결과까지 말하게 만드는 신입 DevOps 엔지니어 전진의 포트폴리오",
+  roleLabel: "신입 DevOps 엔지니어",
+  hero: {
+    eyebrow: "DevOps Engineer",
+    headline: "성공 표시가 실제 결과까지 보장하게 만듭니다",
+    intro: "팀 프로젝트에서 CI 필수 검사와 개발 서버 자동 배포·실패 알림을 맡았고, 개인 프로젝트를 AWS에 직접 배포해 실제 이용자를 받으며 운영했습니다.",
+  },
+  aboutMe: [
+    "6명이 6주 동안 만든 AI 에이전트 협업 서비스 BEEZ에서 서버 운영을 맡았습니다. 승인 하나면 PR이 자동 병합되던 저장소에 **항상 도는 필수 검사 하나**를 걸었고, 개발 서버 자동 배포는 팀원 리뷰를 받아 **PR로 병합된 dev 본줄기 커밋만** 배포되게 했습니다.",
+    "같은 팀에서 GitHub Actions의 초록불은 배포 요청을 접수한 데까지만 뜻해, Jenkins 배포가 실패해도 팀이 알 수 없었습니다. 실패할 때 **팀 메신저로 알림**이 가게 했습니다.",
+    "개인 프로젝트 블록 배틀은 **AWS EC2 한 대에 Docker Compose로 배포**하고 실제 이용자를 받았습니다. 배포 중 게임이 끊긴다는 제보를 받아 nginx를 설정만 다시 읽게 바꿨고, 남은 친구 대전 끊김은 **진행 중인 대전이 없을 때만 배포**하는 기준으로 다뤘습니다.",
+  ],
+  strengths: [
+    {
+      title: "건너뛸 수 없는 검사",
+      body: "빠르게 돌되, 병합과 배포 앞에서는 빠질 수 없는 검사를 두었습니다.",
+      links: [
+        { label: "BEEZ · 승인 1개면 자동 병합되던 저장소에 PR 필수 검사", href: "/projects/beez#ci" },
+        { label: "BEEZ · 머지 커밋만 배포하는 dev 자동 배포", href: "/projects/beez#deploy" },
+        { label: "BEEZ · 필수 환경변수가 빠지면 기동 단계에서 멈춤", href: "/projects/beez#env" },
+      ],
+    },
+    {
+      title: "성공 표시가 보장하는 범위",
+      body: "배포가 끝났다는 표시가 어디까지를 말하는지 따지고, 말하지 않는 범위는 알림과 배포 기준으로 메웠습니다.",
+      links: [
+        { label: "블록 배틀 · 배포 때 끊기는 범위를 알고 배포 기준을 정함", href: "/projects/blockbattle#deploy" },
+        { label: "블록 배틀 · AWS 서버 1대 배포", href: "/projects/blockbattle#aws" },
+        { label: "BEEZ · 백업 복원을 해시로 확인", href: "/projects/beez#backup" },
+      ],
+    },
+    {
+      title: "증상과 원인을 가르기",
+      body: "느려지거나 끊긴 자리보다 원인이 있는 자리를 먼저 찾았습니다.",
+      links: [
+        { label: "Pickage · 날짜마다 느린 적재의 원인을 실행 계획에서 찾음", href: "/projects/pickage#planner" },
+        { label: "블록 배틀 · 부하 테스트 1차 불합격 원인을 부하 발생기에서 찾음", href: "/projects/blockbattle#load" },
+      ],
+    },
+  ],
+  projectOrder: ["blockbattle", "beez", "pickage"],
+  skills: [
+    {
+      tier: "설계 이유까지",
+      note: "왜 그렇게 했는지까지 설명할 수 있는 것",
+      items: [
+        { name: "Git 브랜치 운영", where: "CoMeetTool 통합·배포, 기본 브랜치 변경, 팀 규칙 문서화" },
+        { name: "PostgreSQL", where: "Pickage 운영 적재 — 날짜마다 느려지는 원인을 실행 계획에서 찾고, 날짜 파티션을 하루씩 교체" },
+        { name: "Java 21 · Spring Boot", where: "CoMeetTool 프로젝트 초기 구성·공통 응답 형식, TripCraft 실시간 협업, BEEZ 계정·팀 API와 MCP 진입점, ServerTimeClicker" },
+        { name: "Python", where: "Pickage 수집기·집계·적재 도구" },
+      ],
+    },
+    {
+      tier: "써 본 것",
+      note: "만들어 봤지만 설계 이유를 말하기엔 얕은 것",
+      items: [
+        { name: "GitHub Actions · Jenkins", where: "BEEZ PR 필수 검사(ci-gate), dev 자동 배포와 배포 실패 알림" },
+        { name: "Docker · AWS", where: "BEEZ dev 서버와 블록 배틀 EC2 1대를 Compose로 구성, CoMeetTool은 팀이 구성한 ECS Fargate 사용" },
+        { name: "Prometheus · Alertmanager", where: "BEEZ dev 서버 알림 규칙(CDC·서버)과 팀 메신저 연동" },
+        { name: "nginx", where: "블록 배틀 80·443만 열고 Let's Encrypt 인증서, 배포 때 재시작 대신 설정 다시 읽기" },
+        { name: "Kafka · Debezium", where: "BEEZ dev 서버에 팀원이 만든 CDC 경로 적용" },
+        { name: "Redis · k6", where: "블록 배틀 대전 방 상태 저장, 동시 100방 부하 테스트(로컬 근사)" },
+      ],
+    },
+  ],
+};

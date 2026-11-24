@@ -41,7 +41,8 @@ did:
     text: "친구 대전에서 화면은 블록을 놓을 때마다 블록 종류·위치·지운 줄 수만 서버로 보냅니다. 서버가 보드·점수·공격을 다시 계산하고, 맞지 않으면 그 수를 거부하고 서버 보드를 돌려줍니다. 같은 규칙이 화면(TypeScript)·서버(Java)·AI(Python) 세 곳에 있어, 규칙 예시를 JSON 테스트 데이터 하나로 적고 세 엔진의 테스트가 함께 읽게 했습니다. 이동 경로와 T 블록 회전 보너스(T-스핀) 신고는 검사하지 않습니다."
     tags: [{ type: "judged", text: "판단" }]
     evidence: ["bc4ca55", "shared/rules-fixtures"]
-  - title: "AWS 서버 1대 배포"
+  - id: "aws"
+    title: "AWS 서버 1대 배포"
     text: "EC2 1대에 Docker Compose로 다섯 서비스를 올리고, 바깥에는 nginx의 80·443만 열었습니다. 도메인 없이 sslip.io 주소에 Let's Encrypt 인증서를 붙였습니다."
     tags: [{ type: "judged", text: "판단" }]
     evidence: ["deploy/docker-compose.yml"]
@@ -49,7 +50,8 @@ did:
     text: "배포 약 41시간 뒤 운영 서버에 요청을 보내지 않는 정적 점검에서 높음 3건이 나왔습니다. 싱글 점수 위조, 일부 경로에만 걸려 남의 개인 큐까지 구독되던 STOMP 목적지 검사, 요청 한도·메모리 상한이 없던 것입니다. 같은 날 반영했습니다. 점수 위조는 상한 검사에 서버 경과 시간과 최대 콤보를 더한 단기책까지이고, 근본 원인은 아래 회고에 적었습니다. 남은 항목은 README '알려진 한계'에 이름으로 적었습니다. 그 전 41시간은 이 세 건이 열린 채 실사용자를 받았습니다."
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "정적 분석" }]
     evidence: ["docs/security-load-review-1116.md", "8a0217e", "702a0a1", "b475a79", "aa17148"]
-  - title: "배포 때 끊기는 범위를 알고 배포 기준을 정함"
+  - id: "deploy"
+    title: "배포 때 끊기는 범위를 알고 배포 기준을 정함"
     text: "배포 중 게임이 끊겼다는 제보를 받고, nginx를 재시작 대신 설정 다시 읽기(reload)로 바꿨습니다. 싱글·AI 대전은 경기 시작·결과 저장 요청이 502면 다시 시도해 배포 중에도 저장됩니다. 친구 대전 연결은 여전히 끊겨서, 진행 중인 친구 대전이 없을 때만 배포한다는 기준을 정했습니다."
     tags: [{ type: "judged", text: "판단" }]
     evidence: ["417e4d0"]
