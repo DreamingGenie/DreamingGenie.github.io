@@ -558,8 +558,17 @@ body {
 .deck .flow > li[aria-hidden] > span:last-child {
   display: inline;
 }
+/* 위 9칸은 5단계 흐름(Pickage) 기준이다. 4단계 흐름(BEEZ — li 7개)은 남는 두 칸에 밀려 4단이 좁아지고
+   쪽 아래가 잘렸다 → 그 흐름 자체의 넓은 화면 비율(BeezFlow.astro <style>)로 되돌린다. */
+.deck .flow:has(> li:nth-child(7):last-child) {
+  grid-template-columns: 0.85fr auto 1.1fr auto 1.15fr auto 1.25fr;
+}
 .deck .flow ul {
   grid-template-columns: 1fr;
+}
+/* 흐름 아래 「배포 · 관측」 칸 — 장표에서는 한 줄 4칸으로 편다(좁은 화면용 2칸이 남아 쪽을 넘겼다) */
+.deck .flow ~ div > ul {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 .deck .overflow-x-auto {
   overflow: visible;
