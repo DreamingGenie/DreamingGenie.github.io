@@ -74,6 +74,23 @@ const facts = [
     <MaybeImage natural src={d.cover} alt={`${d.title} 대표 화면`} label="대표 화면 자리" class="w-full aspect-[16/9] rounded-2xl border border-gray-200 shadow-sm" />
     {d.shotNote && <p class="text-sm text-gray-500">{d.shotNote}</p>}
     {
+      d.myShots.length > 0 && (
+        <div class="mt-6 flex flex-col gap-3">
+          <h3 class="text-lg font-bold text-gray-900">제가 만든 부분이 보이는 화면</h3>
+          <div class="flex flex-col gap-6">
+            {d.myShots.map((g) => (
+              <figure class="flex flex-col gap-2">
+                <a href={g.src} target="_blank" rel="noopener noreferrer" class="block rounded-xl overflow-hidden border border-gray-200 hover:border-gray-400 transition-colors" title="원본 크기로 보기">
+                  <MaybeImage natural src={g.src} alt={g.caption} label={g.caption} class="w-full" />
+                </a>
+                <figcaption class="text-sm text-gray-600 leading-snug">{g.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      )
+    }
+    {
       d.gallery.length > 0 && (
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {d.gallery.map((g) => (
@@ -119,11 +136,6 @@ const facts = [
                   {x.tags.some((t) => t.type !== "limit") && <div class="flex flex-wrap gap-1.5 shrink-0">{x.tags.filter((t) => t.type !== "limit").map((t) => <Tag type={t.type} text={t.text} />)}</div>}
                 </div>
                 <p class="text-[0.9375rem] sm:text-base text-gray-600 leading-relaxed">{x.text}</p>
-                {x.evidence.length > 0 && (
-                  <div class="flex flex-wrap gap-2 text-[13px]">
-                    {x.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
-                  </div>
-                )}
               </li>
             ))
           }
@@ -150,7 +162,7 @@ const facts = [
         <summary class="cursor-pointer list-none px-5 sm:px-8 py-5 flex items-center justify-between gap-4">
           <span>
             <span class="block font-bold text-gray-900">근거 모음</span>
-            <span class="block text-sm text-gray-500 mt-0.5">커밋 해시·파일 위치·정확한 수치. 저장소에서 git show로 열어 볼 수 있습니다.</span>
+            <span class="block text-sm text-gray-500 mt-0.5">커밋 해시, 파일 위치, 정확한 수치를 모았습니다. 저장소에서 git show로 열어 볼 수 있습니다.</span>
           </span>
           <span class="font-mono text-xl text-gray-400 transition-transform group-open:rotate-45">+</span>
         </summary>

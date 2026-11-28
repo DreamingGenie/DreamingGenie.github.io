@@ -92,14 +92,7 @@ const isKey = (s: { label: string; key?: boolean; limit?: boolean }) => !s.limit
     )
   }
 
-  {
-    item.evidence.length > 0 && (
-      <footer class="px-5 sm:px-8 py-4 border-t border-gray-100 flex flex-wrap items-center gap-2 text-[13px] text-gray-500">
-        <span class="font-semibold">근거</span>
-        {item.evidence.map((e) => <code class="font-mono px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">{e}</code>)}
-      </footer>
-    )
-  }
+  {/* 근거(커밋 해시·파일 위치)는 카드에 싣지 않는다 — 읽는 흐름을 끊어서(2026-11-28 피드백). 근거는 상세 페이지 아래 「근거 모음」에 있다 */}
 </article>
 
 <style>

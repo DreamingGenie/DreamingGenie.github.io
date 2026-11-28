@@ -1,50 +1,46 @@
 ---
 title: "Pickage"
 order: 3
-summary: "npm 패키지를 고를 때 후보 최대 3개를 생태계 변화·기능·커뮤니티 세 관점으로 나란히 비교해 주는 서비스"
-oneLine: "npm 패키지를 고르거나 바꿀 때 후보 최대 3개를 생태계 변화·기능·GitHub 커뮤니티 세 관점으로 나란히 보여 주는 서비스입니다. 순위는 매기지 않고 근거를 나란히 보여 주며, 결과는 PDF와 AI 에이전트용 Markdown으로 내보냅니다. 6명 팀에서 저는 원본 데이터 수집과 생태계 변화 탭의 지표 계산(유지·유입·이탈, 이탈 사유, 교체 흐름)을 맡았습니다."
-period: "2026.08 – 10"
-team: "6명 · 교육기관 GitLab에서 개발 → GitHub 공개 저장소로 옮김"
-role: "원본 데이터 수집 · 생태계 지표 계산"
+summary: "npm 패키지를 고를 때 후보 최대 3개를 생태계 변화, 기능, 커뮤니티 세 관점으로 나란히 비교해 주는 서비스"
+oneLine: "npm 패키지를 고르거나 바꿀 때 후보 최대 3개를 생태계 변화, 기능, GitHub 커뮤니티 세 관점으로 나란히 보여 주는 서비스입니다. 순위는 매기지 않고 근거를 나란히 보여 주며, 결과는 PDF와 AI 에이전트용 Markdown으로 내보냅니다. 6명 팀에서 저는 원본 데이터 수집과 생태계 변화 탭의 지표 계산(유지, 유입, 이탈, 이탈 사유, 교체 흐름)을 맡았습니다."
+period: "2026.08 ~ 10"
+team: "6명, 교육기관 GitLab에서 개발한 뒤 GitHub 공개 저장소로 옮김"
+role: "원본 데이터 수집, 생태계 지표 계산"
 stack: ["Python", "BigQuery", "GCS", "DuckDB", "MinIO", "Spring Boot", "React", "Docker"]
 repo: "https://github.com/DreamingGenie/Pickage"
 highlight: "BigQuery 236번 실행에서 예상 사용량과 청구 사용량 차이 0.1%"
 cover: "/images/projects/pickage/cover.jpg"
-gallery:
-  - { src: "/images/projects/pickage/01.jpg", caption: "express와 비슷한 패키지 후보 고르기" }
-  - { src: "/images/projects/pickage/02.jpg", caption: "비교 보고서 — 다운로드·이슈·추세" }
-  - { src: "/images/projects/pickage/03.jpg", caption: "보고서의 이탈 사유와 교체 흐름" }
-  - { src: "/images/projects/pickage/04.jpg", caption: "유지·유입·이탈 — 계산과 적재는 제가, 화면은 팀원이 맡았습니다" }
-  - { src: "/images/projects/pickage/05.jpg", caption: "설치 전 확인 표 — 모듈 형식·타입 값은 제가 다시 모은 npm 정보에서 나옵니다" }
-  - { src: "/images/projects/pickage/06.jpg", caption: "README를 AI가 읽고 정리하는 기능 비교 (팀원 작업)" }
+myShots:
+  - { src: "/images/projects/pickage/04.jpg", caption: "유지, 유입, 이탈 비율과 이탈 사유. 두 지표를 계산해 적재하고 이탈 사유 패널을 만들었습니다" }
+  - { src: "/images/projects/pickage/07.jpg", caption: "어디로 옮겨 갔나. 교체 흐름을 계산하는 API와 이 패널을 만들었습니다" }
 shotNote: "팀 운영 서버에서 실제 데이터로 찍은 화면입니다(2026-10-02). 운영 서버는 그 뒤 정리해 지금은 열리지 않고, 로컬에서 다시 띄우면 화면은 같지만 데이터는 목업입니다."
 flow: "PickageFlow"
 areas:
   - group: "원본 수집"
     items:
       - { name: "BigQuery 수집기", owner: "me" }
-      - { name: "GCS → MinIO 업로드 경로", owner: "me", note: "SSH 터널" }
+      - { name: "GCS에서 MinIO로 올리는 경로", owner: "me", note: "SSH 터널" }
       - { name: "npm 다운로드 수 수집기", owner: "me", note: "46.9만 개로 넓혀 운영에 적재" }
-      - { name: "npm 패키지 형태 정보 재수집", owner: "me", note: "모듈 형식·타입 등 6개 항목" }
-      - { name: "주간 수집 실행(수집 → 원본 저장)", owner: "me", note: "정제 단계와의 연동은 팀원" }
+      - { name: "npm 패키지 형태 정보 재수집", owner: "me", note: "모듈 형식과 타입 등 6개 항목" }
+      - { name: "주간 수집 실행", owner: "me", note: "수집에서 원본 저장까지" }
   - group: "분석 지표"
     items:
       - { name: "DuckDB 교체 쌍 집계", owner: "me" }
-      - { name: "유지 · 유입 · 이탈 계산", owner: "me", note: "신규 패키지와 다른 패키지에서 옮겨 온 유입을 구분" }
-      - { name: "이탈 사유 계산 · 패널", owner: "me" }
-      - { name: "교체 흐름 API · 패널", owner: "me", note: "어디로 옮겨 갔나 · 근거 등급" }
+      - { name: "유지, 유입, 이탈 계산", owner: "me", note: "신규 패키지와 다른 패키지에서 옮겨 온 유입을 구분" }
+      - { name: "이탈 사유 계산, 패널", owner: "me" }
+      - { name: "교체 흐름 API, 패널", owner: "me", note: "어디로 옮겨 갔나, 근거 등급" }
   - group: "그 뒤 단계"
     items:
       - { name: "데이터 정제", owner: "team" }
       - { name: "DB 설계와 적재", owner: "team", note: "다운로드 수를 다시 채운 일은 빼고" }
-      - { name: "모델 학습 · 서비스 제공", owner: "team" }
+      - { name: "모델 학습, 서비스 제공", owner: "team" }
       - { name: "개발 브랜치 통합", owner: "team" }
   - group: "서비스 화면"
     items:
-      - { name: "분석 · 보고서 화면 골격", owner: "team" }
-      - { name: "유지 · 유입 · 이탈 화면", owner: "team" }
+      - { name: "분석, 보고서 화면 골격", owner: "team" }
+      - { name: "유지, 유입, 이탈 화면", owner: "team" }
       - { name: "기능 비교 (README AI 요약)", owner: "team" }
-      - { name: "GitHub 커뮤니티 · PDF · Markdown 내보내기", owner: "team" }
+      - { name: "GitHub 커뮤니티, PDF, Markdown 내보내기", owner: "team" }
 did:
   - title: "서버 없이 PC 한 대로 4,700만 건 집계"
     text: "분석용 DB인 DuckDB는 서버를 따로 띄우지 않고 PC에서 바로 돌릴 수 있습니다. npm 패키지 릴리스 약 4,700만 건을 버전 순서대로 늘어놓고 앞 버전과 비교해, 어떤 의존 패키지가 빠지고 무엇이 들어왔는지를 계산했습니다. 여기서 기준을 통과한 A를 빼고 B를 넣은 쌍 1,195개를 뽑았습니다."
@@ -53,13 +49,13 @@ did:
     text: "요청 사이에 최소 간격을 두고, 429(요청 과다) 응답을 받으면 간격을 15% 늘리고, 성공하면 조금씩 줄입니다. 429가 5번 연속 오면 5분 쉽니다. 월별로 나누고 압축(zstd)하면 용량을 6.5배 줄일 수 있다는 것도 측정해 봤지만, 적용하지는 않았습니다."
     tags: [{ type: "measured", text: "실측" }, { type: "limit", text: "압축은 미적용" }]
   - id: "planner"
-    title: "같은 적재가 날짜마다 1,370초씩 걸리던 원인을 실행 계획에서 찾았습니다(1,370초 → 355초)"
+    title: "같은 적재가 날짜마다 1,370초씩 걸리던 원인을 실행 계획에서 찾았습니다(1,370초에서 355초로)"
     text: "느린 날과 빠른 날의 실행 계획을 나란히 떠 보니, 같은 조회가 한쪽에서는 인덱스로 초 단위에 끝나고 다른 쪽에서는 24GB 테이블을 순차 스캔하느라 약 200초씩 걸렸습니다. 적재 세션에서 순차 스캔을 끄자 그 날짜는 1,370초에서 355초로 줄었습니다. 날짜 조건에 맞춘 새 인덱스로 고치는 근본 해결은 디스크가 15~20GB 더 들어 후속 과제로 넘겼습니다."
     tags: [{ type: "measured", text: "실측" }]
     evidence: ["773bc32", "psql_noseq.cmd"]
 cases:
   - id: "guard"
-    kind: "설계 · 가드레일"
+    kind: "설계, 가드레일"
     title: "BigQuery 사용량을 실행 전에 계산해 상한을 걸었습니다(236회, 오차 0.1%)"
     visual: "GuardChain"
     tags: [{ type: "measured", text: "실측" }]
@@ -80,7 +76,7 @@ cases:
       - { key: true, label: "선택", text: "일반 조회로 결과를 임시 테이블에 담고, 그 테이블을 파일로 내보낸 뒤 지웁니다. 이렇게 하면 미리 계산한 값이 실제로 읽는 양과 맞아서 상한 검사가 제대로 동작합니다." }
       - { label: "비용", text: "단계가 늘어 파이프라인이 길어졌습니다.", limit: true }
   - id: "reload"
-    kind: "운영 적재 · 설계 판단 · 원인 추적"
+    kind: "운영 적재, 설계 판단, 원인 추적"
     title: "서비스 중인 운영 DB에 늘어난 패키지의 다운로드 값 105일 치를 기존 값은 그대로 두고 채웠습니다"
     tags: [{ type: "measured", text: "실측" }, { type: "judged", text: "판단" }]
     steps:
@@ -90,7 +86,7 @@ cases:
       - { label: "선택", text: "이미 운영에 반영된 행은 그대로 두고, 다운로드 수만 팀의 집계 규칙대로 다시 계산해 값이 바뀌는 행만 UPDATE하는 모듈을 따로 만들었습니다. 다른 컬럼과 팀 적재기 파일은 건드리지 않았고, 팀 적재기의 기반 클래스를 상속해 구현했습니다. 실행할 때는 새 값을 쓰기 전에 기존 10만 개의 값부터 다시 계산해 지금 DB 값과 맞춰 보고, 어긋나는 행이 있으면 그 날짜에서 멈추게 했습니다." }
       - { label: "결과", text: "105일 치가 모두 이 대조를 통과해 운영 DB에 반영됐습니다. 2026-08-31 기준 다운로드 수가 채워진 패키지는 97,728개에서 459,758개로 늘었고, 운영 서버를 정리하기 전(10-01)에 다시 조회해 같은 값을 확인했습니다." }
       - { label: "약점", text: "리허설 DB에서 먼저 돌려 봤지만, 리허설의 기존 값은 이 모듈이 직접 써 넣은 값이라 동작 확인까지만 됩니다. 실제 데이터에서의 검증은 운영에서 105일 모두 대조를 통과한 기록으로만 했습니다. 또 팀 적재기 밖에 테이블을 고치는 경로가 하나 더 생겼고, 테이블 전체 백업은 두지 않았습니다.", limit: true }
-      - { label: "제 몫", text: "대상을 넓히자는 문제 제기, 운영 상태 확인, 모듈 구현·리허설·운영 실행은 제가 했습니다. 기록을 옮기지 않은 이관, 원래 적재기와 집계 규칙, 적재 계약 검사는 팀원 작업입니다." }
+      - { label: "제 몫", text: "대상을 넓히자는 문제 제기, 운영 상태 확인, 모듈 구현, 리허설, 운영 실행은 제가 했습니다. 기록을 옮기지 않은 이관, 원래 적재기와 집계 규칙, 적재 계약 검사는 팀원 작업입니다." }
     evidence: ["downloads_reload.py", "72205c3"]
   - id: "votes"
     kind: "실험"
@@ -99,7 +95,7 @@ cases:
     tags: [{ type: "measured", text: "실측" }, { type: "limit", text: "실제보다 낮게 나온 값" }]
     steps:
       - { key: true, label: "확인한 것", text: "뽑은 쌍을 얼마나 엄격하게 거를지 정하려고 조건 8가지를 정답 목록과 비교했습니다. 같은 교체가 관찰된 횟수(votes)만 높이는 조건이 가장 나빴습니다." }
-      - { label: "원인", text: "한 조직이 여러 패키지를 한꺼번에 바꾸면(모노레포 일괄 변경) 교체 한 건이 관찰 횟수를 여러 번으로 늘립니다. 그래서 같은 교체를 서로 다른 배포자·서로 다른 달에서 몇 번 봤는지(publisher_months)를 함께 걸었습니다." }
+      - { label: "원인", text: "한 조직이 여러 패키지를 한꺼번에 바꾸면(모노레포 일괄 변경) 교체 한 건이 관찰 횟수를 여러 번으로 늘립니다. 그래서 같은 교체를 서로 다른 배포자와 서로 다른 달에서 몇 번 봤는지(publisher_months)를 함께 걸었습니다." }
       - { label: "주의", text: "정답 목록에 패키지마다 대체재가 하나씩만 있어서, 대체재가 여럿인 경우처럼 맞는 답도 틀렸다고 계산됩니다.", limit: true }
     evidence: ["migration_pairs_260908/README.md §6"]
   - id: "tunnel"
@@ -115,15 +111,15 @@ cases:
 ---
 
 - **작업량 기준**: 비머지 커밋 170건, 고유 파일 299개, +32,621 / −1,938줄(기준 `7e00dc7`, 2026-09-20, 생성물 제외).
-- **BigQuery 수집기**: `pipeline/collectors/bigquery/collect.py` 338줄. 테이블별 상한 30 / 8 / 22 / 14 / 1 GiB, `DEVIATION_LIMIT=0.25`, 실행 상한 `max_billed = dry_bytes × 1.25 + 512MiB`, 마지막 대조는 `INFORMATION_SCHEMA.PARTITIONS`. 실행 기록 236잡: dry-run 104.4096 GiB / 청구 104.5254 GiB, 편차 +0.1109%. GCS Parquet 31.1465 GiB · 3,235파일 · 1,098,458,077행.
+- **BigQuery 수집기**: `pipeline/collectors/bigquery/collect.py` 338줄. 테이블별 상한 30 / 8 / 22 / 14 / 1 GiB, `DEVIATION_LIMIT=0.25`, 실행 상한 `max_billed = dry_bytes * 1.25 + 512MiB`, 마지막 대조는 `INFORMATION_SCHEMA.PARTITIONS`. 실행 기록 236잡: dry-run 104.4096 GiB / 청구 104.5254 GiB, 편차 +0.1109%. GCS Parquet 31.1465 GiB, 3,235파일, 1,098,458,077행.
 - **여섯 단계**: ① 이미 받은 데이터 건너뜀 ② 테이블별 최대 사용량 ③ 기대치에서 25% 넘게 벗어나면 정지 ④ 한 번 실행 합계 예산 ⑤ 실제 실행에도 BigQuery 상한 ⑥ 받은 행 수를 원본 테이블과 대조.
 - **MinIO 적재**: `6de7104`. 터널 없이 실행 시 `EndpointConnectionError`. gzip JSONL 1,000개 + 관리 파일 3개 = 1,003객체, 100만 행.
-- **DuckDB 집계**: 릴리스 47,178,483 · 전이 39,579,244 · strict 쌍 1,195. 09-18 정렬 보강(`eb79253`) 뒤 다시 낸 `stats.json` 현재값은 2,545초입니다.
-- **정밀도 표**: `datasets/migration_pairs_260908/README.md` §6, 8행. `votes ≥ 12`만 → 21.6%, `votes ≥ 5` + `publisher_months ≥ 3` → 50.9%.
-- **npm 호출 간격**: 고정 최소 간격(`wait = last_start + interval - now`), 429 시 ×1.15, 성공 시 ×0.998, 429 연속 5회면 300초 정지.
+- **DuckDB 집계**: 릴리스 47,178,483, 전이 39,579,244, strict 쌍 1,195. 09-18 정렬 보강(`eb79253`) 뒤 다시 낸 `stats.json` 현재값은 2,545초입니다.
+- **정밀도 표**: `datasets/migration_pairs_260908/README.md` §6, 8행. `votes ≥ 12`만 두면 21.6%, `votes ≥ 5` + `publisher_months ≥ 3`이면 50.9%.
+- **npm 호출 간격**: 고정 최소 간격(`wait = last_start + interval - now`), 429면 1.15배, 성공하면 0.998배, 429 연속 5회면 300초 정지.
 - **재실행 차이**: 문서 숫자 정정 `9714d9c`(09-09), 동순위 정렬 보강 `eb79253`(09-18).
-- **패키지 형태 정보 재수집**: `ccc45ad`. npm registry에 6개 항목(모듈 형식·타입 선언 등)을 더해 상위 10만 개를 4개 프로세스로 다시 받음 — 4시간 52분, 21,567,150행. 이 값을 테이블로 바꾸는 마이그레이션과 기능 비교 화면은 팀원 작업입니다.
-- **운영 적재(46.9만 개 다운로드 값)**: 새 모듈 `pipeline/package_snapshot/downloads_reload.py`(`72205c3`, 09-22) — downloads 컬럼만 UPDATE, 기존 값과 다르면(`mismatched≠0`) 그 날짜에서 예외. 대상 확장 46만여 개(468,519)는 `16cd65b` `datasets/targets/README.md`. 팀 적재기 파일(`postgres.py` · `history.py`)은 변경 0, 기반 클래스 `PackageSnapshotLoader` 상속. 105/105일 통과, 운영 반영 09-23 17:34. 2026-08-31 행 11,080,940개 중 다운로드 값이 있는 패키지 97,728 → 459,758(2026-10-01 운영 서버 조회로 재확인). 적재 기록 0건은 재적재 전 상태이고, 이후 기록은 재적재 실행 이름으로 남아 있습니다. 기록을 옮기지 않은 것은 팀원의 이관 계획서 결정, 적재 계약 거부 검사(`different load contract`)는 팀원 `e3a8a62`(09-08)이며 이 모듈은 `CONTRACT_FILES`로 그 계약에 묶었습니다. 느린 날짜의 원인: 같은 `count(*)`가 날짜에 따라 순차 스캔(약 200초)과 BRIN 비트맵(초 단위)으로 갈림. 로더 세션 `enable_seqscan=off`로 08-24 1,370초 → 355초(`773bc32`), 게시 뒤 찾은 일회성 count는 계약을 바꾸지 않으려 `tools/psql_noseq.cmd`(모든 psql 세션에 같은 설정)로 우회.
-- **유지·유입·이탈**: 유입을 신규 패키지와 옮겨 온 패키지로 구분(`f460b15`). 화면은 팀원 작업입니다.
+- **패키지 형태 정보 재수집**: `ccc45ad`. npm registry에 6개 항목(모듈 형식과 타입 선언 등)을 더해 상위 10만 개를 4개 프로세스로 다시 받음: 4시간 52분, 21,567,150행. 이 값을 테이블로 바꾸는 마이그레이션과 기능 비교 화면은 팀원 작업입니다.
+- **운영 적재(46.9만 개 다운로드 값)**: 새 모듈 `pipeline/package_snapshot/downloads_reload.py`(`72205c3`, 09-22): downloads 컬럼만 UPDATE, 기존 값과 다르면(`mismatched≠0`) 그 날짜에서 예외. 대상 확장 46만여 개(468,519)는 `16cd65b` `datasets/targets/README.md`. 팀 적재기 파일(`postgres.py`, `history.py`)은 변경 0, 기반 클래스 `PackageSnapshotLoader` 상속. 105/105일 통과, 운영 반영 09-23 17:34. 2026-08-31 행 11,080,940개 중 다운로드 값이 있는 패키지 97,728개에서 459,758개로(2026-10-01 운영 서버 조회로 재확인). 적재 기록 0건은 재적재 전 상태이고, 이후 기록은 재적재 실행 이름으로 남아 있습니다. 기록을 옮기지 않은 것은 팀원의 이관 계획서 결정, 적재 계약 거부 검사(`different load contract`)는 팀원 `e3a8a62`(09-08)이며 이 모듈은 `CONTRACT_FILES`로 그 계약에 묶었습니다. 느린 날짜의 원인: 같은 `count(*)`가 날짜에 따라 순차 스캔(약 200초)과 BRIN 비트맵(초 단위)으로 갈림. 로더 세션 `enable_seqscan=off`로 08-24 1,370초에서 355초로(`773bc32`), 게시 뒤 찾은 일회성 count는 계약을 바꾸지 않으려 `tools/psql_noseq.cmd`(모든 psql 세션에 같은 설정)로 우회.
+- **유지, 유입, 이탈**: 유입을 신규 패키지와 옮겨 온 패키지로 구분(`f460b15`). 화면은 팀원 작업입니다.
 - **이탈 사유 패널**: `9e86442` 외. 패널 코드 162줄 중 147줄(기준 `378db11`).
-- **교체 흐름 패널**: `04a01ab`·`1465f55` 외. API·화면 코드 줄 단위 전부(기준 `378db11`). 근거 등급 '보통'의 기준값은 위 정밀도 표에서 낸 권고 최솟값(`aafd27b`)입니다.
+- **교체 흐름 패널**: `04a01ab`, `1465f55` 외. API, 화면 코드 줄 단위 전부(기준 `378db11`). 근거 등급 '보통'의 기준값은 위 정밀도 표에서 낸 권고 최솟값(`aafd27b`)입니다.

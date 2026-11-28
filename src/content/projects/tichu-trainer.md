@@ -3,42 +3,42 @@ title: "tichu-trainer"
 order: 4
 summary: "보드게임 티츄의 규칙을 직접 카드를 내 보며 익히는 학습 웹"
 oneLine: "카드를 직접 골라 내 보며 보드게임 티츄의 규칙을 익히는 학습 웹입니다. 친구에게 말로 규칙을 설명했는데 잘 전달되지 않아 만들었습니다. 기획부터 테스트까지 혼자 했습니다."
-period: "2026.08.20 – 21 이틀에 대부분 구현 → 9월·10월에 다듬기"
-team: "1명 · 개인 작업"
-role: "기획 · 규칙 판정 · 화면 · 테스트"
-stack: ["JavaScript (ES 모듈)", "HTML · CSS", "Node.js (테스트 실행)"]
+period: "2026.08.20 ~ 21 이틀에 대부분 구현, 9월과 10월에 다듬기"
+team: "1명, 개인 작업"
+role: "기획, 규칙 판정, 화면, 테스트"
+stack: ["JavaScript (ES 모듈)", "HTML, CSS", "Node.js (테스트 실행)"]
 repo: "https://github.com/DreamingGenie/tichu-trainer"
 highlight: "규칙 판정 코드를 화면에서 떼어 내, 설치 없이 85개 테스트로 검사합니다"
 cover: "/images/projects/tichu-trainer/cover.jpg"
 gallery:
-  - { src: "/images/projects/tichu-trainer/01.jpg", caption: "조합 만들어보기 — 테이블에 깔린 것을 고르고 카드를 누르면, 무슨 조합인지와 받아칠 수 있는지를 바로 알려 줍니다" }
-  - { src: "/images/projects/tichu-trainer/02.jpg", caption: "연습문제 — 낼 수 없는 카드를 내면 왜 안 되는지를 알려 줍니다" }
-  - { src: "/images/projects/tichu-trainer/03.jpg", caption: "짧은 판 연습 — 정해 둔 상황을 상대와 여러 턴 직접 둬 봅니다" }
+  - { src: "/images/projects/tichu-trainer/01.jpg", caption: "조합 만들어보기: 테이블에 깔린 것을 고르고 카드를 누르면, 무슨 조합인지와 받아칠 수 있는지를 바로 알려 줍니다" }
+  - { src: "/images/projects/tichu-trainer/02.jpg", caption: "연습문제: 낼 수 없는 카드를 내면 왜 안 되는지를 알려 줍니다" }
+  - { src: "/images/projects/tichu-trainer/03.jpg", caption: "짧은 판 연습: 정해 둔 상황을 상대와 여러 턴 직접 둬 봅니다" }
 shotNote: "로컬에서 띄워 찍은 화면입니다(저장소 ab9421c, 2026-10-08). 카드 그림은 이 사이트를 위해 그린 것이라 실제 티츄 카드 디자인과 다릅니다."
 areas:
   - group: "규칙 판정"
     items:
-      - { name: "조합 판정 · 받아치기", owner: "me" }
-      - { name: "트릭 진행 · 점수 계산", owner: "me" }
+      - { name: "조합 판정, 받아치기", owner: "me" }
+      - { name: "트릭 진행, 점수 계산", owner: "me" }
       - { name: "참새 소원 규칙", owner: "me" }
   - group: "학습 화면"
     items:
       - { name: "규칙 열 장(레슨)", owner: "me" }
-      - { name: "연습문제 · 짧은 판 다섯 개", owner: "me" }
+      - { name: "연습문제, 짧은 판 다섯 개", owner: "me" }
       - { name: "조합 만들어보기", owner: "me" }
   - group: "기반"
     items:
       - { name: "테스트 도구(직접 구현)", owner: "me" }
-      - { name: "본문 · 문제 · 짧은 판 각본(데이터)", owner: "me" }
+      - { name: "본문, 문제, 짧은 판 각본(데이터)", owner: "me" }
       - { name: "진도 저장(브라우저)", owner: "me" }
 did:
   - id: "engine"
     title: "규칙 판정 코드와 화면 코드를 분리"
-    text: "규칙을 판정하는 코드 11개 파일에는 화면·브라우저 코드(document·window·localStorage)를 쓰지 않습니다. 연습문제 채점, 짧은 판 진행, 조합 만들어보기가 모두 이 판정 함수를 같이 쓰기 때문에 세 화면이 같은 판정 결과를 씁니다."
+    text: "규칙을 판정하는 코드 11개 파일에는 화면과 브라우저 코드(document, window, localStorage)를 쓰지 않습니다. 연습문제 채점, 짧은 판 진행, 조합 만들어보기가 모두 이 판정 함수를 같이 쓰기 때문에 세 화면이 같은 판정 결과를 씁니다."
     tags: [{ type: "measured", text: "실측" }]
     evidence: ["src/engine/*.js"]
   - title: "설치 없이 도는 85개 테스트"
-    text: "테스트 도구까지 직접 만들어 내려받을 것이 없습니다. 저장소를 받은 뒤 node tests/run.js 한 줄이면 판정·트릭 진행·점수 계산·짧은 판 각본 테스트 85개가 브라우저 없이 돕니다."
+    text: "테스트 도구까지 직접 만들어 내려받을 것이 없습니다. 저장소를 받은 뒤 node tests/run.js 한 줄이면 판정과 트릭 진행과 점수 계산과 짧은 판 각본 테스트 85개가 브라우저 없이 돕니다."
     tags: [{ type: "measured", text: "실측" }]
     evidence: ["tests/run.js", "540ebf0"]
   - title: "해석이 갈리는 규칙은 하나로 정해 근거와 함께 적음"
@@ -51,11 +51,11 @@ did:
     evidence: ["tests/content.test.js:47"]
 cases:
   - id: "teach"
-    kind: "테스트 · 설계 판단"
+    kind: "테스트, 설계 판단"
     title: "폭탄으로만 이기던 연습 손패를 고치고, 같은 문제를 테스트로 막았습니다"
     tags: [{ type: "judged", text: "판단" }, { type: "limit", text: "학습 효과는 한 사람의 말" }]
     steps:
-      - { label: "문제", text: "조합 만들어보기의 연습용 손패에 페어가 5·6·K뿐이었습니다. 그래서 연속 페어나 풀하우스가 깔리면 이길 방법이 폭탄밖에 없었습니다. 코드에 버그는 없었지만, 이 손패로 연습하면 \"폭탄만 만들면 다 이긴다\"고 잘못 배우게 됩니다." }
+      - { label: "문제", text: "조합 만들어보기의 연습용 손패에 페어가 5, 6, K뿐이었습니다. 그래서 연속 페어나 풀하우스가 깔리면 이길 방법이 폭탄밖에 없었습니다. 코드에 버그는 없었지만, 이 손패로 연습하면 \"폭탄만 만들면 다 이긴다\"고 잘못 배우게 됩니다." }
       - { label: "해결", text: "손패를 다시 짜고, \"테이블에 깔 수 있는 상황마다 폭탄이 아닌 답이 하나는 있다\"를 테스트로 걸었습니다." }
       - { label: "결과", text: "같은 테스트로 모순을 하나 더 찾았습니다. 용이 테이블과 손패에 동시에 있었는데, 용은 덱에 한 장뿐입니다. 레슨에서 이어지지 않던 짧은 판 하나도 연결하고, 같은 누락이 다시 생기지 않게 테스트를 붙였습니다." }
       - { label: "한계", text: "가르치는 내용이 맞는지는 테스트로 지키지만, 실제로 배우기 쉬워졌는지는 \"카드로 확인하니 이해가 수월했다\"는 친구 한 명의 말이 전부입니다.", limit: true }
@@ -83,13 +83,13 @@ cases:
     evidence: ["406c1a5", "f912d58", "styles/base.css:39"]
 ---
 
-- **저장소**: 공개 · `github.com/DreamingGenie/tichu-trainer` · 기준 커밋 `540ebf0`(2026-10-11).
-- **작업량**: 커밋 48건(머지 제외) 모두 제 것 — 2026-08-20 ~ 21에 27건, 09-20에 5건, 10-02 · 10-06에 15건, 10-11에 1건. 머지 6건(PR #1 ~ #6)은 따로. JS 5,885줄 / CSS 1,657줄.
+- **저장소**: 공개, `github.com/DreamingGenie/tichu-trainer`, 기준 커밋 `540ebf0`(2026-10-11).
+- **작업량**: 커밋 48건(머지 제외) 모두 제 것: 2026-08-20 ~ 21에 27건, 09-20에 5건, 10-02, 10-06에 15건, 10-11에 1건. 머지 6건(PR #1 ~ #6)은 따로. JS 5,885줄 / CSS 1,657줄.
 - **의존성**: `package.json`에 `dependencies`가 없습니다. 빌드 단계도 없고, ES 모듈이라 `node tools/serve.js 8000`으로 띄워 봅니다.
-- **판정과 화면 분리**: `src/engine/*.js` 11개 파일에 `document.` · `window.` · `localStorage` 0회.
+- **판정과 화면 분리**: `src/engine/*.js` 11개 파일에 `document.`, `window.`, `localStorage` 0회.
 - **테스트**: 직접 만든 러너 `tests/run.js`로 85개, 실패 0(2026-10-11 재실행).
-- **봉황 규칙**: 페어 · 트리플 · 풀하우스 · 연속 페어 · 스트레이트에서 만능으로 쓰고 폭탄에는 못 넣음, 여러 해석이면 가장 높은 랭크, 단독으로 내면 직전 카드보다 0.5 높음(`src/engine/combos.js` 머리 주석 · `combos.js:69` · `compare.js:31`).
+- **봉황 규칙**: 페어, 트리플, 풀하우스, 연속 페어, 스트레이트에서 만능으로 쓰고 폭탄에는 못 넣음, 여러 해석이면 가장 높은 랭크, 단독으로 내면 직전 카드보다 0.5 높음(`src/engine/combos.js` 머리 주석, `combos.js:69`, `compare.js:31`).
 - **본문 카드 표기 테스트**: `tests/content.test.js:47` "본문의 `[[카드]]` 표기가 전부 실제 카드다".
-- **연습 손패**: `5b193e5`(손패 재구성 + "프리셋마다 폭탄이 아닌 답이 하나는 있다") · 짧은 판 연결과 재발 방지 테스트 `97f1a69`.
+- **연습 손패**: `5b193e5`(손패 재구성 + "프리셋마다 폭탄이 아닌 답이 하나는 있다"), 짧은 판 연결과 재발 방지 테스트 `97f1a69`.
 - **자동 이름표 철회**: `89b64eb` 커밋 본문 "짓지 않기로 한 것".
-- **줄바꿈 설정 철회**: 도입 `406c1a5` → 철회 `f912d58`(측정값은 커밋 본문). 문단 폭 `--measure: 38em`(`styles/tokens.css`).
+- **줄바꿈 설정 철회**: 도입 `406c1a5`, 철회 `f912d58`(측정값은 커밋 본문). 문단 폭 `--measure: 38em`(`styles/tokens.css`).

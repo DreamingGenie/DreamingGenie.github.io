@@ -79,7 +79,7 @@ const picked = deck.map((d) => {
 const rich = (t: string) => emphasize(t).replace(/\d[\d.]*[-–]\d[\d.\-–]*/g, (m) => `<span class="nw">${m}</span>`);
 
 const siteUrl = "https://dreaminggenie.github.io";
-const owner = `${siteConfig.name} · ${v.title} 포트폴리오`;
+const owner = `${siteConfig.name} | ${v.title} 포트폴리오`;
 const hasImage = (src?: string) => !!src && fs.existsSync(path.join(process.cwd(), "public", src));
 
 // 사이트 안 링크(/projects/tripcraft#lock): 이 문서에 실린 자리면 문서 안 앵커로, 아니면 사이트 주소로 보낸다.
@@ -181,7 +181,7 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
       <table class="proj">
         <colgroup><col style="width:2.4rem" /><col style="width:31%" /><col style="width:21%" /><col style="width:19%" /><col /></colgroup>
         <thead>
-          <tr><th></th><th>프로젝트</th><th>기간 · 팀</th><th>맡은 일</th><th>대표 한 줄</th></tr>
+          <tr><th></th><th>프로젝트</th><th>기간, 팀</th><th>맡은 일</th><th>대표 한 줄</th></tr>
         </thead>
         <tbody>
           {
@@ -218,7 +218,7 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
             {i === 0 ? (
               <dl>{t.items.map((s) => <div><dt>{s.name}</dt><dd>{s.where}</dd></div>)}</dl>
             ) : (
-              <ul>{t.items.map((s) => <li><b>{s.name}</b><span> · {s.where}</span></li>)}</ul>
+              <ul>{t.items.map((s) => <li><b>{s.name}</b><span>: {s.where}</span></li>)}</ul>
             )}
           </section>
         ))
@@ -233,8 +233,8 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
       <div class="cv">
         {
           [
-            { h: "경험 · 개인 작업", items: timelineL, side: true },
-            { h: "학력 · 수상 · 자격", items: timelineR, side: false },
+            { h: "경험과 개인 작업", items: timelineL, side: true },
+            { h: "학력, 수상, 자격", items: timelineR, side: false },
           ].map((col) => (
             <div>
               <h2>{col.h}</h2>
@@ -249,7 +249,7 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
                 siteConfig.sideProjects.map((p) => (
                   <div class="item">
                     <p class="org">{p.name}<span>{p.link.replace("https://", "")}</span></p>
-                    <p class="ttl">개인 작업 · {p.skills.join(" · ")}</p>
+                    <p class="ttl">개인 작업: {p.skills.join(", ")}</p>
                     <ul>
                       <li>{p.description}</li>
                       {p.points.map((pt) => <li>{pt}</li>)}
@@ -306,6 +306,16 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
             </div>
           </Slide>
 
+          {/* 제가 만든 부분이 보이는 화면: 한 장에 한 화면씩 크게(2026-11-28 피드백) */}
+          {d.myShots.filter((g) => hasImage(g.src)).map((g) => (
+            <Slide label={d.title} sub="제가 만든 화면" owner={owner}>
+              <h1>{g.caption}</h1>
+              <figure class="shot">
+                <img src={g.src} alt={g.caption} />
+              </figure>
+            </Slide>
+          ))}
+
           {/* 데이터 흐름 */}
           {Flow && (
             <Slide label={d.title} sub="데이터 흐름" owner={owner}>
@@ -327,7 +337,6 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
                       <div id={x.id ? `${p.id}-${x.id}` : undefined}>
                         <h2>{x.title}</h2>
                         <p set:html={rich(x.text)} />
-                        {x.evidence.length > 0 && <div class="ev">{x.evidence.map((e) => <code>{e}</code>)}</div>}
                       </div>
                     ))}
                   </div>
@@ -357,11 +366,13 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
               </div>
             );
             const tagRow = tags.length > 0 && <div class="tags">{tags.map((t) => <Tag type={t.type} text={t.text} />)}</div>;
-            const ev = c.evidence.map((e) => <code>{e}</code>);
+            // 커밋 해시와 PR 번호는 장표에 싣지 않는다(2026-11-28 피드백). 아래 줄에는 근거가 있는 사이트 자리로 가는 링크만 둔다.
+            const caseUrl = `${siteUrl}/projects/${p.id}#${c.id}`;
+            const ev = <a href={caseUrl}>근거와 자세한 내용 {caseUrl.replace("https://", "")}</a>;
             return c.layout === "two" ? (
               <>
                 {/* 긴 사례 + 도식: 앞 장은 도식 옆에 앞쪽 단(무슨 문제였고 무엇을 골랐나), 뒤 장은 결과 띠와 나머지 단 */}
-                <Slide id={`${p.id}-${c.id}`} label={d.title} sub={`${c.kind} · 1/2`} owner={owner}>
+                <Slide id={`${p.id}-${c.id}`} label={d.title} sub={`${c.kind} (1/2)`} owner={owner}>
                   <h1>{c.title}</h1>
                   {tagRow}
                   <div class="rule">
@@ -381,7 +392,7 @@ const timelineR = siteConfig.education.map((e) => ({ title: e.degree, org: e.sch
                   </div>
                   <Fragment slot="foot">{ev}</Fragment>
                 </Slide>
-                <Slide label={d.title} sub={`${c.kind} · 2/2`} owner={owner}>
+                <Slide label={d.title} sub={`${c.kind} (2/2)`} owner={owner}>
                   <h1>{c.title}</h1>
                   {leadBand}
                   <div class="rule">{stepList(c.second, false, 19)}</div>

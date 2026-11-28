@@ -10,27 +10,27 @@ const stages: Stage[] = [
   {
     label: "브라우저",
     nodes: [
-      { name: "게임 화면 · 엔진(TypeScript · Canvas)", kind: "other", note: "싱글 · AI 대전은 여기서 판정" },
-      { name: "친구 대전: 블록 종류 · 위치 · 지운 줄 수만 전송", kind: "path" },
+      { name: "게임 화면과 엔진(TypeScript, Canvas)", kind: "other", note: "싱글과 AI 대전은 여기서 판정" },
+      { name: "친구 대전: 블록 종류, 위치, 지운 줄 수만 전송", kind: "path" },
     ],
   },
   {
     label: "nginx",
-    nodes: [{ name: "HTTPS · IP별 요청 한도", kind: "other", note: "/api · /ws · /ai/ 프록시" }],
+    nodes: [{ name: "HTTPS, IP별 요청 한도", kind: "other", note: "/api, /ws, /ai/ 프록시" }],
   },
   {
     label: "서버",
     nodes: [
-      { name: "STOMP 대전: 서버가 보드 · 점수 · 공격 재계산", kind: "path", note: "맞지 않으면 거부하고 서버 보드를 돌려줌" },
-      { name: "REST: 결과 저장 · 상한 검사", kind: "other", note: "어기면 저장하되 랭킹 제외" },
+      { name: "STOMP 대전: 서버가 보드, 점수, 공격 재계산", kind: "path", note: "맞지 않으면 거부하고 서버 보드를 돌려줌" },
+      { name: "REST: 결과 저장과 상한 검사", kind: "other", note: "어기면 저장하되 랭킹 제외" },
       { name: "AI 다음 수(FastAPI)", kind: "other", note: "150ms 안에 못 오면 화면의 규칙 AI가 둠" },
     ],
   },
   {
     label: "저장",
     nodes: [
-      { name: "Redis — 방 · 경기 진행 상태", kind: "path" },
-      { name: "MySQL — 경기 이력 · 랭킹 원본", kind: "other" },
+      { name: "Redis: 방과 경기 진행 상태", kind: "path" },
+      { name: "MySQL: 경기 이력과 랭킹 원본", kind: "other" },
     ],
   },
 ];
@@ -76,7 +76,7 @@ const box: Record<Kind, string> = {
   </ol>
 
   <p class="text-sm text-gray-500 leading-relaxed">
-    같은 게임 규칙이 화면(TypeScript)·서버(Java)·AI(Python) 세 곳에 있어, 규칙 예시를 JSON 테스트 데이터 하나로 적고 세 엔진의 테스트가 함께 읽습니다.
+    같은 게임 규칙이 화면(TypeScript), 서버(Java), AI(Python) 세 곳에 있어, 규칙 예시를 JSON 테스트 데이터 하나로 적고 세 엔진의 테스트가 함께 읽습니다.
     AWS EC2 1대에 Docker Compose로 다섯 서비스를 올렸고, 바깥에는 nginx만 열었습니다.
   </p>
 </div>

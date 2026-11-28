@@ -512,6 +512,22 @@ body {
   color: var(--mute);
 }
 
+/* ── 제가 만든 화면(한 장에 한 화면을 크게) ── */
+.shot {
+  margin: 18px 0 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+}
+.shot img {
+  max-width: 100%;
+  max-height: 540px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
 /* ── 담당 영역(OwnershipMap 재사용 — 가로에 맞춰 세 칸으로) ── */
 .deck .own > div {
   gap: 14px;

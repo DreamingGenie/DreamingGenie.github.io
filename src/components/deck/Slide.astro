@@ -17,7 +17,7 @@ const { id, label, sub, owner, class: cls = "", bare = false } = Astro.props;
       <div class="slide-top">
         <span>
           {label && <b>{label}</b>}
-          {sub && <span>{label ? " · " : ""}{sub}</span>}
+          {sub && <span>{label ? " | " : ""}{sub}</span>}
         </span>
         <span>{owner}</span>
       </div>

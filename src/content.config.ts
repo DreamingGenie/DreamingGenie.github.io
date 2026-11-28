@@ -35,6 +35,8 @@ const projects = defineCollection({
     highlight: z.string(), // 카드에 들어가는 대표 한 줄
     cover: z.string().optional(), // public/ 기준 경로. 파일이 없으면 개발 서버에서만 자리를 보여 준다
     gallery: z.array(z.object({ src: z.string(), caption: z.string() })).default([]),
+    // 제가 맡은 부분이 보이는 화면 한두 장. 작은 갤러리 대신 크게 보여 준다(2026-11-28 피드백 — Pickage 보고서 화면이 작아 안 보였다)
+    myShots: z.array(z.object({ src: z.string(), caption: z.string() })).default([]),
     shotNote: z.string().optional(), // 화면 출처(로컬 실행·운영 서버·시연 데이터 여부)
     flow: z.string().optional(), // 담당 영역 아래에 붙는 데이터 흐름도 컴포넌트 이름
     areas: z.array(

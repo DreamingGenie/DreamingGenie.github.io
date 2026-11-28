@@ -12,7 +12,7 @@ const current = mode ?? "lock";
 <figure class="lockfig-wrap flex flex-col gap-4" data-mode={current}>
   <div class="flex flex-wrap items-center justify-between gap-3">
     <p class="text-sm text-gray-600 max-w-md">
-      {fixed && <span class="font-semibold text-gray-800">{current === "lock" ? "여행 단위 락 — " : "락 없이 — "}</span>}두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
+      {fixed && <span class="font-semibold text-gray-800">{current === "lock" ? "여행 단위 락: " : "락 없이: "}</span>}두 사람이 같은 여행에 시간이 겹치는 일정을 동시에 넣습니다.
     </p>
     {
       !fixed && (
@@ -31,13 +31,13 @@ const current = mode ?? "lock";
   <div class="grid grid-cols-1 sm:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] gap-5 sm:gap-6 items-start">
     <svg class="lockfig" viewBox="0 0 352 216" role="img" aria-label="락이 없으면 겹치는 두 일정이 모두 저장되고, 여행 단위 락이 있으면 두 번째 요청이 방금 저장된 일정을 보고 거절되는 흐름">
       <text x="0" y="14" class="t-muted t-small">요청 처리 순서 →</text>
-      <text x="0" y="44" class="t-strong">A · 10–12시 박물관 추가</text>
-      <text x="0" y="122" class="t-strong">B · 11–13시 시장 추가</text>
+      <text x="0" y="44" class="t-strong">A: 10~12시 박물관 추가</text>
+      <text x="0" y="122" class="t-strong">B: 11~13시 시장 추가</text>
 
       <g class="m-nolock">
-        <rect x="0" y="54" width="130" height="28" rx="5" class="s-check"></rect><text x="10" y="73">겹침 검사 · 없음</text>
+        <rect x="0" y="54" width="130" height="28" rx="5" class="s-check"></rect><text x="10" y="73">겹침 검사: 없음</text>
         <rect x="130" y="54" width="64" height="28" rx="5" class="s-save"></rect><text x="146" y="73" class="t-on">저장</text>
-        <rect x="30" y="132" width="130" height="28" rx="5" class="s-check"></rect><text x="40" y="151">겹침 검사 · 없음</text>
+        <rect x="30" y="132" width="130" height="28" rx="5" class="s-check"></rect><text x="40" y="151">겹침 검사: 없음</text>
         <rect x="160" y="132" width="64" height="28" rx="5" class="s-save"></rect><text x="176" y="151" class="t-on">저장</text>
         <text x="0" y="190" class="t-bad">두 검사 모두 상대 일정이 저장되기 전에</text>
         <text x="0" y="210" class="t-bad">실행돼 함께 통과합니다</text>
@@ -48,7 +48,7 @@ const current = mode ?? "lock";
         <rect x="40" y="54" width="90" height="28" rx="5" class="s-check"></rect><text x="52" y="73">겹침 검사</text>
         <rect x="130" y="54" width="64" height="28" rx="5" class="s-save"></rect><text x="146" y="73" class="t-on">저장</text>
         <line x1="194" y1="48" x2="194" y2="170" class="s-tick"></line>
-        <text x="200" y="44" class="t-small t-muted">A 저장 끝 · 락 풀림</text>
+        <text x="200" y="44" class="t-small t-muted">A 저장 끝, 락 풀림</text>
         <rect x="30" y="132" width="164" height="28" rx="5" class="s-wait"></rect><text x="42" y="151" class="t-muted">락 대기</text>
         <rect x="194" y="132" width="90" height="28" rx="5" class="s-check"></rect><text x="206" y="151">겹침 검사</text>
         <rect x="284" y="132" width="56" height="28" rx="5" class="s-rej"></rect><text x="297" y="151" class="t-bad">거절</text>
@@ -57,7 +57,7 @@ const current = mode ?? "lock";
       </g>
     </svg>
 
-    <svg class="lockfig lockfig-table" viewBox="0 0 196 216" role="img" aria-label="저장된 일정표: 락이 없으면 11–12시가 겹치고, 락이 있으면 시장 일정은 저장되지 않는다">
+    <svg class="lockfig lockfig-table" viewBox="0 0 196 216" role="img" aria-label="저장된 일정표: 락이 없으면 11~12시가 겹치고, 락이 있으면 시장 일정은 저장되지 않는다">
       <text x="0" y="14" class="t-muted t-small">저장된 일정표</text>
       <g class="s-grid">
         <line x1="40" y1="40" x2="196" y2="40"></line><line x1="40" y1="80" x2="196" y2="80"></line>
@@ -71,7 +71,7 @@ const current = mode ?? "lock";
         <rect x="122" y="80" width="68" height="80" rx="5" class="s-blk-b"></rect><text x="130" y="100" class="t-small">시장</text>
         <rect x="40" y="80" width="156" height="40" class="s-over"></rect>
         <text x="0" y="192" class="t-bad">둘 다 저장</text>
-        <text x="0" y="210" class="t-bad">11–12시 겹침</text>
+        <text x="0" y="210" class="t-bad">11~12시 겹침</text>
       </g>
 
       <g class="m-lock">

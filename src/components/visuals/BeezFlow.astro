@@ -10,43 +10,43 @@ const stages: Stage[] = [
   {
     label: "팀원 PC",
     nodes: [
-      { name: "AI 코딩 에이전트", owner: "ext", note: "Claude Code 등 · 프로젝트별 토큰" },
+      { name: "AI 코딩 에이전트", owner: "ext", note: "Claude Code 등, 프로젝트별 토큰" },
       { name: "브라우저", owner: "ext" },
     ],
   },
   {
     label: "진입",
     nodes: [
-      { name: "Nginx · HTTPS", owner: "me", note: "/api · /mcp만 백엔드로" },
-      { name: "MCP 진입점 · 토큰 인증 · 감사", owner: "me", note: "1인 1에이전트 연결 판정" },
-      { name: "웹 화면(React · 3D 도시)", owner: "team" },
+      { name: "Nginx, HTTPS", owner: "me", note: "/api와 /mcp만 백엔드로" },
+      { name: "MCP 진입점, 토큰 인증, 감사", owner: "me", note: "1인 1에이전트 연결 판정" },
+      { name: "웹 화면(React, 3D 도시)", owner: "team" },
     ],
   },
   {
     label: "백엔드 (Spring Boot)",
     nodes: [
-      { name: "계정 · 프로젝트 · 팀 · 초대 API", owner: "me" },
-      { name: "알림 · 활동 계약과 저장 입구", owner: "me", note: "테이블 원형은 팀원" },
-      { name: "작업 · 검증 · 설계 변경", owner: "team" },
-      { name: "문서 · 기획 · 회의", owner: "team" },
+      { name: "계정, 프로젝트, 팀, 초대 API", owner: "me" },
+      { name: "알림과 활동 계약, 저장 입구", owner: "me" },
+      { name: "작업, 검증, 설계 변경", owner: "team" },
+      { name: "문서, 기획, 회의", owner: "team" },
     ],
   },
   {
-    label: "저장 · AI",
+    label: "저장과 AI",
     nodes: [
-      { name: "PostgreSQL + pgvector", owner: "team", note: "매일 백업 · 복원 스크립트는 제가" },
-      { name: "SeaweedFS 문서 원본", owner: "me", note: "내부망 · 역할별 키 3개 · 도입은 팀원" },
-      { name: "AI 서버(FastAPI)", owner: "team", note: "문서 검토 · 계획 검증 · 영향 분석" },
-      { name: "CDC: DB 변경 → Debezium → Kafka → 백엔드", owner: "team", note: "설계 · PoC는 팀원, dev 적용 · 감시는 제가" },
+      { name: "PostgreSQL + pgvector", owner: "team" },
+      { name: "SeaweedFS 문서 원본", owner: "me", note: "내부망, 역할별 키 3개, 매일 백업과 복원" },
+      { name: "AI 서버(FastAPI)", owner: "team", note: "문서 검토, 계획 검증, 영향 분석" },
+      { name: "CDC: DB 변경, Debezium, Kafka, 백엔드 순서", owner: "team" },
     ],
   },
 ];
 
 const ops: Node[] = [
   { name: "PR 필수 검사(ci-gate)", owner: "me", note: "GitHub Actions" },
-  { name: "dev 자동 배포", owner: "me", note: "GHCR 이미지 → Jenkins" },
-  { name: "Prometheus · Alertmanager 알림", owner: "me", note: "알림은 팀 메신저로" },
-  { name: "GitLab 미러 · 자동 병합 · AI 리뷰", owner: "team" },
+  { name: "dev 자동 배포", owner: "me", note: "GHCR 이미지를 Jenkins가 배포" },
+  { name: "Prometheus와 Alertmanager 알림", owner: "me", note: "알림은 팀 메신저로" },
+  { name: "GitLab 미러, 자동 병합, AI 리뷰", owner: "team" },
 ];
 
 const box: Record<Owner, string> = {
@@ -59,7 +59,7 @@ const box: Record<Owner, string> = {
 <div class="flex flex-col gap-5">
   <div class="flex flex-wrap gap-4 text-sm text-gray-600">
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded" style="background-color: var(--accent)"></span>제가 맡은 것</span>
-    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>팀원이 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>그 밖의 구간</span>
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded bg-gray-100 border border-gray-200"></span>바깥(사용자 쪽)</span>
   </div>
 
@@ -92,7 +92,7 @@ const box: Record<Owner, string> = {
   </ol>
 
   <div class="flex flex-col gap-2">
-    <span class="text-[13px] font-semibold text-gray-500">배포 · 관측 (전 구간)</span>
+    <span class="text-[13px] font-semibold text-gray-500">배포와 관측 (전 구간)</span>
     <ul class="grid grid-cols-2 md:grid-cols-4 gap-2">
       {
         ops.map((n) => (
@@ -106,7 +106,7 @@ const box: Record<Owner, string> = {
   </div>
 
   <p class="text-sm text-gray-500 leading-relaxed">
-    에이전트와 브라우저가 들어오는 입구, 계정·프로젝트·팀 API, 서버 운영(배포·관측·백업)을 맡았습니다. 작업·검증·문서 기능과 AI 서버, 화면은 팀원이 맡았습니다.
+    에이전트와 브라우저가 들어오는 입구, 계정, 프로젝트, 팀 API, 서버 운영(배포, 관측, 백업)을 맡았습니다.
     저장소 README의 시스템 구성과 CDC 배포 계획 문서에서 요청 흐름만 남겨 다시 그렸습니다.
   </p>
 </div>

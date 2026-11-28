@@ -13,40 +13,40 @@ const stages: Stage[] = [
       { name: "deps.dev 의존 관계", owner: "ext", note: "BigQuery 공개 데이터셋" },
       { name: "npm 다운로드 API", owner: "ext" },
       { name: "npm registry", owner: "ext" },
-      { name: "GitHub · README", owner: "ext" },
+      { name: "GitHub README", owner: "ext" },
     ],
   },
   {
     label: "수집",
     nodes: [
-      { name: "BigQuery 수집기 → GCS", owner: "me", note: "사용량 상한 6단계" },
+      { name: "BigQuery 수집기에서 GCS로", owner: "me", note: "사용량 상한 6단계" },
       { name: "다운로드 수 수집기", owner: "me" },
       { name: "패키지 형태 정보 재수집", owner: "me" },
-      { name: "주간 수집 실행", owner: "me", note: "원본 저장까지 · 이후 연동은 팀원" },
-      { name: "GitHub · README 수집", owner: "team" },
+      { name: "주간 수집 실행", owner: "me", note: "수집에서 원본 저장까지" },
+      { name: "GitHub README 수집", owner: "team" },
     ],
   },
   {
-    label: "보관 · 가공",
+    label: "보관과 가공",
     nodes: [
       { name: "MinIO 원본 업로드", owner: "me", note: "SSH 터널" },
-      { name: "DuckDB 교체 쌍 · 전이 집계", owner: "me" },
-      { name: "유지 · 유입 · 이탈 · 이탈 사유 계산", owner: "me" },
+      { name: "DuckDB 교체 쌍과 전이 집계", owner: "me" },
+      { name: "유지, 유입, 이탈, 이탈 사유 계산", owner: "me" },
       { name: "데이터 정제(Curated)", owner: "team" },
       { name: "유사 후보 임베딩", owner: "team" },
     ],
   },
   {
     label: "DB",
-    nodes: [{ name: "PostgreSQL 설계 · 적재", owner: "team" }],
+    nodes: [{ name: "PostgreSQL 설계와 적재", owner: "team" }],
   },
   {
     label: "서비스",
     nodes: [
-      { name: "교체 흐름 API · 패널", owner: "me" },
+      { name: "교체 흐름 API와 패널", owner: "me" },
       { name: "이탈 사유 패널", owner: "me" },
-      { name: "유지 · 유입 · 이탈 화면", owner: "team" },
-      { name: "검색 · 기능 비교 · 커뮤니티 · 보고서", owner: "team" },
+      { name: "유지, 유입, 이탈 화면", owner: "team" },
+      { name: "검색, 기능 비교, 커뮤니티, 보고서", owner: "team" },
     ],
   },
 ];
@@ -61,7 +61,7 @@ const box: Record<Owner, string> = {
 <div class="flex flex-col gap-5">
   <div class="flex flex-wrap gap-4 text-sm text-gray-600">
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded" style="background-color: var(--accent)"></span>제가 맡은 것</span>
-    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>팀원이 맡은 것</span>
+    <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded border border-dashed border-gray-400"></span>그 밖의 구간</span>
     <span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded bg-gray-100 border border-gray-200"></span>외부 서비스</span>
   </div>
 
@@ -94,7 +94,7 @@ const box: Record<Owner, string> = {
   </ol>
 
   <p class="text-sm text-gray-500 leading-relaxed">
-    원본 수집부터 지표 계산까지와, 그 지표를 보여 주는 패널 두 개를 맡았습니다. 정제·DB 적재·나머지 화면은 팀원이 맡았습니다.
+    원본 수집부터 지표 계산까지와, 그 지표를 보여 주는 패널 두 개를 맡았습니다.
     팀의 시스템 아키텍처 문서(2026-09-24)에서 데이터 흐름만 남겨 다시 그렸습니다.
   </p>
 </div>
